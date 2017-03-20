@@ -1,0 +1,59 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+{{#if isActive}}
+  <div class="person-holder">
+    <i class="fa fa-info-circle {{extraClasses}} person-tooltip-trigger"
+       data-placement="left"></i>
+    <div class="custom-popover-content">
+      <div class="preview-container person-preview">
+        {{#if drawStatuses}}
+        {{#with_mapping 'object_tasks' instance}}
+          <div class="profile-info">
+            <h3 class="task-list-title">Current Tasks</h3>
+            <ul class="popup-task-list">
+              {{#object_tasks}}
+                <li>
+                  <div class="clearfix">
+                    <div class="pull-left">
+                      <i class="fa fa-cycle_task_group_object_task"></i>
+                    </div>
+                    <div class="task-title pull-left">
+                      {{instance.title}}
+                    </div>
+                    <div class="task-status pull-left">
+                      {{#switch instance.status}}
+                        {{#case 'Verified'}}
+                          <span class="green"><em>Verified</em></span>
+                        {{/case}}
+                        {{#case 'Assigned'}}
+                          <span class="gray"><em>Assigned</em></span>
+                        {{/case}}
+                        {{#case 'Finished'}}
+                          <span class="blue"><em>Finished</em></span>
+                        {{/case}}
+                        {{#case 'InProgress'}}
+                          <span class="orange"><em>In progress</em></span>
+                        {{/case}}
+                      {{/switch}}
+                      {{^if_equals instance.status 'Verified'}}
+                        {{#is_overdue instance.end_date}}
+                        <span class="error"><em>Overdue</em></span>
+                        {{/is_overdue}}
+                      {{/if_equals}}
+                    </div>
+                  </div>
+                </li>
+              {{/object_tasks}}
+            </ul>
+            <a class="info-action" href="{{instance.viewLink}}#task_widget"><i
+              class="fa fa-long-arrow-right"></i> Open tasks</a>
+          </div>
+        {{/with_mapping}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+{{/if}}
