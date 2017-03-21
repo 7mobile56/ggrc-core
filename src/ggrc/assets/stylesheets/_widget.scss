@@ -351,6 +351,49 @@
     height: auto;
     width: 325px;
   }
+  &.tree-extra-info-preview {
+    overflow: visible;
+    height: auto;
+    width: 325px;
+    display: flex;
+    flex-direction: column;
+
+    section {
+      margin-bottom: 25px;
+    }
+
+    i {
+      margin-left: 15px;
+    }
+
+    .task-item {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 5px;
+      .task-title {
+        margin-left: 3px;
+      }
+      span {
+        &:last-child {
+          margin-left: auto;
+          margin-right: 10px;
+        }
+      }
+    }
+    a {
+      margin: 10px 0 10px 15px;
+      border: solid #ddd !important;
+      border-width: 1px !important;
+      background-color: white !important;
+    }
+    section {
+      display: flex;
+      flex-direction: column;
+      .mapping-info {
+        margin-bottom: 5px;
+      }
+    }
+  }
 }
 
 .setup-link {

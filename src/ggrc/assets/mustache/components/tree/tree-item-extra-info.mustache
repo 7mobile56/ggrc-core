@@ -5,103 +5,107 @@
 
 {{#if isActive}}
   <div class="person-holder">
-    <i class="fa fa-info-circle {{extraClasses}} person-tooltip-trigger"
+    <i class="fa {{cssClasses}} person-tooltip-trigger"
+       ($mouseenter)="onEnter"
+       ($mouseleave)="onLeave"
        data-placement="left"></i>
+
     <div class="custom-popover-content">
-      <div class="preview-container person-preview">
+      <div class="preview-container tree-extra-info-preview">
+        <div class="profile-info">
         {{#if isDirective}}
-          <h3 class="task-list-title">Number of mapped objects</h3>
-          {{#if_instance_of instance 'Contract'}}
-              <div class="counter">
+          <section>
+            <h3 class="task-list-title">Number of mapped objects</h3>
+            {{#if_instance_of instance 'Contract'}}
+              <div class="mapping-info">
                 <i class="fa fa-paragraph"></i> Clauses:
                 {{#with_mapping_count instance 'clauses'}}
                   {{count}}
                 {{/with_mapping_count}}
               </div>
-          {{else}}
-              <div class="counter">
+            {{else}}
+              <div class="mapping-info">
                 <i class="fa fa-paragraph"></i> Sections:
                 {{#with_mapping_count instance 'sections'}}
                   {{count}}
                 {{/with_mapping_count}}
               </div>
-          {{/if_instance_of}}
+            {{/if_instance_of}}
+          </section>
         {{/if}}
         {{#if isSection}}
+          <section>
           <h3 class="task-list-title">Number of mapped objects</h3>
           {{#with_mapping_count instance 'related_objects'}}
             {{#prune_context}}
+              <div class="mapping-info">
                 <i class="fa fa-list-alt"></i> Total:
                 {{#if count}}
                   <span class="counter">{{count}}</span>
                 {{else}}
-                  <strong class="error">0</strong>
+                  <strong class="counter">0</strong>
                 {{/if}}
+              </div>
             {{/prune_context}}
           {{/with_mapping_count}}
 
           {{#with_mapping_count instance 'objectives'}}
+            <div class="mapping-info">
               <i class="fa fa-dot-circle-o"></i> Objectives:
               {{#if count}}
                 <span class="counter">{{count}}</span>
               {{else}}
-                <strong class="error">0</strong>
+                <strong class="counter">0</strong>
               {{/if}}
+            </div>
           {{/with_mapping_count}}
 
           {{#with_mapping_count instance 'controls'}}
+            <div class="mapping-info">
               <i class="fa fa-video-camera"></i> Controls:
               {{#if count}}
                 <span class="counter">{{count}}</span>
               {{else}}
-                <strong class="error">0</strong>
+                <strong class="counter">0</strong>
               {{/if}}
+            </div>
           {{/with_mapping_count}}
         {{/if}}
+        </section>
         {{#if drawStatuses}}
-        {{#with_mapping 'object_tasks' instance}}
-          <div class="profile-info">
-            <h3 class="task-list-title">Current Tasks</h3>
-            <ul class="popup-task-list">
-              {{#object_tasks}}
-                <li>
-                  <div class="clearfix">
-                    <div class="pull-left">
-                      <i class="fa fa-cycle_task_group_object_task"></i>
-                    </div>
-                    <div class="task-title pull-left">
-                      {{instance.title}}
-                    </div>
-                    <div class="task-status pull-left">
-                      {{#switch instance.status}}
-                        {{#case 'Verified'}}
-                          <span class="green"><em>Verified</em></span>
-                        {{/case}}
-                        {{#case 'Assigned'}}
-                          <span class="gray"><em>Assigned</em></span>
-                        {{/case}}
-                        {{#case 'Finished'}}
-                          <span class="blue"><em>Finished</em></span>
-                        {{/case}}
-                        {{#case 'InProgress'}}
-                          <span class="orange"><em>In progress</em></span>
-                        {{/case}}
-                      {{/switch}}
-                      {{^if_equals instance.status 'Verified'}}
-                        {{#is_overdue instance.end_date}}
-                        <span class="error"><em>Overdue</em></span>
-                        {{/is_overdue}}
-                      {{/if_equals}}
-                    </div>
-                  </div>
-                </li>
-              {{/object_tasks}}
-            </ul>
-            <a class="info-action" href="{{instance.viewLink}}#task_widget"><i
-              class="fa fa-long-arrow-right"></i> Open tasks</a>
-          </div>
-        {{/with_mapping}}
+          <h3 class="task-list-title">Current Tasks</h3>
+          {{#with_mapping 'object_tasks' instance}}
+          {{#object_tasks}}
+            <div class="task-item">
+              <i class="fa fa-cycle_task_group_object_task"></i>
+              <div class="task-title">
+                {{instance.title}}
+              </div>
+              {{#switch instance.status}}
+                {{#case 'Verified'}}
+                  {{#is_overdue instance.end_date}}
+                    <span class="error"><em>Overdue</em></span>
+                  {{/is_overdue}}
+                  <span class="green"><em>Verified</em></span>
+                {{/case}}
+                {{#case 'Assigned'}}
+                  <span class="gray"><em>Assigned</em></span>
+                {{/case}}
+                {{#case 'Finished'}}
+                  <span class="blue"><em>Finished</em></span>
+                {{/case}}
+                {{#case 'InProgress'}}
+                  <span class="orange"><em>In progress</em></span>
+                {{/case}}
+              {{/switch}}
+            </div>
+          {{/object_tasks}}
+          {{/with_mapping}}
+          <a class="btn btn-small btn-draft" href="{{instance.viewLink}}#task_widget">
+            Open tasks
+          </a>
         {{/if}}
+      </div>
       </div>
     </div>
   </div>
