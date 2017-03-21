@@ -5,9 +5,9 @@
 <div class="tree-node-actions flex-box flex-row">
     <ul class="tree-action-list">
       {{#if drawStates}}
-          <li>
-            {{> '/static/mustache/base_objects/states.mustache'}}
-          </li>
+        <li>
+          <tree-item-extra-info {instance}="instance"></tree-item-extra-info>
+        </li>
       {{/if}}
         <content/>
     </ul>
