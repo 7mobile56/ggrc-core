@@ -22,13 +22,20 @@
         type: Boolean,
         get: function () {
           return this.attr('drawStatuses') ||
-            this.attr('isDirective');
+            this.attr('isDirective') ||
+            this.attr('isSection');
         }
       },
       isDirective: {
         type: Boolean,
         get: function () {
           return this.attr('instance') instanceof CMS.Models.Directive;
+        }
+      },
+      isSection: {
+        type: Boolean,
+        get: function () {
+          return this.attr('instance') instanceof CMS.Models.Section;
         }
       },
       drawStatuses: {

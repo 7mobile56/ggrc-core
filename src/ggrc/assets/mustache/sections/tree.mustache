@@ -47,42 +47,7 @@
               </div>
 
               <div class="span{{display_options.action_width}}">
-                <tree-node-actions instance="instance" child-options="child_options" draw-states="true">
-                {{#with_mapping_count instance 'related_objects'}}
-                    {{#prune_context}}
-                      <li rel="tooltip" data-placement="left" data-original-title="# of mapped objects">
-                        <i class="fa fa-list-alt"></i>
-                        {{#if count}}
-                          <span class="counter">{{count}}</span>
-                        {{else}}
-                          <strong class="error">0</strong>
-                        {{/if}}
-                      </li>
-                    {{/prune_context}}
-                  {{/with_mapping_count}}
-
-                  {{#with_mapping_count instance 'objectives'}}
-                    <li rel="tooltip" data-placement="left" data-original-title="# of mapped objectives">
-                      <i class="fa fa-dot-circle-o"></i>
-                      {{#if count}}
-                        <span class="counter">{{count}}</span>
-                      {{else}}
-                        <strong class="error">0</strong>
-                      {{/if}}
-                    </li>
-                  {{/with_mapping_count}}
-
-                  {{#with_mapping_count instance 'controls'}}
-                    <li rel="tooltip" data-placement="left" data-original-title="# of mapped controls">
-                      <i class="fa fa-video-camera"></i>
-                      {{#if count}}
-                        <span class="counter">{{count}}</span>
-                      {{else}}
-                        <strong class="error">0</strong>
-                      {{/if}}
-                    </li>
-                  {{/with_mapping_count}}
-                </tree-node-actions>
+                <tree-node-actions instance="instance" child-options="child_options" draw-states="true"></tree-node-actions>
               </div>
             </div>
           </div><!-- item-data -->

@@ -27,6 +27,37 @@
               </div>
           {{/if_instance_of}}
         {{/if}}
+        {{#if isSection}}
+          <h3 class="task-list-title">Number of mapped objects</h3>
+          {{#with_mapping_count instance 'related_objects'}}
+            {{#prune_context}}
+                <i class="fa fa-list-alt"></i> Total:
+                {{#if count}}
+                  <span class="counter">{{count}}</span>
+                {{else}}
+                  <strong class="error">0</strong>
+                {{/if}}
+            {{/prune_context}}
+          {{/with_mapping_count}}
+
+          {{#with_mapping_count instance 'objectives'}}
+              <i class="fa fa-dot-circle-o"></i> Objectives:
+              {{#if count}}
+                <span class="counter">{{count}}</span>
+              {{else}}
+                <strong class="error">0</strong>
+              {{/if}}
+          {{/with_mapping_count}}
+
+          {{#with_mapping_count instance 'controls'}}
+              <i class="fa fa-video-camera"></i> Controls:
+              {{#if count}}
+                <span class="counter">{{count}}</span>
+              {{else}}
+                <strong class="error">0</strong>
+              {{/if}}
+          {{/with_mapping_count}}
+        {{/if}}
         {{#if drawStatuses}}
         {{#with_mapping 'object_tasks' instance}}
           <div class="profile-info">
