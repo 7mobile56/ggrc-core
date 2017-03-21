@@ -6,3 +6,43 @@ sub-tree-wrapper {
   display: flex;
   flex-direction: column;
 }
+
+
+sub-tree-item {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid $headerBgnd;
+
+  &:hover {
+    > .sub-item-content {
+      tree-item-extra-info {
+        i {
+          visibility: visible;
+        }
+      }
+
+      tree-item-actions {
+        visibility: visible;
+      }
+    }
+  }
+
+  .sub-item-content {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 10px;
+
+    tree-item-extra-info {
+      margin-right: 0;
+    }
+  }
+
+  .sub-tier {
+    padding-left: 32px;
+  }
+
+  .title {
+    margin-left: 16px;
+  }
+}
