@@ -46,27 +46,7 @@
               </div>
 
               <div class="span{{display_options.action_width}}">
-                <tree-node-actions instance="instance" child-options="child_options" draw-states="true">
-                  {{#if_instance_of instance 'Contract'}}
-                    <li>
-                      <div class="counter">
-                        <i class="fa fa-paragraph"></i>
-                        {{#with_mapping_count instance 'clauses'}}
-                          {{count}}
-                        {{/with_mapping_count}}
-                      </div>
-                    </li>
-                  {{else}}
-                    <li>
-                      <div class="counter">
-                        <i class="fa fa-paragraph"></i>
-                        {{#with_mapping_count instance 'sections'}}
-                          {{count}}
-                        {{/with_mapping_count}}
-                      </div>
-                    </li>
-                  {{/if_instance_of}}
-                </tree-node-actions>
+                <tree-node-actions instance="instance" child-options="child_options" draw-states="true"></tree-node-actions>
               </div>
             </div>
           </div><!-- item-data end -->

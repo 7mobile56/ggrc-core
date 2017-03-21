@@ -21,7 +21,14 @@
       isActive: {
         type: Boolean,
         get: function () {
-          return this.attr('drawStatuses');
+          return this.attr('drawStatuses') ||
+            this.attr('isDirective');
+        }
+      },
+      isDirective: {
+        type: Boolean,
+        get: function () {
+          return this.attr('instance') instanceof CMS.Models.Directive;
         }
       },
       drawStatuses: {
@@ -30,18 +37,32 @@
           return !!this.attr('instance.workflow_state');
         }
       },
-      extraClasses: {
-        type: '*',
+      cssClasses: {
+        type: String,
         get: function () {
           var classes = [];
           var instance = this.attr('instance');
           if (this.attr('drawStatuses')) {
             classes.push(statusClasses[instance.workflow_state]);
           }
+
+          if (this.attr('spin')) {
+            classes.push('fa-spinner');
+            classes.push('fa-spin');
+          } else {
+            classes.push('fa-info-circle');
+          }
           return classes.join(' ');
         }
       }
     },
+    onEnter: function () {
+      this.attr('spin', true);
+    },
+    onLeave: function () {
+      this.attr('spin', false);
+    },
+    classes: [],
     instance: null
   });
 

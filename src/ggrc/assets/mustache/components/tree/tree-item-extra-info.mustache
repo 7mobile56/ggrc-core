@@ -9,6 +9,24 @@
        data-placement="left"></i>
     <div class="custom-popover-content">
       <div class="preview-container person-preview">
+        {{#if isDirective}}
+          <h3 class="task-list-title">Number of mapped objects</h3>
+          {{#if_instance_of instance 'Contract'}}
+              <div class="counter">
+                <i class="fa fa-paragraph"></i> Clauses:
+                {{#with_mapping_count instance 'clauses'}}
+                  {{count}}
+                {{/with_mapping_count}}
+              </div>
+          {{else}}
+              <div class="counter">
+                <i class="fa fa-paragraph"></i> Sections:
+                {{#with_mapping_count instance 'sections'}}
+                  {{count}}
+                {{/with_mapping_count}}
+              </div>
+          {{/if_instance_of}}
+        {{/if}}
         {{#if drawStatuses}}
         {{#with_mapping 'object_tasks' instance}}
           <div class="profile-info">

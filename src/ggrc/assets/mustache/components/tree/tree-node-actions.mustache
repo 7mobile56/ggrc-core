@@ -4,12 +4,10 @@
 }}
 <div class="tree-node-actions flex-box flex-row">
     <ul class="tree-action-list">
-      {{#if drawStates}}
-        <li>
-          <tree-item-extra-info {instance}="instance"></tree-item-extra-info>
-        </li>
-      {{/if}}
-        <content/>
+      <li>
+        <tree-item-extra-info {instance}="instance"></tree-item-extra-info>
+      </li>
+      <content/>
     </ul>
   {{#if drawRelatedAssessment}}
       <show-related-assessments-button instance="instance" extra-btn-css="btn-mini action-button"></show-related-assessments-button>
