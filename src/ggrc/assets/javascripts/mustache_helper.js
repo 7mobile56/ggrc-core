@@ -1384,59 +1384,6 @@ Mustache.registerHelper("local_time_range", function (value, start, end, options
   return new Mustache.safeString(tokens.join(""));
 });
 
-Mustache.registerHelper("mapping_count", function (instance) {
-  var args = can.makeArray(arguments)
-    , mappings = args.slice(1, args.length - 1)
-    , options = args[args.length-1]
-    , root = options.contexts.attr('__mapping_count')
-    , refresh_queue = new RefreshQueue()
-    , mapping
-    , dfd
-    ;
-  instance = resolve_computed(args[0]);
-
-  // Find the most appropriate mapping
-  for (var i = 0; i < mappings.length; i++) {
-    if (instance.get_binding(mappings[i])) {
-      mapping = mappings[i];
-      break;
-    }
-  }
-
-  if (!root) {
-    root = new can.Observe();
-    get_observe_context(options.contexts).attr("__mapping_count", root);
-  }
-
-  function update() {
-    return options.fn(''+root.attr(mapping).attr('length'));
-  }
-
-  if (!mapping) {
-    return "";
-  }
-
-  if (!root[mapping]) {
-    root.attr(mapping, new can.Observe.List());
-    root.attr(mapping).attr('loading', true);
-    refresh_queue.enqueue(instance);
-    dfd = refresh_queue.trigger()
-      .then(function (instances) { return instances[0]; })
-      .done(function (refreshed_instance) {
-        if (refreshed_instance && refreshed_instance.get_binding(mapping)) {
-          refreshed_instance.get_list_loader(mapping).done(function (list) {
-            root.attr(mapping, list);
-          });
-        }
-        else
-          root.attr(mapping).attr('loading', false);
-    });
-  }
-
-  var ret = defer_render('span', { done : update, progress : function () { return options.inverse(options.contexts); } }, dfd);
-  return ret;
-});
-
 Mustache.registerHelper("visibility_delay", function (delay, options) {
   delay = resolve_computed(delay);
 
