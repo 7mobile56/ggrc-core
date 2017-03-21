@@ -39,10 +39,40 @@
       notDirectlyExpanded: {
         type: Boolean,
         value: false
+      },
+      needToSplit: {
+        type: Boolean,
+        get: function () {
+          return CurrentPage.isObjectContextPage();
+        }
+      },
+      notResult: {
+        type: Boolean,
+        value: false
+      },
+      drawRelated: {
+        type: Boolean,
+        value: false
+      },
+      isOpen: {
+        type: Boolean,
+        set: function (newValue, setValue) {
+          var isReady = this.attr('dataIsReady');
+
+          if (!isReady && newValue) {
+            this.loadItems().then(function () {
+              setValue(newValue);
+            })
+          } else {
+            setValue(newValue);
+          }
+        }
       }
     },
-    parentModel: 'Control',
-    parentId: 20,
+    dataIsReady: false,
+    limitDepthTree: 0,
+    parentModel: null,
+    parentId: null,
     directlyItems: [],
     notDirectlyItems: [],
     expandNotDirectlyRelated: function () {
@@ -62,10 +92,11 @@
         return QueryAPI.buildParam(model, {}, relevant, SUB_TREE_FIELDS, null);
       });
       this.attr('loading', true);
-      QueryAPI.makeRequest({data: reqParams})
+
+      return QueryAPI.makeRequest({data: reqParams})
         .then(function (response) {
           var related = CurrentPage.related;
-          var needToSplit = CurrentPage.isObjectContextPage();
+          var needToSplit = this.attr('needToSplit');
           var directlyRelated = [];
           var notRelated = [];
 
@@ -88,6 +119,11 @@
           this.attr('loading', false);
           this.attr('directlyItems', directlyRelated);
           this.attr('notDirectlyItems', notRelated);
+          this.attr('dataIsReady', true);
+
+          if (!directlyRelated.length && !notRelated.length) {
+            this.attr('notResult', true);
+          }
         }.bind(this));
     }
   });
@@ -96,9 +132,6 @@
     tag: 'sub-tree-wrapper',
     template: template,
     viewModel: viewModel,
-    init: function () {
-      this.viewModel.loadItems();
-    },
     events: {
     }
   });

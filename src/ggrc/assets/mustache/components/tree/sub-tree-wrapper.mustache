@@ -1,12 +1,37 @@
-<h4>sub-tree-wrapper</h4>
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
 
-<h6>Directly related</h6>
+{{#if loading}}
+  <spinner toggle="loading"></spinner>
+{{else}}
+  {{#if isOpen}}
+    {{#directlyItems}}
+      <sub-tree-item {instance}="instance" {limit-depth-tree}="limitDepthTree">{{title}}</sub-tree-item>
+    {{/directlyItems}}
 
-{{#directlyItems}}
-  <span>{{title}}</span>
-{{/directlyItems}}
+    {{#if showMore}}
+      Show more
+    {{/if}}
 
-<h6>NOT Directly related</h6>
-{{#notDirectlyItems}}
-  <span>{{title}}</span>
-{{/notDirectlyItems}}
+    {{#if needToSplit}}
+    <sub-tree-expander (expandNotDirectly)="expandNotDirectlyRelated()" {expanded}="notDirectlyExpanded" disabled="disabled" display="display">
+      <a ($click)="expandNotDirectly()" href="javascript://">
+        <i class="fa fa-caret-{{#if expanded}}down{{else}}right{{/if}}"></i>
+        Show objects not directly related to this {{contextName}}
+      </a>
+    </sub-tree-expander>
+
+    {{#if notDirectlyExpanded}}
+    {{#notDirectlyItems}}
+      <sub-tree-item {instance}="instance" {limit-depth-tree}="limitDepthTree">{{title}}</sub-tree-item>
+    {{/notDirectlyItems}}
+    {{/if}}
+    {{/if}}
+
+    {{#if notResult}}
+      Nothing to show
+    {{/if}}
+  {{/if}}
+{{/if}}
