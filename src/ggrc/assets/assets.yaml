@@ -253,8 +253,8 @@ dashboard-js-files:
   - components/page-header/page-header.js
   - components/info-pane/info-pane-footer.js
   - components/assessment/info-pane/info-pane.js
-  - components/assessment-form/assessment-form.js
-  - components/assessment-form/fields/text-value-form-field.js
+  - components/auto-save-form/auto-save-form.js
+  - components/auto-save-form/fields/text-value-form-field.js
   #- d3.v2.js
   #- related_graph.js
 
@@ -439,8 +439,8 @@ dashboard-js-template-files:
   - components/tree/tree-no-results.mustache
   - components/simple-modal/simple-modal.mustache
   - components/page-header/page-header.mustache
-  - components/assessment-form/assessment-form.mustache
-  - components/assessment-form/fields/text-value-form-field.mustache
+  - components/auto-save-form/auto-save-form.mustache
+  - components/auto-save-form/fields/text-value-form-field.mustache
   - custom_attributes/modal_content.mustache
   - custom_attributes/info.mustache
   - custom_attribute_definitions/modal_content.mustache

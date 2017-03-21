@@ -1,0 +1,42 @@
+/*
+ * Copyright (C) 2017 Google Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+ */
+
+auto-save-form {
+  display: block;
+  position: relative;
+
+  .fields-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    .field-wrapper {
+      flex: 1 1 50%;
+      margin-bottom: 16px;
+
+      & > label {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 11px;
+        color: #333;
+      }
+    }
+  }
+
+  .save-button[disabled] {
+    pointer-events: none;
+  }
+}
+
+text-value-form-field {
+  display: block;
+
+  .input-wrapper {
+    input {
+      margin-bottom: 0;
+    }
+  }
+}

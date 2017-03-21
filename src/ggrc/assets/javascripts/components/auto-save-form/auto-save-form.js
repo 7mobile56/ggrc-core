@@ -10,11 +10,11 @@
   var BACKEND_SAVE_DELAY = 3000;
   // end: remove - debug
 
-  GGRC.Components('assessmentForm', {
-    tag: 'assessment-form',
+  GGRC.Components('autoSaveForm', {
+    tag: 'auto-save-form',
     template: can.view(
       GGRC.mustache_path +
-      '/components/assessment-form/assessment-form.mustache'
+      '/components/auto-save-form/auto-save-form.mustache'
     ),
     viewModel: {
       saving: false,
@@ -23,26 +23,24 @@
       autoSaveScheduled: false,
       autoSaveAfterSave: false,
       autoSaveTimeoutHandler: null,
+      fields: [],
+      define: {
+        instance: {
+          set: function (instance, setValue) {
+            setValue(instance);
+            this.prepareFormFields(instance);
+          }
+        }
+      },
       fieldValueChanged: function (e) {
-        this.fieldsToSave.attr(e.name, e.value);
+        this.fieldsToSave.attr(e.fieldId, e.value);
         this.attr('fieldsToSaveAvailable', true);
 
         this.triggerAutoSave();
-
-        // remove - debug
-        console.info('+ Queue:');
-        var toSave = this.attr('fieldsToSave').attr();
-        console.table(Object.keys(toSave).reduce((acc, k) => Object.assign({}, acc, {[k]: { value: toSave[k]}}), {}))
-        // end: remove - debug
       },
       save: function () {
         var self = this;
         var toSave = this.attr('fieldsToSave').attr();
-
-        // remove - debug
-        console.info('> Saving:');
-        console.table(Object.keys(toSave).reduce((acc, k) => Object.assign({}, acc, {[k]: { value: toSave[k]}}), {}))
-        // end: remove - debug
 
         this.attr('fieldsToSave', new can.Map());
         this.attr('fieldsToSaveAvailable', false);
@@ -52,10 +50,8 @@
 
         this.attr('saving', true);
 
-        this.__backendSave()
+        this.__backendSave(toSave)
           .done(function () {
-            self.attr('saving', false);
-
             if (self.attr('autoSaveAfterSave')) {
               self.attr('autoSaveAfterSave', false);
               setTimeout(self.save.bind(self));
@@ -66,10 +62,11 @@
             setTimeout(function() {
               self.attr('saved', false);
             }, 2000);
-            console.info('! Saved:');
-            console.table(Object.keys(toSave).reduce((acc, k) => Object.assign({}, acc, {[k]: { value: toSave[k]}}), {}))
             // end: remove - debug
           })
+          .always(function () {
+            self.attr('saving', false);
+          });
       },
       triggerAutoSave: function () {
         if (this.attr('autoSaveScheduled')) {
@@ -89,13 +86,33 @@
       saveDisabled: function () {
         return !this.attr('fieldsToSaveAvailable') || this.attr('saving');
       },
+      prepareFormFields: function (instance) {
+        var fields =
+          instance.custom_attribute_values
+            .map(function (attr) {
+              return {
+                type: attr.attributeType,
+                id: attr.def.id,
+                value: attr.attribute_value,
+                title: attr.def.title,
+                placeholder: attr.def.placeholder
+              };
+            });
+        this.attr('fields', fields);
+      },
       // remove - debug
-      __backendSave: function () {
-        var dfd = $.Deferred();
-        setTimeout(function () {
-          dfd.resolve();
-        }, BACKEND_SAVE_DELAY);
-        return dfd;
+      __backendSave: function (toSave) {
+        var self = this;
+        Object.keys(toSave).forEach(function (fieldId) {
+          var caValue =
+            can.makeArray(self.attr('instance').custom_attribute_values)
+              .find(function (item) {
+                return item.def.id === Number(fieldId);
+              });
+          caValue.attr('attribute_value', toSave[fieldId]);
+        });
+
+        return this.attr('instance').save();
       }
       // end: remove - debug
     }

@@ -9,7 +9,7 @@
     tag: 'text-value-form-field',
     template: can.view(
       GGRC.mustache_path +
-      '/components/assessment-form/fields/text-value-form-field.mustache'
+      '/components/auto-save-form/fields/text-value-form-field.mustache'
     ),
     viewModel: {
       define: {
@@ -30,11 +30,12 @@
           }
         }
       },
-      name: '',
+      fieldId: null,
+      placeholder: '',
       valueChanged: function (newValue) {
         this.dispatch({
           type: 'valueChanged',
-          name: this.name,
+          fieldId: this.fieldId,
           value: newValue
         });
       }
