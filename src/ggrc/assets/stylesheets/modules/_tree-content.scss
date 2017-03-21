@@ -169,6 +169,13 @@ ul.new-tree {
         .select {
           padding: 6px 0;
         }
+        &:hover {
+          tree-item-extra-info {
+            i {
+              display: block !important;
+            }
+          }
+        }
       }
     }
     > .snapshot-object {
