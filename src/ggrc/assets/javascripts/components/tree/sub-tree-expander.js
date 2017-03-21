@@ -18,6 +18,9 @@
           }
         }
       },
+      expandNotDirectly: function () {
+        this.dispatch('expandNotDirectly');
+      },
       expanded: null,
       disabled: false,
       onChangeState: null,
