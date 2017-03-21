@@ -2,19 +2,13 @@
     Copyright (C) 2017 Google Inc.
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-<div class="openclose{{^if draw_children}}__empty{{/if}}{{#if instance.snapshot}}__snapshot{{/if}}">
+{{#unless instance.snapshot}}
+<div class="openclose{{^if draw_children}}__empty{{/if}}">
   {{#if_instance_of instance "Cycle|CycleTaskGroup|CycleTaskGroupObjectTask"}}
     <span class="status-label {{#is_overdue instance.end_date instance.status next_date=instance.next_due_date}}status-overdue{{/is_overdue}}" {{addclass "status-" instance.status}} {{addclass "status-" instance.overdue}}></span>
-  {{else}}
-    {{#if instance.workflow_state}}
-      <span class="status-label" {{addclass "status-" instance.workflow_state}}></span>
-    {{else}}
-      <span class="status-label"></span>
-    {{/if}}
   {{/if_instance_of}}
-  {{#unless instance.snapshot}}
-    {{#if draw_children}}
-    <i class="fa fa-caret-right"></i>
-    {{/if}}
-  {{/unless}}
+  {{#if draw_children}}
+  <i class="fa fa-caret-right"></i>
+  {{/if}}
 </div>
+{{/unless}}

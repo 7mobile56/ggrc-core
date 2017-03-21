@@ -76,13 +76,8 @@ select {
     margin: 5px 10px 0 4px !important;
   }
   .openclose__empty &,
-  .openclose__snapshot &,
-  .openclose__empty__snapshot &{
-    margin: 16px 10px 0 10px;
-  }
   .inner-tree &,
-  .inner-tree .openclose__empty &,
-  .inner-tree .openclose__empty__snapshot &{
+  .inner-tree .openclose__empty {
     margin: 10px 5px 0 10px;
   }
 

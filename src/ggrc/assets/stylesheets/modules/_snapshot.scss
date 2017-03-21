@@ -66,11 +66,25 @@ ul.new-tree {
           background: $snapshotBgnd;
         }
       }
+      .select {
+        margin-left: 25px;
+      }
     }
     &.active.snapshot {
       > .item-main {
         > .item-wrap {
           background: $snapshotBgndActive;
+        }
+      }
+    }
+  }
+  ul.new-tree {
+    ul.new-tree {
+      li.tree-item {
+        &.snapshot {
+          .select {
+            margin-left: 0;
+          }
         }
       }
     }
