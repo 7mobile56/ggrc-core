@@ -21,6 +21,13 @@
                                  (value-changed)="fieldValueChanged(%event)"
           ></text-value-form-field>
         {{/case}}
+        {{#case 'text'}}
+          <rich-text-value-form-field {value}="value"
+                                      {field-id}="id"
+                                      {placeholder}="placeholder"
+                                      (value-changed)="fieldValueChanged(%event)"
+          ></rich-text-value-form-field>
+        {{/case}}
       {{/switch}}
     </div>
   {{/fields}}
