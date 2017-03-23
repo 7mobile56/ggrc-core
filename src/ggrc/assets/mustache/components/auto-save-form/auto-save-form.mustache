@@ -28,6 +28,12 @@
                                       (value-changed)="fieldValueChanged(%event)"
           ></rich-text-value-form-field>
         {{/case}}
+        {{#case 'checkbox'}}
+          <checkbox-value-form-field {value}="value"
+                                     {field-id}="id"
+                                     (value-changed)="fieldValueChanged(%event)"
+          ></checkbox-value-form-field>
+        {{/case}}
       {{/switch}}
     </div>
   {{/fields}}

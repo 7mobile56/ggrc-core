@@ -6,9 +6,6 @@
   'use strict';
 
   var AUTO_SAVE_DELAY = 5000;
-  // remove - debug
-  var BACKEND_SAVE_DELAY = 3000;
-  // end: remove - debug
 
   GGRC.Components('autoSaveForm', {
     tag: 'auto-save-form',
@@ -87,20 +84,61 @@
         return !this.attr('fieldsToSaveAvailable') || this.attr('saving');
       },
       prepareFormFields: function (instance) {
+        var self = this;
         var fields =
           instance.custom_attribute_values
             .map(function (attr) {
               return {
                 type: attr.attributeType,
                 id: attr.def.id,
-                value: attr.attribute_value,
+                value: self.__getFieldValue(attr.attributeType, attr.attribute_value),
                 title: attr.def.title,
                 placeholder: attr.def.placeholder
               };
             });
         this.attr('fields', fields);
       },
-      // remove - debug
+      // todo
+      __getFieldValue: function (type, value, valueObj) {
+        if (type === 'checkbox') {
+          return value === '1';
+        }
+
+        if (type === 'input') {
+          if (!value) {
+            return null;
+          }
+          return value.trim();
+        }
+
+        if (type === 'person') {
+          if (valueObj) {
+            return valueObj;
+          }
+          return null;
+        }
+
+        if (type === 'dropdown') {
+          if (_.isNull(value) || _.isUndefined(value)) {
+            return '';
+          }
+        }
+        return value;
+      },
+      __fromFieldValue: function (type, value) {
+        if (type === 'checkbox') {
+          return value ? 1 : 0;
+        }
+
+        if (type === 'person') {
+          if (value && value instanceof can.Map) {
+            value = value.serialize();
+            return 'Person:' + value.id;
+          }
+          return 'Person:None';
+        }
+        return value || null;
+      },
       __backendSave: function (toSave) {
         var self = this;
         Object.keys(toSave).forEach(function (fieldId) {
@@ -109,12 +147,14 @@
               .find(function (item) {
                 return item.def.id === Number(fieldId);
               });
-          caValue.attr('attribute_value', toSave[fieldId]);
+          caValue.attr('attribute_value',
+            self.__fromFieldValue(caValue.attr('attributeType'), toSave[fieldId])
+          );
         });
 
         return this.attr('instance').save();
       }
-      // end: remove - debug
+      // end: todo
     }
   });
 })(window.can, window.GGRC, window.jQuery);
