@@ -18,11 +18,13 @@ auto-save-form {
 
       .input-wrapper {
         padding-right: 20px;
+        max-width: 360px;
       }
 
       & > label {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        padding-right: 20px;
+        white-space: normal;
+        word-wrap: break-word;
         text-transform: uppercase;
         font-weight: 700;
         font-size: 11px;
@@ -54,13 +56,19 @@ rich-text-value-form-field {
   .input-wrapper {
     .ql-container {
       background: #fff;
+      height: 62px;
+      overflow: auto;
+      padding: 4px !important;
+
+      .ql-editor {
+        min-height: 100%;
+      }
     }
 
     &:not(.focused) {
       .ql-container {
         color: #555;
-        height: 26px;
-        padding: 4px !important;
+        height: 93px;
       }
 
       .ql-toolbar,
