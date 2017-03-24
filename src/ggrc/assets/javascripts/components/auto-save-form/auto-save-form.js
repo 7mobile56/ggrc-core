@@ -88,12 +88,14 @@
         var fields =
           instance.custom_attribute_values
             .map(function (attr) {
+              var options = attr.def.multi_choice_options;
               return {
                 type: attr.attributeType,
                 id: attr.def.id,
                 value: self.__getFieldValue(attr.attributeType, attr.attribute_value),
                 title: attr.def.title,
-                placeholder: attr.def.placeholder
+                placeholder: attr.def.placeholder,
+                options: options && _.isString(options) ? options.split(',') : []
               };
             });
         this.attr('fields', fields);

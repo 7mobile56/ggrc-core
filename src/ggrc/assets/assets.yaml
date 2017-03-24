@@ -257,6 +257,7 @@ dashboard-js-files:
   - components/auto-save-form/fields/text-value-form-field.js
   - components/auto-save-form/fields/rich-text-value-form-field.js
   - components/auto-save-form/fields/checkbox-value-form-field.js
+  - components/auto-save-form/fields/dropdown-value-form-field.js
   #- d3.v2.js
   #- related_graph.js
 
@@ -445,6 +446,7 @@ dashboard-js-template-files:
   - components/auto-save-form/fields/text-value-form-field.mustache
   - components/auto-save-form/fields/rich-text-value-form-field.mustache
   - components/auto-save-form/fields/checkbox-value-form-field.mustache
+  - components/auto-save-form/fields/dropdown-value-form-field.mustache
   - custom_attributes/modal_content.mustache
   - custom_attributes/info.mustache
   - custom_attribute_definitions/modal_content.mustache

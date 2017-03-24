@@ -34,6 +34,13 @@
                                      (value-changed)="fieldValueChanged(%event)"
           ></checkbox-value-form-field>
         {{/case}}
+        {{#case 'dropdown'}}
+          <dropdown-value-form-field {value}="value"
+                                     {options}="options"
+                                     {field-id}="id"
+                                     (value-changed)="fieldValueChanged(%event)"
+          ></dropdown-value-form-field>
+        {{/case}}
       {{/switch}}
     </div>
   {{/fields}}
