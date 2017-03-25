@@ -1,0 +1,79 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+
+  <a href="javascript://">
+    <i class="fa fa-cog"></i>
+    <i class="fa fa-caret-down"></i>
+  </a>
+  <ul>
+    <!---->
+    {{#if instance.viewLink}}
+      {{#is_allowed "view_object_page" instance}}
+        <!-- Link for open instance on info panel at bottom -->
+          <li>
+            <a href="javascript://" ($click)="maximizeObject">
+              <i class="fa fa-question-circle"></i>
+              View Info
+            </a>
+          </li>
+          {{^instance.snapshot}}
+            <!-- Link for open instance on new Browser tab -->
+            <li>
+              <a href="{{instance.viewLink}}" target="_blank" ($click)="openObject">
+                <i class="fa fa-long-arrow-right"></i>
+                Open in a new tab
+              </a>
+            </li>
+          {{/instance.snapshot}}
+      {{/is_allowed}}
+    {{/if}}
+
+    {{#unless instance.snapshot}}
+      <li>
+        <tree-item-map {instance}="instance"></tree-item-map>
+      </li>
+    {{/unless}}
+
+    {{#is_allowed 'update' instance context='for'}}
+      <li>
+        <a href="javascript://"
+           data-link-purpose="open-edit-modal"
+           data-toggle="modal-ajax-form"
+           data-modal-reset="reset"
+           data-modal-class="modal-wide"
+           data-object-singular="{{instance.class.model_singular}}"
+           data-object-plural="{{instance.class.table_plural}}"
+           data-object-id="{{instance.id}}">
+          <i class="fa fa-pencil-square-o"></i>
+          Edit object
+        </a>
+      </li>
+    {{/is_allowed}}
+
+    <li>
+      <show-related-assessments-button {instance}="instance"
+                                       {reset-styles}="true"
+                                       {show-title}="false"
+                                       {show-icon}="true"
+                                       text="Show related assessments"
+      ></show-related-assessments-button>
+    </li>
+
+    <li class="splitter"></li>
+
+    {{#unless instance.snapshot}}
+      <li>
+        <div class="openclose">
+          {{#if draw_children}}
+            <a href="javascript://">
+              <i class="fa fa-expand"></i>
+              Expand tree
+            </a>
+          {{/if}}
+        </div>
+      </li>
+    {{/unless}}
+  </ul>
