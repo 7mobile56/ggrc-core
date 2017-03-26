@@ -3,6 +3,7 @@
  * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 tree-item-extra-info {
+  margin: auto;
   i {
     visibility: hidden;
     color: $gray;
@@ -21,14 +22,11 @@ tree-item-extra-info {
 
 tree-item-actions {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  padding: 0 3px;
   border: 1px solid $lightGray;
   border-radius: 5px;
-  float: left;
-  margin-top: 8px;
-  margin-right: 8px;
+  margin: auto 0;
+  visibility: hidden;
+  position: relative;
 
   &:hover {
     ul {
@@ -46,14 +44,20 @@ tree-item-actions {
   }
 
   > a {
+    display: flex;
+    margin: 3px 5px;
     i {
       font-size: 13px !important;
+
+      &:first-child {
+        margin-right: 5px;
+      }
     }
   }
   > ul {
     display: none;
     position: absolute;
-    top: 25px;
+    top: 20px;
     width: 220px;
     background-color: $white;
     list-style-type: none;
