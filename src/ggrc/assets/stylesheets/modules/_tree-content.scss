@@ -163,7 +163,7 @@ ul.new-tree {
         &:hover {
           tree-item-extra-info {
             i {
-              display: block !important;
+              visibility: visible;
             }
           }
         }
@@ -380,7 +380,6 @@ ul.new-tree {
     .inner-tree {
       margin-left: 38px;
       li.tree-item {
-        @include scale(1);
         @include opacity(1);
         @include box-shadow(none);
         margin-top: 0;
