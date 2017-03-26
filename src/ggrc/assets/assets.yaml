@@ -250,7 +250,6 @@ dashboard-js-files:
   - components/object-selection/object-selection.js
   - components/object-selection/object-selection-item.js
   - components/last-assessment-date/last-assessment-date.js
-  - components/tree/tree-node-actions.js
   - components/tree/tree-no-results.js
   - components/tree/tree-assignee-field.js
   - components/page-header/page-header.js
@@ -432,7 +431,6 @@ dashboard-js-template-files:
   - components/datepicker/datepicker.mustache
   - components/object_counter/object_counter.mustache
   - components/tree_pagination/tree_pagination.mustache
-  - components/tree/tree-node-actions.mustache
   - components/tree/tree-no-results.mustache
   - components/tree/tree-item-extra-info.mustache
   - components/tree/tree-item-actions.mustache
