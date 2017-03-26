@@ -89,7 +89,7 @@
         _first = (_current - 1) * _size + 1;
         _last = _current * _size < _total ? _current * _size : _total;
 
-        return _last ? _first + '-' + _last + ' of ' + _total + ' items' :
+        return _last ? _first + '-' + _last + ' of ' + _total :
           'No records';
       },
       getPaginationPlaceholder: function () {

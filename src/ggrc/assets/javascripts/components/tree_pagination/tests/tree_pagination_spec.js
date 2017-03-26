@@ -28,7 +28,7 @@ describe('GGRC.Components.treePagination', function () {
       viewModel.attr('paging.pageSize', 10);
       viewModel.attr('paging.total', 3000);
       result = viewModel.getPaginationInfo();
-      expect(result).toEqual('141-150 of 3000 items');
+      expect(result).toEqual('141-150 of 3000');
     });
 
     it('returns "No records" if we don\'t have elements', function () {
