@@ -1,10 +1,10 @@
-describe('GGRC.Components.checkboxValueFormField', function () {
+describe('GGRC.Components.checkboxFormField', function () {
   'use strict';
   var viewModel;
 
   beforeEach(function () {
     viewModel = GGRC.Components
-      .getViewModel('checkboxValueFormField');
+      .getViewModel('checkboxFormField');
     spyOn(viewModel, 'dispatch');
     viewModel.attr('fieldId', 'id');
   });

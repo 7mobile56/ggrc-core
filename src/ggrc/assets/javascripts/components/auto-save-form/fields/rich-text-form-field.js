@@ -5,11 +5,11 @@
 (function (can, GGRC) {
   'use strict';
 
-  GGRC.Components('richTextValueFormField', {
+  GGRC.Components('richTextFormField', {
     tag: 'rich-text-value-form-field',
     template: can.view(
       GGRC.mustache_path +
-      '/components/auto-save-form/fields/rich-text-value-form-field.mustache'
+      '/components/auto-save-form/fields/rich-text-form-field.mustache'
     ),
     viewModel: {
       _value: '',

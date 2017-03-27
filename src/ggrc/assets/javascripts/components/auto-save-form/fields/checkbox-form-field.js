@@ -5,11 +5,11 @@
 (function (can, GGRC) {
   'use strict';
 
-  GGRC.Components('checkboxValueFormField', {
+  GGRC.Components('checkboxFormField', {
     tag: 'checkbox-value-form-field',
     template: can.view(
       GGRC.mustache_path +
-      '/components/auto-save-form/fields/checkbox-value-form-field.mustache'
+      '/components/auto-save-form/fields/checkbox-form-field.mustache'
     ),
     viewModel: {
       define: {

@@ -5,11 +5,11 @@
 (function (can, GGRC) {
   'use strict';
 
-  GGRC.Components('textValueFormField', {
+  GGRC.Components('textFormField', {
     tag: 'text-value-form-field',
     template: can.view(
       GGRC.mustache_path +
-      '/components/auto-save-form/fields/text-value-form-field.mustache'
+      '/components/auto-save-form/fields/text-form-field.mustache'
     ),
     viewModel: {
       define: {

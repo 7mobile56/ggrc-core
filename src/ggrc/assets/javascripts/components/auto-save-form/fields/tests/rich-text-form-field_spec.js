@@ -1,10 +1,10 @@
-describe('GGRC.Components.dropdownValueFormField', function () {
+describe('GGRC.Components.richTextFormField', function () {
   'use strict';
   var viewModel;
 
   beforeEach(function () {
     viewModel = GGRC.Components
-      .getViewModel('dropdownValueFormField');
+      .getViewModel('richTextFormField');
     spyOn(viewModel, 'dispatch');
     viewModel.attr('fieldId', 'id');
   });
@@ -22,20 +22,25 @@ describe('GGRC.Components.dropdownValueFormField', function () {
   it('does not fire valueChanged event if value wasn\'t changed', function () {
     viewModel.attr('value', '');
     viewModel.attr('_value', 'newValue');
-    viewModel.dispatch.calls.reset();
+    viewModel.onFocus();
     viewModel.attr('_value', 'newValue');
+    viewModel.onBlur();
     expect(viewModel.dispatch).not.toHaveBeenCalled();
   });
 
   it('fires valueChanged event on input value change', function () {
     viewModel.attr('value', '');
+    viewModel.onFocus();
     viewModel.attr('_value', 'newValue');
+    viewModel.onBlur();
     expect(viewModel.dispatch).toHaveBeenCalledWith({
       type: 'valueChanged',
       fieldId: 'id',
       value: 'newValue'
     });
+    viewModel.onFocus();
     viewModel.attr('_value', 'newValue2');
+    viewModel.onBlur();
     expect(viewModel.dispatch).toHaveBeenCalledWith({
       type: 'valueChanged',
       fieldId: 'id',

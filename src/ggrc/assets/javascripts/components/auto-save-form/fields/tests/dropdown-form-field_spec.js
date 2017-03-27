@@ -1,10 +1,10 @@
-describe('GGRC.Components.textValueFormField', function () {
+describe('GGRC.Components.dropdownFormField', function () {
   'use strict';
   var viewModel;
 
   beforeEach(function () {
     viewModel = GGRC.Components
-      .getViewModel('textValueFormField');
+      .getViewModel('dropdownFormField');
     spyOn(viewModel, 'dispatch');
     viewModel.attr('fieldId', 'id');
   });

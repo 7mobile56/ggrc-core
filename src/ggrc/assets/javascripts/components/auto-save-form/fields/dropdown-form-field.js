@@ -5,11 +5,11 @@
 (function (can, GGRC) {
   'use strict';
 
-  GGRC.Components('dropdownValueFormField', {
+  GGRC.Components('dropdownFormField', {
     tag: 'dropdown-value-form-field',
     template: can.view(
       GGRC.mustache_path +
-      '/components/auto-save-form/fields/dropdown-value-form-field.mustache'
+      '/components/auto-save-form/fields/dropdown-form-field.mustache'
     ),
     viewModel: {
       define: {
