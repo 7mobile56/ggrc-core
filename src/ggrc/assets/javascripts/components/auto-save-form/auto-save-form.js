@@ -15,6 +15,7 @@
     ),
     viewModel: {
       saving: false,
+      allSaved: false,
       fieldsToSave: new can.Map(),
       fieldsToSaveAvailable: false,
       autoSaveScheduled: false,
@@ -54,12 +55,7 @@
               setTimeout(self.save.bind(self));
             }
 
-            // remove - debug
-            self.attr('saved', true);
-            setTimeout(function() {
-              self.attr('saved', false);
-            }, 2000);
-            // end: remove - debug
+            self.attr('allSaved', true);
           })
           .always(function () {
             self.attr('saving', false);
@@ -73,6 +69,8 @@
           this.attr('autoSaveAfterSave', true);
           return;
         }
+
+        this.attr('allSaved', false);
 
         this.attr(
           'autoSaveTimeoutHandler',

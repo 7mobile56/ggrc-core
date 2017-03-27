@@ -3,12 +3,14 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{#saved}}
-  <div style="text-align: center; color: green; position: absolute; left: 48%; top: 0;">
-    Saved!
-  </div>
-{{/saved}}
-<br>
+<div class="auto-save-form-status">
+  {{#saving}}
+    Saving...
+  {{/saving}}
+  {{#allSaved}}
+    All changes saved
+  {{/allsaved}}
+</div>
 <div class="fields-wrapper">
   {{#fields}}
     <div class="field-wrapper">
