@@ -251,6 +251,7 @@ dashboard-js-files:
   - components/tree/tree-no-results.js
   - components/tree/tree-assignee-field.js
   - components/page-header/page-header.js
+  - components/assessment/info-pane/info-pane.js
   #- d3.v2.js
   #- related_graph.js
 
@@ -269,6 +270,7 @@ dashboard-js-template-files:
   - components/collapsible-panel/collapsible-panel.mustache
   - components/collapsible-panel/collapsible-panel-body.mustache
   - components/collapsible-panel/collapsible-panel-header.mustache
+  - components/assessment/info-pane/info-pane.mustache
   - components/assessment/controls-toolbar/controls-toolbar.mustache
   - components/assessment/mapped-objects/mapped-controls.mustache
   - components/assessment/mapped-objects/mapped-controls-popover.mustache

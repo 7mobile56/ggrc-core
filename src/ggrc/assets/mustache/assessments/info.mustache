@@ -3,158 +3,21 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{#instance}}
-    <section class="assessment-module info{{#is_info_pin}} sticky-info-panel assignable{{/is_info_pin}}">
-      {{#is_info_pin}}
-          <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
-      {{/is_info_pin}}
-
-        <div class="tier-content">
-          {{> '/static/mustache/assessments/header.mustache' }}
-            <div class="assessment-info-pane flex-box">
-                <div class="assessment-attributes flex-size-2">
-                    <div class="assessment-description">
-                        <div class="section-title">Test Plan</div>
-                        <read-more text="test_plan"></read-more>
-                    </div>
-                    <assessment-mapped-controls instance="instance"
-                                                title-text="Controls"
-                                                mapping-type="Control"
-                                                mapping="info_related_objects"
-                                                scope-object="parentInstance">
-                    </assessment-mapped-controls>
-                    <div class="assessment-controls">
-                        <div class="assessment-note">
-                            <i class="fa fa-question-circle" rel="tooltip" data-original-title="Respond to assessment here. Use comments on the right for free text responses."></i>
-                        </div>
-                        <div class="assessment-controls__extra-controls">
-                            <assessment-attachments-list class="assesment-attachment-list attachments-list-control"
-                                                         title="Evidence"
-                                                         tooltip="You can upload up to 10 files in a single batch">
-                            </assessment-attachments-list>
-                            <assessment-urls-list></assessment-urls-list>
-                        </div>
-                        <assessment-custom-attributes instance="instance"
-                                                      items="custom_attribute_values"
-                                                      class="assessment-custom-attributes flex-box flex-box-multi">
-                        </assessment-custom-attributes>
-                        <assessment-controls-toolbar class="assessment-controls-toolbar"
-                                                     instance="instance"></assessment-controls-toolbar>
-                    </div>
-                    <assessment-mapped-related-information
-                            instance="instance"
-                            title-text="Related Information"
-                            mapping-type="Control"
-                            mapping="info_related_objects"
-                            scope-object="parentInstance">
-                    </assessment-mapped-related-information>
-                </div>
-                <div class="assessment-comments flex-size-1">
-                    <div class="section-title">Responses/Comments</div>
-                    {{^if_in instance.status 'Completed,Final'}}
-                      {{#is_allowed 'update' instance context='for'}}
-                          <assessment-add-comment class="assessment-comments-add" instance="instance"></assessment-add-comment>
-                      {{/is_allowed}}
-                    {{/if_in}}
-                    {{> '/static/mustache/base_templates/comment_list.mustache' }}
-                </div>
-            </div>
-            <div class="tabs-wrap">
-                <tab-container>
-                    <tab-panel {(panels)}="panels" title-text="Assessment Attributes">
-                        <div class="attribute-tab-panel-column">
-                            <collapsible-panel title-text="Description" title-icon="fa-list-ol" class="details-item">
-                                <read-more {text}="description"></read-more>
-                            </collapsible-panel>
-                            <collapsible-panel title-text="People" title-icon="fa-users" class="details-item">
-                                <people-list {instance}="instance" editable="true" disable-title="true"></people-list>
-                            </collapsible-panel>
-                            <collapsible-panel title-text="Dates" title-icon="fa-calendar" class="details-item">
-                              {{> '/static/mustache/assessments/dates_list.mustache'}}
-                            </collapsible-panel>
-                            <collapsible-panel title-text="Notes" title-icon="fa-sticky-note-o" class="details-item">
-                                <read-more {text}="notes"></read-more>
-                            </collapsible-panel>
-                        </div>
-
-                        <div class="attribute-tab-panel-column">
-                          <collapsible-panel title-text="URL" title-icon="fa-link" class="details-item">
-                            {{> '/static/mustache/assessments/urls.mustache'}}
-                          </collapsible-panel>
-                          <collapsible-panel title-text="Code" title-icon="fa-code" class="details-item">
-                              <ul class="label-list">
-                                  <li>
-                                      <h6>Code</h6>
-                                      <span>{{instance.slug}}</span>
-                                  </li>
-                              </ul>
-                          </collapsible-panel>
-                          <collapsible-panel title-text="Conclusions" title-icon="fa-gavel"
-                                             class="details-item">
-                              <div class="flex-box flex-col"
-                                {{#instance}}{{data 'model'}}{{/instance}}
-                                   data-force-refresh="true"
-                                   data-model="true" {{ (el) -> el.ggrc_controllers_quick_form({ instance : el.data('model')}); }}>
-                                  <div class="flex-size-1 flex-gutter-2">
-                                      <label class="title-text">Conclusion: Design</label>
-                                      <p>
-                                          <small><em>Is this control design effective?</em></small>
-                                      </p>
-                                    {{#is_allowed 'update' instance context='for'}}
-                                        <dropdown options-list="model.conclusions"
-                                                  no-value="true"
-                                                  no-value-label="---"
-                                                  name="instance.design">
-                                        </dropdown>
-                                    {{else}}
-                                      {{firstnonempty design '--'}}
-                                    {{/is_allowed}}
-                                  </div>
-                                  <div class="flex-size-1 flex-gutter-2">
-                                      <label class="title-text">Conclusion: Operation</label>
-                                      <p>
-                                          <small><em>Is this control operationally effective?</em></small>
-                                      </p>
-                                    {{#is_allowed 'update' instance context='for'}}
-                                        <dropdown options-list="model.conclusions"
-                                                  no-value="true"
-                                                  no-value-label="---"
-                                                  name="instance.operationally">
-                                        </dropdown>
-                                    {{else}}
-                                      {{firstnonempty operationally '--'}}
-                                    {{/is_allowed}}
-                                  </div>
-                              </div>
-                          </collapsible-panel>
-                        </div>
-                    </tab-panel>
-                    <tab-panel {(panels)}="panels" title-text="Assessment Log">
-                        <revision-log instance="instance"></revision-log>
-                    </tab-panel>
-                    <tab-panel {(panels)}="panels" title-text="Related Assessments">
-                      {{> '/static/mustache/assessments/related-assessments.mustache' }}
-                    </tab-panel>
-                    <tab-panel {(panels)}="panels" title-text="Related Issues">
-                      {{> '/static/mustache/assessments/related_issues.mustache' }}
-                    </tab-panel>
-                </tab-container>
-            </div>
-        </div><!-- tier-content end -->
-    </section>
-
-    <div class="info-widget-footer">
-        <p>
-            <small>
-                <em>
-                    Created at {{date created_at}}
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    Modified by
-                  {{#using person=modified_by}}
-                    {{> '/static/mustache/people/popover.mustache' }}
-                  {{/using}} on {{date updated_at}}
-                </em>
-            </small>
-        </p>
-    </div>
-{{/instance}}
+{{#if instance}}
+  {{#if is_info_pin}}
+      <info-pin-buttons class="details-wrap" {(maximized)}="maximized" {on-change-maximized-state}="@onChangeMaximizedState"
+                        {on-close}="@onClose"></info-pin-buttons>
+  {{/if}}
+  <assessment-info-pane {(instance)}="instance"></assessment-info-pane>
+  <div class="info-widget-footer">
+      <p>
+          <small>
+              <em>
+                  Created at {{localize_date instance.created_at}}
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  Modified by <person-info {person-obj}="instance.modified_by"></person-info> on {{localize_date instance.updated_at}}
+              </em>
+          </small>
+      </p>
+  </div>
+{{/if}}
