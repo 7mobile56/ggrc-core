@@ -35,30 +35,11 @@
                   x
                 %p
                   {{message}}
-        -#FIXME: Flash messages
-        -#flash.each do |type, value|
-          -value = [value] unless value.is_a?(Array)
-          -value = value.map(:presence).compact
-          -if value.size > 0
-            %div{ 'class': type }
-              %a.close{'href': "#{}", :'data-dismiss': "alert"}
-                &times;
-              -value.each do |message|
-                %p=message
       -block main
-        .clearfix
-          //.objnav.bar-v
-          //.inner-nav
-            .object-nav
-              %ul.nav{ 'class': "internav ={ model_display_class }" }
-          .object-area
-            #show_columns.column-set{ 'data-resize': "true" }
-              #middle_column
-                .row-fluid
-                  .span12.full-width
-                    .inner-content.widget-area
-                      -block widget_area
-          .pin-content
+        .object-area.row-fluid.full-width
+          .inner-content.widget-area
+            -block widget_area
+        .pin-content
 
     %section.footer
       =config.get('COPYRIGHT')
