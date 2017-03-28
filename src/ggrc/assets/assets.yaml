@@ -251,6 +251,7 @@ dashboard-js-files:
   - components/tree/tree-no-results.js
   - components/tree/tree-assignee-field.js
   - components/page-header/page-header.js
+  - components/info-pane/info-pane-footer.js
   - components/assessment/info-pane/info-pane.js
   #- d3.v2.js
   #- related_graph.js
@@ -260,6 +261,7 @@ app-init-files:
   - dashboard.js
 
 dashboard-js-template-files:
+  - components/info-pane/info-pane-footer.mustache
   - components/tabs/tab-container.mustache
   - components/tabs/tab-panel.mustache
   - components/object-state-toolbar/object-state-toolbar.mustache
