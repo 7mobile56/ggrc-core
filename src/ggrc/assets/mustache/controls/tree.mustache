@@ -7,7 +7,7 @@
   <li class="tree-item {{#if instance.snapshot}}snapshot{{/if}}" data-object-id="{{instance.id}}" data-object-type="control" {{addclass "t-" instance.workflow_state}}>
     <div class="item-main" {{#instance}}{{data 'model'}}{{/instance}}>
       <div class="item-wrap flex-box">
-        <tree-item-actions {instance}="instance" {child-options}="child_options" {add-item}="add_item_view"></tree-item-actions>
+        <tree-item-actions {instance}="instance" {child-options}="child_options" {add-item}="add_item_view" {deep-limit}="limitDeepOfTree"></tree-item-actions>
         <div class="select">
           <div class="item-data">
             <div class="row-fluid">
@@ -56,7 +56,7 @@
     <div class="tier-2-info item-content">
       <div class="tier-2-info-content">
         {{#if draw_children}}
-          <sub-tree-wrapper></sub-tree-wrapper>
+          <sub-tree-wrapper {parent-model}="instance.type" {patent-id}="instance.id" {deep-limit}="limitDeepOfTree"></sub-tree-wrapper>
         {{/if}}
       </div>
     </div>

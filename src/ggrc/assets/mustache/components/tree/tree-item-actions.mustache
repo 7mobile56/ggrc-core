@@ -35,9 +35,8 @@
       <li>
         <tree-item-map {instance}="instance"></tree-item-map>
       </li>
-    {{/unless}}
 
-    {{#is_allowed 'update' instance context='for'}}
+      {{#is_allowed 'update' instance context='for'}}
       <li>
         <a href="javascript://"
            data-link-purpose="open-edit-modal"
@@ -51,7 +50,8 @@
           Edit object
         </a>
       </li>
-    {{/is_allowed}}
+      {{/is_allowed}}
+    {{/unless}}
 
     <li>
       <show-related-assessments-button {instance}="instance"
@@ -65,15 +65,13 @@
     <li class="splitter"></li>
 
     {{#unless instance.snapshot}}
+      {{#if canExpand}}
       <li>
-        <div class="openclose">
-          {{#if draw_children}}
-            <a href="javascript://">
-              <i class="fa fa-expand"></i>
-              Expand tree
-            </a>
-          {{/if}}
-        </div>
+        <a href="javascript://" ($click)="expand">
+          <i class="fa fa-{{expandIcon}}"></i>
+          {{expanderTitle}}
+        </a>
       </li>
+      {{/if}}
     {{/unless}}
   </ul>

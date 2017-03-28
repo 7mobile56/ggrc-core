@@ -45,7 +45,8 @@
       // { parent_find_param: "system_id" ... }
       scroll_page_count: 1, // pages above and below viewport
       is_subtree: false,
-      subTreeElementsLimit: 20
+      subTreeElementsLimit: 20,
+      limitDeepOfTree: 2
     },
     do_not_propagate: [
       'header_view',

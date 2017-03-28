@@ -11,6 +11,26 @@
 
   var viewModel = can.Map.extend({
     define: {
+      deepLimit: {
+        type: Number,
+        value: 0
+      },
+      canExpand: {
+        type: Boolean,
+        value: false
+      },
+      expandIcon: {
+        type: String,
+        get: function () {
+          return this.attr('expanded') ? 'compress' : 'expand';
+        }
+      },
+      expanderTitle: {
+        type: String,
+        get: function () {
+          return this.attr('expanded') ? 'Collapse tree' : 'Expand tree';
+        }
+      }
     },
     maximizeObject: function (scope, el, ev) {
       var tree = el.closest('.cms_controllers_tree_view_node');
@@ -24,19 +44,27 @@
     openObject: function (scope, el, ev) {
       ev.stopPropagation();
     },
+    expand: function () {
+      this.dispatch('expand');
+    },
     instance: null,
     childOptions: null,
     addItem: null,
     allowMapping: null,
-    init: function () {
-      console.log('test');
-    }
+    isAllowToExpand: null,
+    expanded: false
   });
 
   GGRC.Components('treeItemActions', {
     tag: 'tree-item-actions',
     template: template,
     viewModel: viewModel,
-    events: {}
+    events: {
+      inserted: function () {
+        var parents = this.element.parents('sub-tree-wrapper').length;
+        var canExpand = parents < this.viewModel.attr('deepLimit');
+        this.viewModel.attr('canExpand', canExpand);
+      }
+    }
   });
 })(window.can, window.GGRC);
