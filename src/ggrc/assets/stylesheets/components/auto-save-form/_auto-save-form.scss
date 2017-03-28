@@ -25,19 +25,34 @@ auto-save-form {
       margin-bottom: 16px;
       max-width: 50%;
 
+      .field-title {
+        padding-right: 20px;
+        line-height: 22px;
+
+        label {
+          display: inline;
+          margin: 0;
+          font-weight: 500;
+          font-size: 11px;
+          color: #333;
+          white-space: normal;
+          word-wrap: break-word;
+          text-transform: uppercase;
+          line-height: 22px;
+        }
+
+        i {
+          vertical-align: middle;
+          color: $icon-color-dark;
+          width: 24px;
+          text-align: center;
+          line-height: 22px;
+        }
+      }
+
       .input-wrapper {
         padding-right: 20px;
         max-width: 360px;
-      }
-
-      & > label {
-        padding-right: 20px;
-        white-space: normal;
-        word-wrap: break-word;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 11px;
-        color: #333;
       }
     }
   }
@@ -68,7 +83,6 @@ rich-text-value-form-field {
     .ql-container {
       background: #fff;
       height: 62px;
-      overflow: auto;
       padding: 4px !important;
 
       .ql-editor {

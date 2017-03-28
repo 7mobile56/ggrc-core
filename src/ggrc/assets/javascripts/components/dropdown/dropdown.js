@@ -24,6 +24,7 @@
       onChange: $.noop,
       noValue: '@',
       noValueLabel: '@',
+      controlId: '@',
       /*
         Options list should be an `array` of object containing `title` and `value`
         [{

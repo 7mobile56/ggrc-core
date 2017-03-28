@@ -93,7 +93,8 @@
                 value: self.__getFieldValue(attr.attributeType, attr.attribute_value),
                 title: attr.def.title,
                 placeholder: attr.def.placeholder,
-                options: options && _.isString(options) ? options.split(',') : []
+                options: options && _.isString(options) ? options.split(',') : [],
+                helptext: attr.def.helptext
               };
             });
         this.attr('fields', fields);

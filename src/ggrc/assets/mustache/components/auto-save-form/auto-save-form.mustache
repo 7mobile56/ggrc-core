@@ -14,7 +14,12 @@
 <div class="fields-wrapper">
   {{#fields}}
     <div class="field-wrapper">
-      <label for="form-field-{{id}}">{{title}}</label>
+      <div class="field-title">
+        <label for="form-field-{{id}}">{{title}}</label>
+        {{#if helptext}}
+          <i class="fa fa-question-circle" rel="tooltip" title="{{helptext}}"></i>
+        {{/if}}
+      </div>
       {{#switch type}}
         {{#case 'input'}}
           <text-value-form-field {value}="value"
