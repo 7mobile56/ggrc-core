@@ -1420,7 +1420,7 @@
       return this;
     }
     if (!(this instanceof can.Stub)) {
-      console.debug('`reify()` called on non-stub, non-instance object', this);
+      // console.debug('`reify()` called on non-stub, non-instance object', this);
     }
 
     type = this.type;
