@@ -3,3 +3,9 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
+{{#if loadingInProgress}}
+  <spinner></spinner>
+{{else}}
+  <tree-view {items}="showedItems"></tree-view>
+{{/if}}
+
