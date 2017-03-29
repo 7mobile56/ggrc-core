@@ -6,7 +6,7 @@
   'use strict';
 
   GGRC.Components('dropdownFormField', {
-    tag: 'dropdown-value-form-field',
+    tag: 'dropdown-form-field',
     template: can.view(
       GGRC.mustache_path +
       '/components/auto-save-form/fields/dropdown-form-field.mustache'

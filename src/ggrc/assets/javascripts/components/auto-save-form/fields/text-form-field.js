@@ -6,7 +6,7 @@
   'use strict';
 
   GGRC.Components('textFormField', {
-    tag: 'text-value-form-field',
+    tag: 'text-form-field',
     template: can.view(
       GGRC.mustache_path +
       '/components/auto-save-form/fields/text-form-field.mustache'

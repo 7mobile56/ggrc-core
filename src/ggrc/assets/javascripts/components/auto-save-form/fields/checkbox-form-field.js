@@ -6,7 +6,7 @@
   'use strict';
 
   GGRC.Components('checkboxFormField', {
-    tag: 'checkbox-value-form-field',
+    tag: 'checkbox-form-field',
     template: can.view(
       GGRC.mustache_path +
       '/components/auto-save-form/fields/checkbox-form-field.mustache'

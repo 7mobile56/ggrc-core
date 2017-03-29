@@ -22,37 +22,37 @@
       </div>
       {{#switch type}}
         {{#case 'input'}}
-          <text-value-form-field {value}="value"
-                                 {field-id}="id"
-                                 {placeholder}="placeholder"
-                                 (value-changed)="fieldValueChanged(%event)"
-          ></text-value-form-field>
+          <text-form-field {value}="value"
+                           {field-id}="id"
+                           {placeholder}="placeholder"
+                           (value-changed)="fieldValueChanged(%event)"
+          ></text-form-field>
         {{/case}}
         {{#case 'text'}}
-          <rich-text-value-form-field {value}="value"
-                                      {field-id}="id"
-                                      {placeholder}="placeholder"
-                                      (value-changed)="fieldValueChanged(%event)"
-          ></rich-text-value-form-field>
+          <rich-text-form-field {value}="value"
+                                {field-id}="id"
+                                {placeholder}="placeholder"
+                                (value-changed)="fieldValueChanged(%event)"
+          ></rich-text-form-field>
         {{/case}}
         {{#case 'checkbox'}}
-          <checkbox-value-form-field {value}="value"
-                                     {field-id}="id"
-                                     (value-changed)="fieldValueChanged(%event)"
-          ></checkbox-value-form-field>
+          <checkbox-form-field {value}="value"
+                               {field-id}="id"
+                               (value-changed)="fieldValueChanged(%event)"
+          ></checkbox-form-field>
         {{/case}}
         {{#case 'dropdown'}}
-          <dropdown-value-form-field {value}="value"
-                                     {options}="options"
-                                     {field-id}="id"
-                                     (value-changed)="fieldValueChanged(%event)"
-          ></dropdown-value-form-field>
+          <dropdown-form-field {value}="value"
+                               {options}="options"
+                               {field-id}="id"
+                               (value-changed)="fieldValueChanged(%event)"
+          ></dropdown-form-field>
         {{/case}}
         {{#case 'date'}}
-          <date-value-form-field {value}="value"
-                                 {field-id}="id"
-                                 (value-changed)="fieldValueChanged(%event)"
-          ></date-value-form-field>
+          <date-form-field {value}="value"
+                           {field-id}="id"
+                           (value-changed)="fieldValueChanged(%event)"
+          ></date-form-field>
         {{/case}}
       {{/switch}}
     </div>

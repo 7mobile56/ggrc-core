@@ -6,7 +6,7 @@
   'use strict';
 
   GGRC.Components('richTextFormField', {
-    tag: 'rich-text-value-form-field',
+    tag: 'rich-text-form-field',
     template: can.view(
       GGRC.mustache_path +
       '/components/auto-save-form/fields/rich-text-form-field.mustache'

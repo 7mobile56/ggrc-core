@@ -6,7 +6,7 @@
   'use strict';
 
   GGRC.Components('dateFormField', {
-    tag: 'date-value-form-field',
+    tag: 'date-form-field',
     template: can.view(
       GGRC.mustache_path +
       '/components/auto-save-form/fields/date-form-field.mustache'
