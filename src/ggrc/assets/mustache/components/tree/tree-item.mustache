@@ -1,0 +1,29 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+
+<div class="flex-box tree-item-content {{extraClasses}}">
+  <tree-item-actions {instance}="instance"
+                     (expand)="onExpand()"
+                     {deep-limit}="limitDepthTree"
+  ></tree-item-actions>
+
+  <div class="title-area">
+    {{instance.title}}
+  </div>
+
+  <div class="selectable-attrs">
+    {{instance.type}} {{instance.id}}
+  </div>
+  <tree-item-extra-info {instance}="instance.instance"></tree-item-extra-info>
+</div>
+
+<div class="sub-tier">
+  <sub-tree-wrapper {parent-model}="instance.type"
+                    {parent-id}="instance.id"
+                    {limit-depth-tree}="limitDepthTree"
+                    {is-open}="expanded"
+  ></sub-tree-wrapper>
+</div>
