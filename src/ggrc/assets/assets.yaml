@@ -390,7 +390,6 @@ dashboard-js-template-files:
   - controls/tree.mustache
   - controls/tree-item-attr.mustache
   - assessments/modal_content.mustache
-  - assessments/tree_header.mustache
   - assessments/tree_add_item.mustache
   - assessments/info.mustache
   - assessments/related-assessments.mustache
@@ -553,7 +552,6 @@ dashboard-js-template-files:
   - audits/info.mustache
   - audits/summary.mustache
   - audits/tree_add_item.mustache
-  - audits/tree_header.mustache
   - audits/search_result.mustache
   - audits/extended_info.mustache
   - audits/object_cloner.mustache

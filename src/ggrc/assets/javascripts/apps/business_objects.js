@@ -472,7 +472,7 @@
             child_options: relatedObjectsChildOptions,
             draw_children: true,
             show_view: path + '/audits/tree.mustache',
-            header_view: path + '/audits/tree_header.mustache',
+            header_view: path + '/base_objects/tree_header.mustache',
             footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/audits/tree_add_item.mustache'
           },
@@ -865,7 +865,7 @@
             child_options: relatedObjectsChildOptions,
             draw_children: true,
             add_item_view: null,
-            header_view: path + '/assessments/tree_header.mustache',
+            header_view: path + '/base_objects/tree_header.mustache',
             footer_view: path + '/base_objects/tree_footer.mustache'
           },
           Risk: {

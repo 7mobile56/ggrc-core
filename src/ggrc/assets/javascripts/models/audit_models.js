@@ -89,7 +89,7 @@
         'Issues', 'Assessments']
     },
     tree_view_options: {
-      header_view: GGRC.mustache_path + '/audits/tree_header.mustache',
+      header_view: GGRC.mustache_path + '/base_objects/tree_header.mustache',
       attr_view: GGRC.mustache_path + '/audits/tree-item-attr.mustache',
       attr_list: [{
         attr_title: 'Title',
