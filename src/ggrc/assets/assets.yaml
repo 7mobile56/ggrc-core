@@ -240,6 +240,7 @@ dashboard-js-files:
   - components/tree/tree-item-extra-info.js
   - components/tree/tree-item-actions.js
   - components/tree/tree-item-map.js
+  - components/tree/tree-widget-container.js
   - components/view-object-buttons/view-object-buttons.js
   - components/add-object-button/add-object-button.js
   - components/effective-dates/effective-dates.js
@@ -439,6 +440,7 @@ dashboard-js-template-files:
   - components/tree/tree-item-extra-info.mustache
   - components/tree/tree-item-actions.mustache
   - components/tree/tree-item-map.mustache
+  - components/tree/tree-widget-container.mustache
   - components/simple-modal/simple-modal.mustache
   - components/page-header/page-header.mustache
   - custom_attributes/modal_content.mustache
