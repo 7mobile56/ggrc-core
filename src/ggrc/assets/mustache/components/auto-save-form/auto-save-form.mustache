@@ -48,6 +48,12 @@
                                      (value-changed)="fieldValueChanged(%event)"
           ></dropdown-value-form-field>
         {{/case}}
+        {{#case 'date'}}
+          <date-value-form-field {value}="value"
+                                 {field-id}="id"
+                                 (value-changed)="fieldValueChanged(%event)"
+          ></date-value-form-field>
+        {{/case}}
       {{/switch}}
     </div>
   {{/fields}}
