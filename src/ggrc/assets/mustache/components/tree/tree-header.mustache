@@ -1,0 +1,49 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<header class="header tree-header flex-box">
+  {{> '/static/mustache/base_objects/tree_column_selector.mustache'}}
+  <div class="flex-size-1">
+      <div class="title-heading oneline">
+          <span class="widget-col-title" ($click)="onOrderChange($element)" data-field="title">
+            Title
+            <i class="fa fa-{{#sortIcon 'title' sortingInfo.sortBy sortingInfo.sortDirection}}{{/sortIcon}}"></i>
+          </span>
+      </div>
+    </div>
+
+  <div class="flex-box flex-size-{{selectableSize}}">
+        {{#displayAttrs}}
+          <div class="flex-size-1">
+            <div class="oneline">
+              <span class="widget-col-title" ($click)="onOrderChange($element)" data-field="{{attr_sort_field}}">
+                {{attr_title}}
+                <i class="fa fa-{{#sortIcon attr_sort_field sortingInfo.sortBy sortingInfo.sortDirection}}{{/sortIcon}}"></i>
+              </span>
+            </div>
+          </div>
+        {{/displayAttrs}}
+    </div>
+
+  <div class="tree-action {{display_options.action_width}}">
+    {{#if add_item_view}}
+    {{!{renderLive add_item_view}}
+    {{/if}}
+    <div class="details-wrap">
+      <a class="btn btn-draft dropdown-toggle" href="#" data-toggle="dropdown">
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+        <span class="bubble"></span>
+      </a>
+      <ul class="dropdown-menu tree-action-list-items" role="menu">
+        {{^if_instance_of instance 'Audit'}}
+          {{> '/static/mustache/import_export/import_export_buttons.mustache'}}
+          <assessment-generator-button audit="parent_instance"></assessment-generator-button>
+        {{/if_instance_of}}
+        {{> '/static/mustache/base_objects/sub_tree_type_selector.mustache'}}
+      </ul>
+    </div>
+  </div>
+</header>

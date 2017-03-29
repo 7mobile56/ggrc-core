@@ -3,19 +3,71 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-
-<div class="flex-box tree-item-content {{extraClasses}}">
+<div class="tree-item-wrapper {{extraClasses}}">
+<div class="flex-box tree-item-content">
   <tree-item-actions {instance}="instance"
                      (expand)="onExpand()"
+                     {expanded}="expanded"
                      {deep-limit}="limitDepthTree"
   ></tree-item-actions>
 
-  <div class="title-area">
+  <div class="title-area flex-size-1">
     {{instance.title}}
   </div>
 
-  <div class="selectable-attrs">
-    {{instance.type}} {{instance.id}}
+  <div class="flex-box selectable-attrs flex-size-{{selectableSize}}">
+    {{#displayAttrs}}
+      <div class="flex-size-1">
+        {{#if_equals attr_type 'custom'}}
+          <div class="custom tree-title-area">
+            {{#get_custom_attr_value this instance}}
+            {{! because the object can currently only be a
+                person there is no need to switch }}
+              {{#using person=object}}
+                {{>'/static/mustache/people/popover.mustache'}}
+              {{/using}}
+            {{/get_custom_attr_value}}
+          </div>
+        {{else}}
+          <div class="owner tree-title-area">
+            {{#instance}}
+              {{#switch type}}
+                {{#case 'Audit'}}
+                  {{> '/static/mustache/audits/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Control'}}
+                  {{> '/static/mustache/controls/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Directive'}}
+                  {{> '/static/mustache/directives/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Objective'}}
+                  {{> '/static/mustache/objectives/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Person'}}
+                  {{> '/static/mustache/people/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Program'}}
+                  {{> '/static/mustache/programs/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Section'}}
+                  {{> '/static/mustache/sections/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'RiskAssessment'}}
+                  {{> '/static/mustache/risk_assessments/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#case 'Workflow'}}
+                  {{> '/static/mustache/workflows/tree-item-attr.mustache'}}
+                {{/case}}
+                {{#default}}
+                  {{> '/static/mustache/base_objects/tree-item-attr.mustache'}}
+                {{/default}}
+              {{/switch}}
+            {{/instance}}
+          </div>
+        {{/if_equals}}
+      </div>
+    {{/displayAttrs}}
   </div>
   <tree-item-extra-info {instance}="instance.instance"></tree-item-extra-info>
 </div>
@@ -26,4 +78,5 @@
                     {limit-depth-tree}="limitDepthTree"
                     {is-open}="expanded"
   ></sub-tree-wrapper>
+</div>
 </div>

@@ -3,9 +3,44 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-{{#if loadingInProgress}}
-  <spinner></spinner>
-{{else}}
-  <tree-view {items}="showedItems"></tree-view>
-{{/if}}
+<div class="flex-box flex-col">
+  <div class="flex-box flex-col header tree-header-content">
+    <div class="flex-box tree-filter">
+      <tree-filter-input class="flex-size-4"
+                         {(filters)}="filters"
+                         (filter)="onFilter"
+      ></tree-filter-input>
+      {{#if statusFilterVisible}}
+        <tree-status-filter class="flex-size-2"
+                            {model-name}="modelName"
+                            {depth}="true"
+                            {(filters)}="filters"
+                            (filter)="onFilter"
+        >
+          <multiselect-dropdown
+            {options}="filterStates"
+            placeholder="Filter by State"
+            plural="States">
+          </multiselect-dropdown>
+        </tree-status-filter>
+      {{/if}}
+      <tree-pagination  class="flex-size-2" {(paging)}="pageInfo"></tree-pagination>
+    </div>
 
+    <tree-header {display-attrs}="displayAttrList"
+                 {sorting-info}="sortingInfo"
+                 (sort)="onSort(%event)"
+    ></tree-header>
+  </div>
+
+  <tree-view style="margin-top: 90px"
+             {items}="showedItems"
+             {limit-depth-tree}="limitDepthTree"
+             {display-attrs}="displayAttrList"
+             {loading}="loading"
+  ></tree-view>
+
+  <div class="tree-footer flex-box">
+    <tree-pagination {(paging)}="pageInfo"></tree-pagination>
+  </div>
+</div>

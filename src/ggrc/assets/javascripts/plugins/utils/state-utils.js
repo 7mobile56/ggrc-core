@@ -122,7 +122,7 @@
     function buildStatusesFilterString(statuses) {
       return statuses.map(function (item) {
         // wrap in quotes
-        return 'Status="' + item + '"';
+        return '"Status"="' + item + '"';
       }).join(' Or ');
     }
 

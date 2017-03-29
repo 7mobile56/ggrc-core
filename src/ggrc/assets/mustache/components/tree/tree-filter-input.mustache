@@ -1,0 +1,20 @@
+{{!
+    Copyright (C) 2017 Google Inc.
+    Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+}}
+
+<div class="tree-filter__expression-holder width-100">
+  <input type="text" class="tree-filter__input width-100" {($value)}="filter">
+  <span class="tree-filter__expression-holder__is-expression">
+        <i class="fa fa-check-circle-o"></i>
+      </span>
+</div>
+
+<div class="flex-box tree-filter__actions">
+  <input type="submit" class="btn btn-small btn-info" value="Filter" ($click)="submit">
+  <input type="reset" class="btn btn-small btn-draft tree-filter__button__reset" value="Reset" ($click)="reset($element)">
+
+  <a id="page-help" class="popover-template" data-get-template="help/filters_helper_content" href="javascript://">
+    <i class="fa fa-question-circle"></i>
+  </a>
+</div>

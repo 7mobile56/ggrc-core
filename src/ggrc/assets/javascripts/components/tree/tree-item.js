@@ -24,14 +24,28 @@
             classes.push('t-' + instance.workflow_state);
           }
 
+          if (this.attr('expanded')) {
+            classes.push('open-item');
+          }
+
           return classes.join(' ');
         }
       },
       expanded: {
         type: Boolean,
         value: false
+      },
+      selectableSize: {
+        type: Number,
+        get: function () {
+          var sizeMap = [1, 1, 1, 1, 2, 2, 2];
+          var attrCount = this.attr('displayAttrs').length;
+
+          return attrCount < sizeMap.length ? sizeMap[attrCount] : 3;
+        }
       }
     },
+    displayAttrs: [],
     instance: null,
     limitDepthTree: 0,
     onExpand: function () {
