@@ -52,6 +52,7 @@
 
         this.attr('saving', true);
 
+        // todo: save
         this.__backendSave(toSave)
           .done(function () {
             if (self.attr('autoSaveAfterSave')) {
@@ -61,6 +62,7 @@
 
             self.attr('allSaved', true);
           })
+          // todo: error handling
           .always(function () {
             self.attr('saving', false);
           });
@@ -85,6 +87,7 @@
       saveDisabled: function () {
         return !this.attr('fieldsToSaveAvailable') || this.attr('saving');
       },
+      // todo
       prepareFormFields: function (instance) {
         var self = this;
         var fields =
@@ -103,7 +106,6 @@
             });
         this.attr('fields', fields);
       },
-      // todo
       __getFieldValue: function (type, value, valueObj) {
         if (type === 'checkbox') {
           return value === '1';
