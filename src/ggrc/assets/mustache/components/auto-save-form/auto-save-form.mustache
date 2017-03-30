@@ -20,24 +20,52 @@
           <i class="fa fa-question-circle" rel="tooltip" title="{{helptext}}"></i>
         {{/if}}
       </div>
-      <auto-save-form-field
-        {type}="type"
-        {value}="value"
-        {field-id}="id"
-        {placeholder}="placeholder"
-        {options}="options"
-        (value-changed)="fieldValueChanged(%event)"
-      ></auto-save-form-field>
+      {{#if editMode}}
+        <auto-save-form-field
+          {type}="type"
+          {value}="value"
+          {field-id}="id"
+          {placeholder}="placeholder"
+          {options}="options"
+          (value-changed)="fieldValueChanged(%event)"
+        ></auto-save-form-field>
+      {{else}}
+        {{#switch type}}
+          {{#case 'input'}}
+            {{value}}
+          {{/case}}
+          {{#case 'text'}}
+          {{/case}}
+          {{#case 'checkbox'}}
+          {{/case}}
+          {{#case 'dropdown'}}
+          {{/case}}
+          {{#case 'date'}}
+          {{/case}}
+          {{#case 'person'}}
+          {{/case}}
+        {{/switch}}
+      {{/if}}
     </div>
   {{/fields}}
 </div>
 <br>
-<button ($click)="save()"
-        class="save-button"
-        {{#saveDisabled}}disabled{{/saveDisabled}}>
-  {{#if saving}}
-    Saving...
-  {{else}}
-    Save
-  {{/if}}
-</button>
+{{#if editMode}}
+  <button ($click)="view()"
+          {{#viewDisabled}}disabled{{/viewDisabled}}>
+    View
+  </button>
+  <button ($click)="save()"
+          class="save-button"
+          {{#saveDisabled}}disabled{{/saveDisabled}}>
+    {{#if saving}}
+      Saving...
+    {{else}}
+      Save
+    {{/if}}
+  </button>
+{{else}}
+  <button ($click)="edit()">
+    Edit
+  </button>
+{{/if}}

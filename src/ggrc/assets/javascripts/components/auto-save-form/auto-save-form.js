@@ -14,6 +14,7 @@
       '/components/auto-save-form/auto-save-form.mustache'
     ),
     viewModel: {
+      editMode: true,
       saving: false,
       allSaved: false,
       fieldsToSave: new can.Map(),
@@ -88,6 +89,15 @@
         return !this.attr('fieldsToSaveAvailable') || this.attr('saving');
       },
       // todo
+      viewDisabled: function () {
+        return this.attr('fieldsToSaveAvailable') || this.attr('saving');
+      },
+      view: function () {
+        this.attr('editMode', false);
+      },
+      edit: function () {
+        this.attr('editMode', true);
+      },
       prepareFormFields: function (instance) {
         var self = this;
         var fields =
