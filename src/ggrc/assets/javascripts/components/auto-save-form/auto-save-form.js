@@ -38,7 +38,11 @@
       },
       save: function () {
         var self = this;
-        var toSave = this.attr('fieldsToSave').attr();
+        var toSave = {};
+
+        this.attr('fieldsToSave').each(function (v, k) {
+          toSave[k] = v;
+        });
 
         this.attr('fieldsToSave', new can.Map());
         this.attr('fieldsToSaveAvailable', false);
@@ -90,7 +94,7 @@
               return {
                 type: attr.attributeType,
                 id: attr.def.id,
-                value: self.__getFieldValue(attr.attributeType, attr.attribute_value),
+                value: self.__getFieldValue(attr.attributeType, attr.attribute_value, attr.attribute_object),
                 title: attr.def.title,
                 placeholder: attr.def.placeholder,
                 options: options && _.isString(options) ? options.split(',') : [],

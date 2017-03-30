@@ -54,6 +54,12 @@
                            (value-changed)="fieldValueChanged(%event)"
           ></date-form-field>
         {{/case}}
+        {{#case 'person'}}
+          <person-form-field {value}="value"
+                             {field-id}="id"
+                             (value-changed)="fieldValueChanged(%event)"
+          ></person-form-field>
+        {{/case}}
       {{/switch}}
     </div>
   {{/fields}}
