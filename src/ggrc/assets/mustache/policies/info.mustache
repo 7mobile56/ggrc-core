@@ -84,15 +84,5 @@
 
   </section>
 
-  <div class="info-widget-footer">
-    <p>
-      <small>
-        <em>
-          Created at {{date created_at}}
-          &nbsp;&nbsp;&nbsp;&nbsp;
-          Modified by {{#using person=modified_by}}{{>'/static/mustache/people/popover.mustache'}}{{/using}} on {{date updated_at}}
-        </em>
-      </small>
-    </p>
-  </div>
+  <info-pane-footer {created-at}="instance.created_at" {modified-at}="instance.updated_at" {modified-by}="instance.modified_by"></info-pane-footer>
 {{/instance}}

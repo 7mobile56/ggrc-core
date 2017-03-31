@@ -2,22 +2,7 @@
     Copyright (C) 2017 Google Inc.
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-
-{{#if instance}}
-  {{#if is_info_pin}}
-      <info-pin-buttons class="details-wrap" {(maximized)}="maximized" {on-change-maximized-state}="@onChangeMaximizedState"
-                        {on-close}="@onClose"></info-pin-buttons>
-  {{/if}}
+{{if instance}}
   <assessment-info-pane {(instance)}="instance"></assessment-info-pane>
-  <div class="info-widget-footer">
-      <p>
-          <small>
-              <em>
-                  Created at {{localize_date instance.created_at}}
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  Modified by <person-info {person-obj}="instance.modified_by"></person-info> on {{localize_date instance.updated_at}}
-              </em>
-          </small>
-      </p>
-  </div>
+  <info-pane-footer {created-at}="instance.created_at" {modified-at}="instance.updated_at" {modified-by}="instance.modified_by"></info-pane-footer>
 {{/if}}
