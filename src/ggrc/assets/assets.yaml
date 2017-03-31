@@ -263,6 +263,7 @@ dashboard-js-files:
   - components/auto-save-form/fields/date-form-field.js
   - components/auto-save-form/fields/person-form-field.js
   - components/auto-save-form/field-views/text-form-field-view.js
+  - components/auto-save-form/field-views/rich-text-form-field-view.js
   #- d3.v2.js
   #- related_graph.js
 
@@ -457,6 +458,7 @@ dashboard-js-template-files:
   - components/auto-save-form/fields/date-form-field.mustache
   - components/auto-save-form/fields/person-form-field.mustache
   - components/auto-save-form/field-views/text-form-field-view.mustache
+  - components/auto-save-form/field-views/rich-text-form-field-view.mustache
   - custom_attributes/modal_content.mustache
   - custom_attributes/info.mustache
   - custom_attribute_definitions/modal_content.mustache

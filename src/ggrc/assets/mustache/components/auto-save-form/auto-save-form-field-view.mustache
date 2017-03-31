@@ -9,4 +9,20 @@
       {value}="value"
     ></text-form-field-view>
   {{/case}}
+  {{#case 'text'}}
+    <rich-text-form-field-view
+      {value}="value"
+    ></rich-text-form-field-view>
+  {{/case}}
+  {{#case 'checkbox'}}
+  {{/case}}
+  {{#case 'dropdown'}}
+    <text-form-field-view
+      {value}="value"
+    ></text-form-field-view>
+  {{/case}}
+  {{#case 'date'}}
+  {{/case}}
+  {{#case 'person'}}
+  {{/case}}
 {{/switch}}
