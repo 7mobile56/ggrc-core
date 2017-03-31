@@ -220,11 +220,16 @@ person-form-field {
   }
 }
 
-text-form-field-view {
+text-form-field-view,
+rich-text-form-field-view {
   display: block;
 
   .view-wrapper {
     overflow: hidden;
     word-wrap: break-word;
   }
+}
+
+checkbox-form-field-view {
+  display: block;
 }
