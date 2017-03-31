@@ -233,3 +233,13 @@ rich-text-form-field-view {
 checkbox-form-field-view {
   display: block;
 }
+
+date-form-field-view {
+  display: block;
+
+  .view-wrapper {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
