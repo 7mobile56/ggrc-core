@@ -32,10 +32,11 @@
                         </assessment-attachments-list>
                         <assessment-urls-list></assessment-urls-list>
                     </div>
-                    <assessment-custom-attributes {(instance)}="instance"
-                                                  {(items)}="instance.custom_attribute_values"
-                                                  class="assessment-custom-attributes flex-box flex-box-multi">
-                    </assessment-custom-attributes>
+                    <!--<assessment-custom-attributes {(instance)}="instance"-->
+                                                  <!--{(items)}="instance.custom_attribute_values"-->
+                                                  <!--class="assessment-custom-attributes flex-box flex-box-multi">-->
+                    <!--</assessment-custom-attributes>-->
+                    <auto-save-form {instance}="instance"></auto-save-form>
                     <assessment-controls-toolbar class="assessment-controls-toolbar"
                                                  {instance}="instance"></assessment-controls-toolbar>
                 </div>
