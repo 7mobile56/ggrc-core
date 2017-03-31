@@ -133,44 +133,34 @@
         return GGRC.Utils.QueryAPI
           .buildParam(type, {}, relevantFilters, [], []);
       },
-      loadSnapshots: function () {
+      requestQuery: function (query) {
         var dfd = can.Deferred();
-        var query = this.getSnapshotQuery();
         this.attr('isLoading', true);
         GGRC.Utils.QueryAPI
           .batchRequests(query)
           .done(function (response) {
-            var values = response.Snapshot.values;
+            var type = Object.keys(response)[0];
+            var values = response[type].values;
             var result = values.map(function (item) {
               return {instance: item, isSelected: false};
             });
             dfd.resolve(result);
+          })
+          .fail(function () {
+            dfd.resolve([]);
           })
           .always(function () {
             this.attr('isLoading', false);
           }.bind(this));
         return dfd;
       },
+      loadSnapshots: function () {
+        var query = this.getSnapshotQuery();
+        return this.requestQuery(query);
+      },
       loadObjects: function () {
-        var dfd = can.Deferred();
         var query = this.getObjectQuery();
-        this.attr('isLoading', true);
-        GGRC.Utils.QueryAPI
-          .batchRequests(query)
-          .done(function (response) {
-            var result = [];
-            var type = Object.keys(response)[0];
-            var values = response[type].values;
-            values.forEach(function (item) {
-              result.push({instance: item, isSelected: false});
-            });
-
-            dfd.resolve(result);
-          })
-          .always(function () {
-            this.attr('isLoading', false);
-          }.bind(this));
-        return dfd;
+        return this.requestQuery(query);
       },
       load: function () {
         var dfd = can.Deferred();
