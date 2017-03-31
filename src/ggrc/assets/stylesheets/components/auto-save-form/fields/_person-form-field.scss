@@ -1,0 +1,49 @@
+/*
+ * Copyright (C) 2017 Google Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+ */
+
+person-form-field {
+  display: block;
+
+  .input-wrapper {
+    .person-info-wrapper {
+      display: flex;
+      align-items: center;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      height: 28px;
+      line-height: 28px;
+      border-radius: 2px;
+      padding: 4px;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+      a {
+        flex: 0 1;
+
+        i {
+          color: $icon-color-dark;
+        }
+
+        &:hover i {
+          color: #000;
+        }
+      }
+
+      person-info {
+        display: block;
+        flex: 1 1;
+        width: 0;
+        overflow: hidden;
+      }
+    }
+
+    autocomplete {
+      input {
+        border-radius: 2px;
+        margin: 0;
+      }
+    }
+  }
+}

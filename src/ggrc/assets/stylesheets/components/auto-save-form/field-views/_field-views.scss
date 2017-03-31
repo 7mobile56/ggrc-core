@@ -1,0 +1,28 @@
+/*
+ * Copyright (C) 2017 Google Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+ */
+
+text-form-field-view,
+rich-text-form-field-view {
+  display: block;
+
+  .view-wrapper {
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+}
+
+checkbox-form-field-view {
+  display: block;
+}
+
+date-form-field-view {
+  display: block;
+
+  .view-wrapper {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

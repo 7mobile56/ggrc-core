@@ -1,0 +1,44 @@
+/*
+ * Copyright (C) 2017 Google Inc.
+ * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
+ */
+
+rich-text-form-field {
+  display: block;
+
+  .input-wrapper {
+    .ql-container {
+      background: #fff;
+      height: 62px;
+      padding: 4px !important;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+
+      .ql-editor {
+        min-height: 100%;
+      }
+    }
+
+    .rich-text__wrapper {
+      transition: border linear .2s, box-shadow linear .2s;
+    }
+
+    &.focused {
+      .rich-text__wrapper {
+        border-color: rgba(82, 168, 236, 0.8);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+      }
+    }
+
+    &:not(.focused) {
+      .ql-container {
+        color: #555;
+        height: 93px;
+      }
+
+      .ql-toolbar,
+      .ql-tooltip {
+        display: none;
+      }
+    }
+  }
+}
