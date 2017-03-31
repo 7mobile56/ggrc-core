@@ -16,6 +16,30 @@
     var allTypes = Object.keys(baseWidgets.serialize());
     var orderedModelsForSubTier = {};
 
+    var QueryAPI = GGRC.Utils.QueryAPI;
+    var CurrentPage = GGRC.Utils.CurrentPage;
+    var Snapshots = GGRC.Utils.Snapshots;
+
+    var SUB_TREE_ELEMENTS_LIMIT = 20;
+    var SUB_TREE_FIELDS = Object.freeze([
+      'child_id',
+      'child_type',
+      'context',
+      'email',
+      'id',
+      'is_latest_revision',
+      'name',
+      'revision',
+      'revisions',
+      'selfLink',
+      'slug',
+      'status',
+      'title',
+      'type',
+      'viewLink',
+      'workflow_state'
+    ]);
+
     allTypes.forEach(function (type) {
       var related = baseWidgets[type].slice(0);
 
@@ -216,11 +240,168 @@
       return orderedModelsForSubTier[model] || [];
     }
 
+    /**
+     *
+     * @param type
+     * @param id
+     */
+    function loadItemsForSubTier(type, id) {
+      var allModels = getModelsForSubTier(type);
+      var loadedModels = [];
+      var relevant = {
+        type: type,
+        id: id,
+        operation: 'relevant'
+      };
+      var showMore = false;
+
+      return _buildSubTreeCountMap(allModels, relevant)
+        .then(function (result) {
+          var countMap = result.countsMap;
+          var reqParams;
+
+          loadedModels = Object.keys(countMap);
+          showMore = result.showMore;
+
+          reqParams = loadedModels.map(function (model) {
+            return QueryAPI.buildParam(
+              model,
+              {
+                current: 1,
+                pageSize: countMap[model]
+              },
+              relevant,
+              SUB_TREE_FIELDS);
+          });
+
+          if (Snapshots.isSnapshotParent(relevant.type) ||
+            Snapshots.isInScopeModel(relevant.type)) {
+            reqParams = reqParams.map(function (item) {
+              if (Snapshots.isSnapshotModel(item.object_name)) {
+                item = Snapshots.transformQuery(item);
+              }
+              return item;
+            })
+          }
+
+          return QueryAPI.makeRequest({data: reqParams});
+        })
+        .then(function (response) {
+          var directlyRelated = [];
+          var notRelated = [];
+
+          loadedModels.forEach(function (modelName, index) {
+            var values;
+
+            if (Snapshots.isSnapshotModel(modelName) &&
+              response[index].Snapshot) {
+              values = response[index].Snapshot.values;
+            } else {
+              values = response[index][modelName].values;
+            }
+
+            values.forEach(function (source) {
+              var instance = _createInstance(source, modelName);
+
+              if (_isDirectlyRelated(instance)) {
+                directlyRelated.push(instance)
+              } else {
+                notRelated.push(instance);
+              }
+            });
+          });
+
+          return {
+            directlyItems: directlyRelated,
+            notDirectlyItems: notRelated,
+            showMore: showMore
+          }
+        });
+    }
+
+    /**
+     *
+     * @param models
+     * @param relevant
+     * @returns {*}
+     * @private
+     */
+    function _buildSubTreeCountMap (models, relevant) {
+      var countQuery = QueryAPI.buildCountParams(models, relevant);
+
+      return QueryAPI.makeRequest({data: countQuery}).then(function (response) {
+        var countMap = {};
+        var total = 0;
+        var showMore = models.some(function (model, index) {
+          var count = response[index][model].total;
+
+          if (!count) {
+            return;
+          }
+
+          if (total + count < SUB_TREE_ELEMENTS_LIMIT) {
+            countMap[model] = count;
+          } else {
+            countMap[model] = SUB_TREE_ELEMENTS_LIMIT - total;
+          }
+
+          total += count;
+
+          return total >= SUB_TREE_ELEMENTS_LIMIT;
+        });
+
+
+        return {
+          countsMap: countMap,
+          showMore: showMore
+        };
+      });
+    }
+
+    /**
+     *
+     * @param source
+     * @param modelName
+     * @returns {*}
+     * @private
+     */
+    function _createInstance(source, modelName) {
+      var instance;
+
+      if (source.type === 'Snapshot') {
+        instance = Snapshots.toObject(source);
+      } else {
+        instance = CMS.Models[modelName].model(source);
+      }
+      return instance;
+    }
+
+    /**
+     *
+     * @param instance
+     * @private
+     */
+    function _isDirectlyRelated(instance) {
+      var needToSplit = CurrentPage.isObjectContextPage();
+      var relates = CurrentPage.related.attr(instance.type);
+      var result = true;
+      var instanceId = Snapshots.isSnapshot(instance) ?
+        instance.snapshot.child_id :
+        instance.id;
+
+      if (needToSplit) {
+        result = !!(relates && relates[instanceId]);
+      }
+
+      return result;
+    }
+
     return {
       getColumnsForModel: getColumnsForModel,
       setColumnsForModel: setColumnsForModel,
       displayTreeSubpath: displayTreeSubpath,
-      getModelsForSubTier: getModelsForSubTier
+      getModelsForSubTier: getModelsForSubTier,
+      loadItemsForSubTier: loadItemsForSubTier
     };
   })();
 })(window.GGRC);

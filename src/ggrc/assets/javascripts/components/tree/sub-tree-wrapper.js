@@ -8,27 +8,8 @@
 
   var template = can.view(GGRC.mustache_path +
     '/components/tree/sub-tree-wrapper.mustache');
-  var QueryAPI = GGRC.Utils.QueryAPI;
-  var Snapshots = GGRC.Utils.Snapshots;
+  var TreeViewUtils = GGRC.Utils.TreeView;
   var CurrentPage = GGRC.Utils.CurrentPage;
-  var SUB_TREE_FIELDS = [
-    'child_id',
-    'child_type',
-    'context',
-    'email',
-    'id',
-    'is_latest_revision',
-    'name',
-    'revision',
-    'revisions',
-    'selfLink',
-    'slug',
-    'status',
-    'title',
-    'type',
-    'viewLink',
-    'workflow_state'
-  ];
 
   var viewModel = can.Map.extend({
     define: {
@@ -51,6 +32,13 @@
         value: false
       },
       drawRelated: {
+        type: Boolean,
+        value: false
+      },
+      /**
+       *
+       */
+      showMore: {
         type: Boolean,
         value: false
       },
@@ -82,46 +70,18 @@
     loadItems: function () {
       var parentType = this.attr('parentModel');
       var parentId = this.attr('parentId');
-      var originalOrder = GGRC.Utils.TreeView.getModelsForSubTier(parentType);
-      var relevant = {
-        type: parentType,
-        id: parentId,
-        operation: 'relevant'
-      };
-      var reqParams = originalOrder.map(function (model) {
-        return QueryAPI.buildParam(model, {}, relevant, SUB_TREE_FIELDS, null);
-      });
+
       this.attr('loading', true);
 
-      return QueryAPI.makeRequest({data: reqParams})
-        .then(function (response) {
-          var related = CurrentPage.related;
-          var needToSplit = this.attr('needToSplit');
-          var directlyRelated = [];
-          var notRelated = [];
-
-          originalOrder.forEach(function (modelName, idx) {
-            var values = can.makeArray(response[idx][modelName].values);
-
-            values.forEach(function (source) {
-              var relates = related.attr(source.type);
-              if (!needToSplit || relates && relates[source.id]) {
-                directlyRelated.push({
-                  instance: CMS.Models[modelName].model(source)
-                });
-              } else {
-                notRelated.push({
-                  instance: CMS.Models[modelName].model(source)
-                });
-              }
-            });
-          });
+      return TreeViewUtils.loadItemsForSubTier(parentType, parentId)
+        .then(function (result) {
           this.attr('loading', false);
-          this.attr('directlyItems', directlyRelated);
-          this.attr('notDirectlyItems', notRelated);
+          this.attr('directlyItems', result.directlyItems);
+          this.attr('notDirectlyItems', result.notDirectlyItems);
           this.attr('dataIsReady', true);
+          this.attr('showMore', result.showMore);
 
-          if (!directlyRelated.length && !notRelated.length) {
+          if (!result.directlyItems.length && !result.notDirectlyItems.length) {
             this.attr('notResult', true);
           }
         }.bind(this));

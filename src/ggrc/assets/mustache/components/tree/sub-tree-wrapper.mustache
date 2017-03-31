@@ -8,30 +8,42 @@
 {{else}}
   {{#if isOpen}}
     {{#directlyItems}}
-      <sub-tree-item {instance}="instance" {limit-depth-tree}="limitDepthTree">{{title}}</sub-tree-item>
+      <sub-tree-item class="directly-related"
+                     {instance}="."
+                     {limit-depth-tree}="limitDepthTree"
+      ></sub-tree-item>
     {{/directlyItems}}
 
     {{#if showMore}}
-      Show more
+      <div class="sub-tree-link">
+        <a href="{{showAllRelatedLink}}" target="_blank">
+          Open in new tab to see all
+        </a>
+      </div>
     {{/if}}
 
     {{#if needToSplit}}
-    <sub-tree-expander (expandNotDirectly)="expandNotDirectlyRelated()" {expanded}="notDirectlyExpanded" disabled="disabled" display="display">
-      <a ($click)="expandNotDirectly()" href="javascript://">
-        <i class="fa fa-caret-{{#if expanded}}down{{else}}right{{/if}}"></i>
-        Show objects not directly related to this {{contextName}}
-      </a>
-    </sub-tree-expander>
+      <div class="sub-tree-link">
+        <sub-tree-expander (expandNotDirectly)="expandNotDirectlyRelated()" {expanded}="notDirectlyExpanded" disabled="disabled" display="display">
+          <a ($click)="expandNotDirectly()" href="javascript://">
+            <i class="fa fa-caret-{{#if expanded}}down{{else}}right{{/if}}"></i>
+            Show objects not directly related to this {{contextName}}
+          </a>
+        </sub-tree-expander>
+      </div>
 
     {{#if notDirectlyExpanded}}
     {{#notDirectlyItems}}
-      <sub-tree-item {instance}="instance" {limit-depth-tree}="limitDepthTree">{{title}}</sub-tree-item>
+      <sub-tree-item class="not-directly-related"
+                     {instance}="."
+                     {limit-depth-tree}="limitDepthTree"
+      ></sub-tree-item>
     {{/notDirectlyItems}}
     {{/if}}
     {{/if}}
 
     {{#if notResult}}
-      Nothing to show
+      <tree-no-results/>
     {{/if}}
   {{/if}}
 {{/if}}

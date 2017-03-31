@@ -3,13 +3,15 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="sub-item-content">
+<div class="sub-item-content {{cssClasses}}">
   <tree-item-actions {instance}="instance"
                      (expand)="onExpand()"
                      {deep-limit}="limitDepthTree"
   ></tree-item-actions>
-  <i class="fa fa-{{instance.class.table_singular}}"></i>
-  <span class="title">{{instance.title}}</span>
+  <span class="title">
+      <i class="fa fa-{{instance.class.table_singular}}"></i>
+      {{title}}
+  </span>
   <tree-item-extra-info {instance}="instance"></tree-item-extra-info>
 </div>
 

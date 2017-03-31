@@ -13,6 +13,27 @@
       expanded: {
         type: Boolean,
         value: false
+      },
+      cssClasses: {
+        type: String,
+        get: function () {
+          var classes = [];
+          var instance = this.attr('instance');
+
+          if (instance.snapshot) {
+            classes.push('snapshot');
+          }
+
+          return classes.join(' ');
+        }
+      },
+      title: {
+        type: String,
+        get: function () {
+          var instance = this.attr('instance');
+          return instance.title || instance.description_inline ||
+            instance.name || instance.email || '';
+        }
       }
     },
     onExpand: function () {
