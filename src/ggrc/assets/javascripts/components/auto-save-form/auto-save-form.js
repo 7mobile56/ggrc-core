@@ -94,6 +94,8 @@
       },
       view: function () {
         this.attr('editMode', false);
+
+        this.prepareFormFields(this.attr('instance'));
       },
       edit: function () {
         this.attr('editMode', true);
