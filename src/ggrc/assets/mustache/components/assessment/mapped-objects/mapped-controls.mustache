@@ -19,13 +19,13 @@
       </i>
   {{/is_allowed}}
 </div>
-<mapped-objects {(selected-item)}="selectedItem" {parent-instance}="instance" {filter}="filter" {mapped-snapshots}="mappedSnapshots">
+<object-list {(selected-item)}="selectedItem" {items}="mappedItems">
     <business-object-list-item {instance}="instance">
         <div class="description">
             <read-more {text}="itemData.description" max-text-length="90"></read-more>
         </div>
     </business-object-list-item>
-</mapped-objects>
+</object-list>
 <object-popover class="object-popover" {item}="selectedItem">
     <detailed-business-object-list-item {instance}="item.data" {^object-title}="popoverTitle" {^object-link}="popoverLink"></detailed-business-object-list-item>
     <assessment-mapped-controls-popover class="assessment-mapped-controls-popover" {instance-id}="item.data.id" {^perform-loading}="expanded"></assessment-mapped-controls-popover>

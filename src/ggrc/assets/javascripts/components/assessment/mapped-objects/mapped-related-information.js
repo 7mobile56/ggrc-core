@@ -17,17 +17,23 @@
     tag: tag,
     template: tpl,
     viewModel: {
-      titleText: '@',
-      mappedSnapshots: true,
-      filter: {
-        exclude: ['Control'],
-        only: []
+      define: {
+        mappedItems: {
+          set: function (newArr) {
+            return newArr.map(function (item) {
+              return {
+                isSelected: false,
+                instance: item
+              };
+            });
+          }
+        }
       },
+      titleText: '@',
       mapping: '@',
       mappingType: '@',
       expanded: true,
-      selectedItem: {},
-      instance: null
+      selectedItem: {}
     }
   });
 })(window.can, window.GGRC);
