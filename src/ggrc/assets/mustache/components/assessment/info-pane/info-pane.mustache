@@ -4,6 +4,9 @@
 }}
 
 <section class="assessment-module info{{#is_info_pin}} sticky-info-panel assignable{{/is_info_pin}}">
+  {{#is_info_pin}}
+      <info-pin-buttons class="details-wrap" maximized="maximized" on-change-maximized-state="@onChangeMaximizedState" on-close="@onClose"></info-pin-buttons>
+  {{/is_info_pin}}
     <div class="tier-content">
       {{> '/static/mustache/assessments/header.mustache' }}
         <div class="assessment-info-pane flex-box">

@@ -2,7 +2,7 @@
     Copyright (C) 2017 Google Inc.
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
-{{if instance}}
+{{#if instance}}
   <assessment-info-pane {(instance)}="instance"></assessment-info-pane>
   <info-pane-footer {created-at}="instance.created_at" {modified-at}="instance.updated_at" {modified-by}="instance.modified_by"></info-pane-footer>
 {{/if}}

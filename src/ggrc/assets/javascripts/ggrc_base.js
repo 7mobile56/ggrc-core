@@ -26,12 +26,6 @@
     h.push(hook);
   };
 
-  GGRC.current_url_compute = can.compute(function() {
-    var path = window.location.pathname,
-      fragment = window.location.hash;
-    return window.encodeURIComponent(path + fragment);
-  });
-
   var onbeforeunload = function (evnt) {
       evnt = evnt || window.event;
       var message = 'There are operations in progress. Are you sure you want to leave the page?';
