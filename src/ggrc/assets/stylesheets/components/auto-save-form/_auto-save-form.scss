@@ -54,6 +54,10 @@ auto-save-form {
         padding-right: 20px;
         max-width: 360px;
       }
+
+      .view-wrapper {
+        padding-right: 20px;
+      }
     }
   }
 
@@ -213,5 +217,14 @@ person-form-field {
         margin: 0;
       }
     }
+  }
+}
+
+text-form-field-view {
+  display: block;
+
+  .view-wrapper {
+    overflow: hidden;
+    word-wrap: break-word;
   }
 }

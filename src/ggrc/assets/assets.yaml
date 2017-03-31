@@ -255,12 +255,14 @@ dashboard-js-files:
   - components/assessment/info-pane/info-pane.js
   - components/auto-save-form/auto-save-form.js
   - components/auto-save-form/auto-save-form-field.js
+  - components/auto-save-form/auto-save-form-field-view.js
   - components/auto-save-form/fields/text-form-field.js
   - components/auto-save-form/fields/rich-text-form-field.js
   - components/auto-save-form/fields/checkbox-form-field.js
   - components/auto-save-form/fields/dropdown-form-field.js
   - components/auto-save-form/fields/date-form-field.js
   - components/auto-save-form/fields/person-form-field.js
+  - components/auto-save-form/field-views/text-form-field-view.js
   #- d3.v2.js
   #- related_graph.js
 
@@ -447,12 +449,14 @@ dashboard-js-template-files:
   - components/page-header/page-header.mustache
   - components/auto-save-form/auto-save-form.mustache
   - components/auto-save-form/auto-save-form-field.mustache
+  - components/auto-save-form/auto-save-form-field-view.mustache
   - components/auto-save-form/fields/text-form-field.mustache
   - components/auto-save-form/fields/rich-text-form-field.mustache
   - components/auto-save-form/fields/checkbox-form-field.mustache
   - components/auto-save-form/fields/dropdown-form-field.mustache
   - components/auto-save-form/fields/date-form-field.mustache
   - components/auto-save-form/fields/person-form-field.mustache
+  - components/auto-save-form/field-views/text-form-field-view.mustache
   - custom_attributes/modal_content.mustache
   - custom_attributes/info.mustache
   - custom_attribute_definitions/modal_content.mustache
