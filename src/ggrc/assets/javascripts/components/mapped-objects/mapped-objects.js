@@ -197,20 +197,6 @@
         }
         objects = loadFn.call(this);
         this.attr('mappedItems').replace(objects);
-        objects.then(function (data) {
-          if (!this.parentInstance.mappedSnapshots) {
-            this.parentInstance.mappedSnapshots = [];
-          }
-          data.forEach(function (item) {
-            var childIds = this.parentInstance.mappedSnapshots
-              .map(function (i) {
-                return i.instance.child_id;
-              });
-            if (childIds.indexOf(item.instance.child_id) < 0) {
-              this.parentInstance.mappedSnapshots.push(item);
-            }
-          }.bind(this));
-        }.bind(this));
       }
     },
     init: function () {
