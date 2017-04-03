@@ -52,10 +52,10 @@
               {{^if_in instance.status 'Completed,Final'}}
                 {{#is_allowed 'update' instance context='for'}}
                     <assessment-add-comment class="assessment-comments-add"
-                                            instance="instance"></assessment-add-comment>
+                                            {instance}="instance"></assessment-add-comment>
                 {{/is_allowed}}
               {{/if_in}}
-              {{> '/static/mustache/base_templates/comment_list.mustache' }}
+            <assessment-mapped-comments {mapped-items}="comments"></assessment-mapped-comments>
             </div>
         </div>
         <div class="tabs-wrap">

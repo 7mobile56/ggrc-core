@@ -17,9 +17,7 @@
     viewModel: {
       define: {
         mappedSnapshots: {
-          value: function () {
-            return [];
-          }
+          Value: can.List
         },
         controls: {
           get: function () {
@@ -36,9 +34,12 @@
                 return item.child_type !== 'Control';
               });
           }
-        }
+        },
+        comments: {
+          Value: can.List
+        },
+        instance: {}
       },
-      instance: null,
       getSnapshotQuery: function () {
         var relevantFilters = [{
           type: this.attr('instance.type'),
@@ -47,6 +48,15 @@
         }];
         return GGRC.Utils.QueryAPI
           .buildParam('Snapshot', {}, relevantFilters, [], []);
+      },
+      getCommentsQuery: function () {
+        var relevantFilters = [{
+          type: this.attr('instance.type'),
+          id: this.attr('instance.id'),
+          operation: 'relevant'
+        }];
+        return GGRC.Utils.QueryAPI
+          .buildParam('Comment', {}, relevantFilters, [], []);
       },
       requestQuery: function (query) {
         var dfd = can.Deferred();
@@ -69,11 +79,17 @@
       loadSnapshots: function () {
         var query = this.getSnapshotQuery();
         return this.requestQuery(query);
+      },
+      loadComments: function () {
+        var query = this.getCommentsQuery();
+        return this.requestQuery(query);
       }
     },
     init: function () {
       this.viewModel.attr('mappedSnapshots')
         .replace(this.viewModel.loadSnapshots());
+      this.viewModel.attr('comments')
+        .replace(this.viewModel.loadComments());
     },
     events: {
       '{viewModel.instance} related_destinations': function () {
