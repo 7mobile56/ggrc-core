@@ -124,13 +124,12 @@
               });
 
             $('body').trigger('treeupdate');
-            return GGRC.Utils.QueryAPI
+            return GGRC.Utils.CurrentPage
               .initCounts([
                 WorkflowExtension.countsMap.activeCycles
-              ], {
-                type: workflow.type,
-                id: workflow.id
-              });
+              ],
+                workflow.type,
+                workflow.id);
           }, restore_button).then(restore_button);
         } else {
           _generate_cycle().then(function () {

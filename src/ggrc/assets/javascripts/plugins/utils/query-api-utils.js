@@ -25,7 +25,6 @@
      * @property {object} filters - Filter properties
      */
 
-    var widgetsCounts = new can.Map({});
     var BATCH_TIMEOUT = 100;
     var batchQueue = [];
     var batchTimeout = null;
@@ -99,7 +98,7 @@
 
       params.object_name = objName;
       params.filters =
-        _makeFilter(objName, page.filter, relevant, additionalFilter);
+        _makeFilter(page.filter, relevant, additionalFilter);
       params.type = 'ids';
 
       return params;
@@ -134,7 +133,7 @@
 
       params.object_name = objName;
       params.filters =
-        _makeFilter(objName, page.filter, relevant, additionalFilter);
+        _makeFilter(page.filter, relevant, additionalFilter);
 
       if (page.current && page.pageSize) {
         first = (page.current - 1) * page.pageSize;
@@ -178,84 +177,13 @@
         param.type = 'count';
 
         if (relevant) {
-          param.filters = _makeFilter(objName, filter, relevant);
+          param.filters = _makeFilter(filter, relevant);
         }
 
         return param;
       });
 
       return params;
-    }
-
-    /**
-     * Counts for related objects.
-     *
-     * @return {can.Map} Promise which return total count of objects.
-     */
-    function getCounts() {
-      return widgetsCounts;
-    }
-
-    /**
-     * Update Page Counts
-     * @param {Array|Object} widgets - list of widgets
-     * @param {Object} relevant - relevant filter
-     * @return {can.Deferred} - resolved deferred object
-     */
-    function initCounts(widgets, relevant) {
-      var params = can.makeArray(widgets)
-        .map(function (widget) {
-          var param = {};
-          if (GGRC.Utils.Snapshots.isSnapshotRelated(relevant.type, widget)) {
-            param = buildParam('Snapshot', {},
-              makeExpression(widget, relevant.type, relevant.id), null,
-              GGRC.query_parser.parse('child_type = ' + widget));
-          } else if (typeof widget === 'string') {
-            param = buildParam(widget, {},
-              makeExpression(widget, relevant.type, relevant.id));
-          } else {
-            param = buildParam(widget.name, {},
-              makeExpression(widget.name, relevant.type, relevant.id),
-              null, widget.additionalFilter);
-          }
-          param.type = 'count';
-          return param;
-        });
-      // Perform requests only if params are defined
-      if (!params.length) {
-        return can.Deferred().resolve();
-      }
-
-      return makeRequest({
-        data: params
-      }).then(function (data) {
-        data.forEach(function (info, i) {
-          var widget = widgets[i];
-          var name = typeof widget === 'string' ? widget : widget.name;
-          var countsName = typeof widget === 'string' ?
-            widget : (widget.countsName || widget.name);
-          if (GGRC.Utils.Snapshots.isSnapshotRelated(relevant.type, name)) {
-            name = 'Snapshot';
-          }
-          getCounts().attr(countsName, info[name].total);
-        });
-      });
-    }
-
-    function refreshCounts() {
-      var pageInstance = GGRC.page_instance();
-      var widgets;
-      var location = window.location.pathname;
-
-      if (!pageInstance) {
-        return can.Deferred().resolve();
-      }
-
-      widgets = GGRC.Utils.CurrentPage
-        .getWidgetModels(pageInstance.constructor.shortName, location);
-
-      return initCounts(widgets,
-        {id: pageInstance.id, type: pageInstance.type});
     }
 
     /**
@@ -277,29 +205,12 @@
       });
     }
 
-    function makeExpression(parent, type, id, operation) {
-      var isObjectBrowser = /^\/objectBrowser\/?$/
-        .test(window.location.pathname);
-      var expression;
-
-      if (!isObjectBrowser) {
-        expression = {
-          type: type,
-          id: id
-        };
-
-        expression.operation = operation ? operation :
-          _getTreeViewOperation(parent);
-      }
-      return expression;
-    }
-
-    function _makeRelevantFilter(filter, objName) {
+    function _makeRelevantFilter(filter) {
       var relevantFilter = GGRC.query_parser.parse('#' + filter.type + ',' +
         filter.id + '#');
 
       if (filter && !filter.operation) {
-        filter.operation = _getTreeViewOperation(objName);
+        filter.operation = 'relevant';
       }
 
       if (filter.operation &&
@@ -310,7 +221,7 @@
       return relevantFilter;
     }
 
-    function _makeFilter(objName, filter, relevant, additionalFilter) {
+    function _makeFilter(filter, relevant, additionalFilter) {
       var relevantFilters;
       var filterList = [];
 
@@ -319,7 +230,7 @@
           relevant :
           can.makeArray(relevant);
         relevantFilters = relevant.map(function (filter) {
-          return _makeRelevantFilter(filter, objName);
+          return _makeRelevantFilter(filter);
         });
         filterList = filterList.concat(relevantFilters);
       }
@@ -342,17 +253,6 @@
       return {expression: {}};
     }
 
-    function _getTreeViewOperation(objectName) {
-      var isDashboard = /dashboard/.test(window.location);
-      var operation;
-      if (isDashboard) {
-        operation = 'owned';
-      } else if (objectName === 'Person') {
-        operation = 'related_people';
-      }
-      return operation;
-    }
-
     function _resolveBatch(queue) {
       makeRequest({
         data: queue.map(function (el) {
@@ -372,10 +272,6 @@
       buildParams: buildParams,
       buildRelevantIdsQuery: buildRelevantIdsQuery,
       makeRequest: makeRequest,
-      getCounts: getCounts,
-      makeExpression: makeExpression,
-      initCounts: initCounts,
-      refreshCounts: refreshCounts,
       batchRequests: batchRequests,
       buildCountParams: buildCountParams
     };

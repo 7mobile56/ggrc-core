@@ -18,7 +18,7 @@
 
     var QueryAPI = GGRC.Utils.QueryAPI;
     var CurrentPage = GGRC.Utils.CurrentPage;
-    var Snapshots = GGRC.Utils.Snapshots;
+    var SnapshotUtils = GGRC.Utils.Snapshots;
 
     var SUB_TREE_ELEMENTS_LIMIT = 20;
     var SUB_TREE_FIELDS = Object.freeze([
@@ -276,11 +276,11 @@
               SUB_TREE_FIELDS);
           });
 
-          if (Snapshots.isSnapshotParent(relevant.type) ||
-            Snapshots.isInScopeModel(relevant.type)) {
+          if (SnapshotUtils.isSnapshotParent(relevant.type) ||
+            SnapshotUtils.isInScopeModel(relevant.type)) {
             reqParams = reqParams.map(function (item) {
-              if (Snapshots.isSnapshotModel(item.object_name)) {
-                item = Snapshots.transformQuery(item);
+              if (SnapshotUtils.isSnapshotModel(item.object_name)) {
+                item = SnapshotUtils.transformQuery(item);
               }
               return item;
             })
@@ -295,7 +295,7 @@
           loadedModels.forEach(function (modelName, index) {
             var values;
 
-            if (Snapshots.isSnapshotModel(modelName) &&
+            if (SnapshotUtils.isSnapshotModel(modelName) &&
               response[index].Snapshot) {
               values = response[index].Snapshot.values;
             } else {
@@ -319,6 +319,34 @@
             showMore: showMore
           }
         });
+    }
+
+    /**
+     *
+     * @param requestedType
+     * @param relevantToType
+     * @param relevantToId
+     * @param operation
+     * @returns {*}
+     */
+    function makeRelevantExpression(requestedType,
+                                    relevantToType,
+                                    relevantToId,
+                                    operation) {
+      var isObjectBrowser = /^\/objectBrowser\/?$/
+        .test(window.location.pathname);
+      var expression;
+
+      if (!isObjectBrowser) {
+        expression = {
+          type: relevantToType,
+          id: relevantToId
+        };
+
+        expression.operation = operation ? operation :
+          _getTreeViewOperation(requestedType);
+      }
+      return expression;
     }
 
     /**
@@ -372,7 +400,7 @@
       var instance;
 
       if (source.type === 'Snapshot') {
-        instance = Snapshots.toObject(source);
+        instance = SnapshotUtils.toObject(source);
       } else {
         instance = CMS.Models[modelName].model(source);
       }
@@ -388,7 +416,7 @@
       var needToSplit = CurrentPage.isObjectContextPage();
       var relates = CurrentPage.related.attr(instance.type);
       var result = true;
-      var instanceId = Snapshots.isSnapshot(instance) ?
+      var instanceId = SnapshotUtils.isSnapshot(instance) ?
         instance.snapshot.child_id :
         instance.id;
 
@@ -399,12 +427,24 @@
       return result;
     }
 
+    function _getTreeViewOperation(objectName) {
+      var isDashboard = /dashboard/.test(window.location);
+      var operation;
+      if (isDashboard) {
+        operation = 'owned';
+      } else if (!isDashboard && objectName === 'Person') {
+        operation = 'related_people';
+      }
+      return operation;
+    }
+
     return {
       getColumnsForModel: getColumnsForModel,
       setColumnsForModel: setColumnsForModel,
       displayTreeSubpath: displayTreeSubpath,
       getModelsForSubTier: getModelsForSubTier,
-      loadItemsForSubTier: loadItemsForSubTier
+      loadItemsForSubTier: loadItemsForSubTier,
+      makeRelevantExpression: makeRelevantExpression
     };
   })();
 })(window.GGRC);

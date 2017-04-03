@@ -308,8 +308,8 @@ describe('GGRC Utils Query API', function () {
     var getCounts;
 
     beforeEach(function () {
-      refreshCounts = GGRC.Utils.QueryAPI.refreshCounts;
-      getCounts = GGRC.Utils.QueryAPI.getCounts;
+      refreshCounts = GGRC.Utils.CurrentPage.refreshCounts;
+      getCounts = GGRC.Utils.CurrentPage.getCounts;
       widgets = ['Program', 'AccessGroup', 'Assessment', 'Audit'];
       relevant = {
         id: 1,

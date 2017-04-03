@@ -454,7 +454,7 @@
       var countsName = options.counts_name || options.model.shortName;
 
       if (this.options.parent_instance && this.options.mapping) {
-        counts = GGRC.Utils.QueryAPI.getCounts();
+        counts = GGRC.Utils.CurrentPage.getCounts();
 
         if (self.element) {
           can.trigger(self.element, 'updateCount',
@@ -1450,8 +1450,8 @@
       var params = queryAPI.buildParam(
         modelName,
         options.paging,
-        queryAPI.makeExpression(modelName, options.parent_instance.type,
-          options.parent_instance.id),
+        GGRC.Utils.TreeView.makeRelevantExpression(modelName,
+          options.parent_instance.type, options.parent_instance.id),
         undefined,
         filter
       );
@@ -1461,20 +1461,20 @@
         .then(function (data) {
           var total = data.total;
           var countsName = this.options.counts_name || modelName;
+          var currentPageUtils = GGRC.Utils.TreeView;
+
           this.options.attr('paging.total', total);
           this.options.attr('paging.count',
             Math.ceil(data.total / this.options.paging.pageSize));
 
           if (!this.options.paging.filter && !isStateQuery &&
-            total !== queryAPI.getCounts().attr(countsName)) {
-            queryAPI.getCounts().attr(countsName, total);
+            total !== currentPageUtils.getCounts().attr(countsName)) {
+            currentPageUtils.getCounts().attr(countsName, total);
           }
           if (isStateQuery) {
-            GGRC.Utils.QueryAPI
-              .initCounts([modelName], {
-                type: options.parent_instance.type,
-                id: options.parent_instance.id
-              });
+            GGRC.Utils.CurrentPage
+              .initCounts([modelName],
+                options.parent_instance.type, options.parent_instance.id);
           }
 
           return data.values;

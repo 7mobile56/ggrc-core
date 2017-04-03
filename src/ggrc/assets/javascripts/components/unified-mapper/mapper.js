@@ -397,7 +397,7 @@
             }.bind(this))
             .done(function () {
               // This Method should be modified to event
-              GGRC.Utils.QueryAPI.refreshCounts();
+              GGRC.Utils.CurrentPage.refreshCounts();
             });
         }.bind(this));
       },

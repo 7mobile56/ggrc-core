@@ -196,10 +196,7 @@
     widgetModels = pageUtils.getWidgetModels(modelName, location);
 
     if (!isAssessmentsView && pageUtils.getPageType() !== 'Workflow') {
-      GGRC.Utils.QueryAPI.initCounts(widgetModels, {
-        type: instance.type,
-        id: instance.id
-      });
+      pageUtils.initCounts(widgetModels, instance.type, instance.id);
     }
 
     $area.cms_controllers_page_object(can.extend({

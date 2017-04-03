@@ -642,16 +642,15 @@
     newWidgetDescriptors.history = historyWidgetDescriptor;
     newWidgetDescriptors.current = currentWidgetDescriptor;
 
-    GGRC.Utils.QueryAPI
+    GGRC.Utils.CurrentPage
       .initCounts([
         WorkflowExtension.countsMap.history,
         WorkflowExtension.countsMap.activeCycles,
         WorkflowExtension.countsMap.person,
         WorkflowExtension.countsMap.taskGroup
-      ], {
-        type: object.type,
-        id: object.id
-      });
+      ],
+        object.type,
+        object.id);
 
     new GGRC.WidgetList(
       'ggrc_workflows',

@@ -13,6 +13,11 @@
     var queryAPI = GGRC.Utils.QueryAPI;
     var relatedToCurrentInstance = new can.Map({});
 
+    var widgetsCounts = new can.Map({});
+
+    var QueryAPI = GGRC.Utils.QueryAPI;
+    var SnapshotUtils = GGRC.Utils.Snapshots;
+
     function initMappedInstances(dependentModels, current) {
       var models = can.makeArray(dependentModels);
       var reqParams = [];
@@ -111,6 +116,77 @@
       return defaults;
     }
 
+    /**
+     * Counts for related objects.
+     *
+     * @return {can.Map} Promise which return total count of objects.
+     */
+    function getCounts() {
+      return widgetsCounts;
+    }
+
+    /**
+     * Update Page Counts
+     * @param {Array|Object} widgets - list of widgets
+     * @param {String} type - Type of parent object
+     * @param {Number} id - ID of parent object
+     * @return {can.Deferred} - resolved deferred object
+     */
+    function initCounts(widgets, type, id) {
+      var params = can.makeArray(widgets)
+        .map(function (widgetType) {
+          var expression = GGRC.Utils.TreeView
+            .makeRelevantExpression(widgetType, type, id);
+          var param = {};
+
+          if (SnapshotUtils.isSnapshotRelated(type, widgetType)) {
+            param = QueryAPI.buildParam('Snapshot', {}, expression , null,
+              GGRC.query_parser.parse('child_type = ' + widgetType));
+          } else if (typeof widgetType === 'string') {
+            param = QueryAPI.buildParam(widgetType, {}, expression);
+          } else {
+            param = QueryAPI.buildParam(widgetType.name, {}, expression, null,
+              widgetType.additionalFilter);
+          }
+          param.type = 'count';
+          return param;
+        });
+
+      // Perform requests only if params are defined
+      if (!params.length) {
+        return can.Deferred().resolve();
+      }
+
+      return QueryAPI.makeRequest({
+        data: params
+      }).then(function (data) {
+        data.forEach(function (info, i) {
+          var widget = widgets[i];
+          var name = typeof widget === 'string' ? widget : widget.name;
+          var countsName = typeof widget === 'string' ?
+            widget : (widget.countsName || widget.name);
+          if (SnapshotUtils.isSnapshotRelated(type, name)) {
+            name = 'Snapshot';
+          }
+          getCounts().attr(countsName, info[name].total);
+        });
+      });
+    }
+
+    function refreshCounts() {
+      var pageInstance = GGRC.page_instance();
+      var widgets;
+      var location = window.location.pathname;
+
+      if (!pageInstance) {
+        return can.Deferred().resolve();
+      }
+
+      widgets = getWidgetModels(pageInstance.constructor.shortName, location);
+
+      return initCounts(widgets, pageInstance.type, pageInstance.id);
+    }
+
     return {
       related: relatedToCurrentInstance,
       initMappedInstances: initMappedInstances,
@@ -121,7 +197,10 @@
       isObjectContextPage: isObjectContextPage,
       getWidgetList: getWidgetList,
       getWidgetModels: getWidgetModels,
-      getDefaultWidgets: getDefaultWidgets
+      getDefaultWidgets: getDefaultWidgets,
+      getCounts: getCounts,
+      initCounts: initCounts,
+      refreshCounts: refreshCounts
     };
   })();
 })(window.GGRC);
