@@ -148,6 +148,7 @@
       return {
         available: allAttrs,
         selected: mandatoryColumns.concat(displayColumns),
+        mandatory: mandatoryAttrNames,
         disableConfiguration: false
       };
     }
@@ -189,6 +190,32 @@
         available: availableColumns,
         selected: selectedColumns
       };
+    }
+
+    /**
+     * Returns map where key is name of field
+     * and value True if column selected and False or not.
+     * @param {Array} available - Full list of available columns.
+     * @param {Array} selected - List of selected columns.
+     * @return Map with selected columns.
+     */
+    function createSelectedColumnsMap(available, selected) {
+      var selectedColumns = can.makeArray(available);
+      var availableColumns = can.makeArray(selected);
+      var columns = new can.Map();
+
+      availableColumns
+        .forEach(function (attr) {
+          var value = {};
+          value[attr.attr_name] = selectedColumns
+            .some(function (selectedAttr) {
+              return !selectedAttr.mandatory &&
+                selectedAttr.attr_name === attr.attr_name;
+            });
+          columns.attr(value);
+        });
+
+      return columns;
     }
 
     function displayTreeSubpath(el, path, attemptCounter) {
@@ -242,9 +269,10 @@
 
     /**
      *
-     * @param type
-     * @param id
-     * @param filter
+     * @param type - Type of parent object.
+     * @param id - ID of parent object.
+     * @param {String} filter - Filter.
+     * @return {Promise} - Items for sub tier.
      */
     function loadItemsForSubTier(type, id, filter) {
       var allModels = getModelsForSubTier(type);
@@ -283,7 +311,7 @@
                 item = SnapshotUtils.transformQuery(item);
               }
               return item;
-            })
+            });
           }
 
           return QueryAPI.makeRequest({data: reqParams});
@@ -306,7 +334,7 @@
               var instance = _createInstance(source, modelName);
 
               if (_isDirectlyRelated(instance)) {
-                directlyRelated.push(instance)
+                directlyRelated.push(instance);
               } else {
                 notRelated.push(instance);
               }
@@ -317,17 +345,17 @@
             directlyItems: directlyRelated,
             notDirectlyItems: notRelated,
             showMore: showMore
-          }
+          };
         });
     }
 
     /**
      *
-     * @param requestedType
-     * @param relevantToType
-     * @param relevantToId
-     * @param operation
-     * @returns {*}
+     * @param {String} requestedType - Type of requested object.
+     * @param {String} relevantToType - Type of parent object.
+     * @param {Number} relevantToId - ID of parent object.
+     * @param {String} [operation] - Type of operation
+     * @return {object} Returns expression for load items for 1st level of tree view.
      */
     function makeRelevantExpression(requestedType,
                                     relevantToType,
@@ -351,13 +379,13 @@
 
     /**
      *
-     * @param models
-     * @param relevant
-     * @param filter
-     * @returns {*}
+     * @param {String} models - Type of model.
+     * @param {Object} relevant - Relevant description
+     * @param {String} filter - Filter string.
+     * @return {Promise} - Counts for limitation load items for sub tier
      * @private
      */
-    function _buildSubTreeCountMap (models, relevant, filter) {
+    function _buildSubTreeCountMap(models, relevant, filter) {
       var countQuery = QueryAPI.buildCountParams(models, relevant, filter);
 
       return QueryAPI.makeRequest({data: countQuery}).then(function (response) {
@@ -381,7 +409,6 @@
           return total >= SUB_TREE_ELEMENTS_LIMIT;
         });
 
-
         return {
           countsMap: countMap,
           showMore: showMore
@@ -390,10 +417,9 @@
     }
 
     /**
-     *
-     * @param source
-     * @param modelName
-     * @returns {*}
+     * @param {Object} source - Instance object.
+     * @param {String} modelName - Name of model.
+     * @return {CMS.Models} - Instance of model.
      * @private
      */
     function _createInstance(source, modelName) {
@@ -408,9 +434,10 @@
     }
 
     /**
-     *
-     * @param instance
+     * Check if object directly mapped to the current context.
+     * @param {Object} instance - Instance of model.
      * @private
+     * @return {Boolean} Is associated with the current context.
      */
     function _isDirectlyRelated(instance) {
       var needToSplit = CurrentPage.isObjectContextPage();
@@ -444,7 +471,8 @@
       displayTreeSubpath: displayTreeSubpath,
       getModelsForSubTier: getModelsForSubTier,
       loadItemsForSubTier: loadItemsForSubTier,
-      makeRelevantExpression: makeRelevantExpression
+      makeRelevantExpression: makeRelevantExpression,
+      createSelectedColumnsMap: createSelectedColumnsMap
     };
   })();
 })(window.GGRC);

@@ -12,7 +12,8 @@
     define: {
     },
     items: null,
-    displayAttrs: [],
+    selectedColumns: [],
+    mandatory: [],
     loading: false,
     limitDepthTree: 0,
     depthFilter: ''

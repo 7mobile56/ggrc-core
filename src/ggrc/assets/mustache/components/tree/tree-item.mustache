@@ -16,11 +16,11 @@
   </div>
 
   <div class="flex-box selectable-attrs flex-size-{{selectableSize}}">
-    {{#displayAttrs}}
+    {{#selectableColumns}}
       <div class="flex-size-1">
         {{#if_equals attr_type 'custom'}}
           <div class="custom tree-title-area">
-            {{#get_custom_attr_value this instance}}
+            {{#get_custom_attr_value this instance.instance}}
             {{! because the object can currently only be a
                 person there is no need to switch }}
               {{#using person=object}}
@@ -67,7 +67,7 @@
           </div>
         {{/if_equals}}
       </div>
-    {{/displayAttrs}}
+    {{/selectableColumns}}
   </div>
   <tree-item-extra-info {instance}="instance.instance"></tree-item-extra-info>
 </div>

@@ -13,15 +13,54 @@
       selectableSize: {
         type: Number,
         get: function () {
-          var sizeMap = [1, 1, 1, 1, 2, 2, 2];
-          var attrCount = this.attr('displayAttrs').length;
+          var attrCount = this.attr('selectedColumns').length;
+          var result = 3;
 
-          return attrCount < sizeMap.length ? sizeMap[attrCount] : 3;
+          if (attrCount < 4) {
+            result = 1;
+          } else if (attrCount < 7) {
+            result = 2;
+          }
+          return result;
+        }
+      },
+      selectableColumns: {
+        type: '*',
+        get: function () {
+          var fixedColumns = this.attr('mandatory') || [];
+
+          return this.attr('selectedColumns').filter(function (attr) {
+            return fixedColumns.indexOf(attr.attr_sort_field) < 0;
+          });
         }
       }
     },
-    displayAttrs: [],
+    model: null,
+    columns: {},
+    selectedColumns: [],
+    availableColumns: [],
+    mandatory: [],
     sortingInfo: null,
+    setColumns: function () {
+      var selectedNames = [];
+
+      can.each(this.attr('columns'), function (v, k) {
+        if (v) {
+          selectedNames.push(k);
+        }
+      });
+
+      this.dispatch({
+        type: 'updateColumns',
+        columns: selectedNames
+      });
+    },
+    onChange: function (attr) {
+      var columns = this.attr('columns').serialize();
+
+      columns[attr.attr_name] = !columns[attr.attr_name];
+      this.columns.attr(columns);
+    },
     onOrderChange: function ($element) {
       var field = $element.data('field');
 
@@ -29,6 +68,21 @@
         type: 'sort',
         field: field
       });
+    },
+    initializeColumns: function () {
+      var selectedColumns = this.attr('selectedColumns');
+      var availableColumns = this.attr('availableColumns');
+      var columns;
+
+      if (selectedColumns.length && availableColumns.length) {
+        columns = GGRC.Utils.TreeView
+          .createSelectedColumnsMap(availableColumns, selectedColumns);
+
+        this.attr('columns', columns);
+      }
+    },
+    init: function () {
+      this.initializeColumns();
     }
   });
 
@@ -37,20 +91,27 @@
     template: template,
     viewModel: viewModel,
     events: {
+      '{viewModel} availableColumns': function () {
+        this.viewModel.initializeColumns();
+      },
+      '{viewModel} selectedColumns': function () {
+        this.viewModel.initializeColumns();
+      }
     },
     helpers: {
-      sortIcon: function (attr, sortBy, sortDirection){
+      sortIcon: function (attr, sortBy, sortDirection) {
+        var iconClass = '';
         attr = Mustache.resolve(attr);
         sortBy = Mustache.resolve(sortBy);
         sortDirection = Mustache.resolve(sortDirection);
 
         if (!sortBy) {
-          return 'sort';
+          iconClass = 'sort';
         } else if (sortBy === attr) {
-          return 'sort-' + sortDirection;
-        } else {
-          return '';
+          iconClass = 'sort-' + sortDirection;
         }
+
+        return iconClass;
       }
     }
   });

@@ -27,16 +27,21 @@
       <tree-pagination  class="flex-size-2" {(paging)}="pageInfo"></tree-pagination>
     </div>
 
-    <tree-header {display-attrs}="displayAttrList"
+    <tree-header {selected-columns}="columns.selected"
+                 {available-columns}="columns.available"
+                 {mandatory}="columns.mandatory"
                  {sorting-info}="sortingInfo"
+                 {model}="model"
                  (sort)="onSort(%event)"
+                 (update-columns)="onUpdateColumns(%event)"
     ></tree-header>
   </div>
 
   <tree-view style="margin-top: 90px"
              {items}="showedItems"
              {limit-depth-tree}="limitDepthTree"
-             {display-attrs}="displayAttrList"
+             {selected-columns}="columns.selected"
+             {mandatory}="columns.mandatory"
              {loading}="loading"
              {get-depth-filter}="@getDepthFilter"
   ></tree-view>

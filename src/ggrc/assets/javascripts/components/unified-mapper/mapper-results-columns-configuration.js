@@ -42,18 +42,11 @@
         return CMS.Models[this.attr('modelType')];
       },
       initializeColumns: function () {
-        var selectedColumns = can.makeArray(this.attr('selectedColumns'));
-        var availableColumns = can.makeArray(this.attr('availableColumns'));
-        var columns = new can.Map();
-        availableColumns
-          .forEach(function (attr) {
-            var value = {};
-            value[attr.attr_name] = selectedColumns
-              .some(function (selectedAttr) {
-                return selectedAttr.attr_name === attr.attr_name;
-              });
-            columns.attr(value);
-          });
+        var selectedColumns = this.attr('selectedColumns');
+        var availableColumns = this.attr('availableColumns');
+        var columns = GGRC.Utils.TreeView
+          .createSelectedColumnsMap(availableColumns, selectedColumns);
+
         this.attr('columns', columns);
       },
       onSelect: function (attr) {

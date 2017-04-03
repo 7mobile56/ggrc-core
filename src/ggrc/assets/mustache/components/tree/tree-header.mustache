@@ -4,7 +4,35 @@
 }}
 
 <header class="header tree-header flex-box">
-  {{> '/static/mustache/base_objects/tree_column_selector.mustache'}}
+  <tree-header-selector class="tree-header-selector">
+    <a href="#" class="dropdown-toggle tview-dropdown-toggle visible-columns-icon"
+       data-toggle="dropdown">
+      <i class="fa fa-fw fa-bars"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-form visible-columns-list">
+      <a class="pull-right close-dropdown"><i class="fa fa-times black"></i></a>
+      <h5>Set visible fields for {{modelName}}</h5>
+
+      <ul class="attr-list">
+        {{#availableColumns}}
+          <li class="{{#if mandatory}}disabled{{/if}}">
+            <label class="checkbox-inline" title="{{attr_title}}">
+              <input type="checkbox"
+                     {{#if display_status}}checked="checked"{{/if}}
+                     {{#if mandatory}}disabled{{/if}}
+                     ($change)="onChange"
+                     value="{{attr_name}}"
+                     class="notify-wrap attr-checkbox {{#if mandatory}}mandatory{{/if}}"
+              >
+              {{attr_title}}
+            </label>
+          </li>
+        {{/availableColumns}}
+      </ul>
+      <a class="btn btn-small btn-info set-tree-attrs" href="javascript://" ($click)="setColumns">Set fields</a>
+    </div>
+  </tree-header-selector>
+
   <div class="flex-size-1">
       <div class="title-heading oneline">
           <span class="widget-col-title" ($click)="onOrderChange($element)" data-field="title">
@@ -15,7 +43,7 @@
     </div>
 
   <div class="flex-box flex-size-{{selectableSize}}">
-        {{#displayAttrs}}
+        {{#selectableColumns}}
           <div class="flex-size-1">
             <div class="oneline">
               <span class="widget-col-title" ($click)="onOrderChange($element)" data-field="{{attr_sort_field}}">
@@ -24,10 +52,10 @@
               </span>
             </div>
           </div>
-        {{/displayAttrs}}
+        {{/selectableColumns}}
     </div>
 
-  <div class="tree-action {{display_options.action_width}}">
+  <div class="tree-action">
     {{#if add_item_view}}
     {{!{renderLive add_item_view}}
     {{/if}}

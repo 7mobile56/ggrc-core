@@ -38,14 +38,37 @@
       selectableSize: {
         type: Number,
         get: function () {
-          var sizeMap = [1, 1, 1, 1, 2, 2, 2];
-          var attrCount = this.attr('displayAttrs').length;
+          var attrCount = this.attr('selectedColumns').length;
+          var result = 3;
 
-          return attrCount < sizeMap.length ? sizeMap[attrCount] : 3;
+          if (attrCount < 4) {
+            result = 1;
+          } else if (attrCount < 7) {
+            result = 2;
+          }
+
+          return result;
+        }
+      },
+      model: {
+        type: '*',
+        get: function () {
+          return this.attr('instance.instance.class.tree_view_options');
+        }
+      },
+      selectableColumns: {
+        type: '*',
+        get: function () {
+          var fixedColumns = this.attr('mandatory') || [];
+
+          return this.attr('selectedColumns').filter(function (attr) {
+            return fixedColumns.indexOf(attr.attr_sort_field) < 0;
+          });
         }
       }
     },
-    displayAttrs: [],
+    selectedColumns: [],
+    mandatory: [],
     instance: null,
     limitDepthTree: 0,
     onExpand: function () {
