@@ -9,6 +9,8 @@
   var template = can.view(GGRC.mustache_path +
     '/components/tree/tree-widget-container.mustache');
   var QueryAPI = GGRC.Utils.QueryAPI;
+  var TreeViewUtils = GGRC.Utils.TreeView;
+
   var viewModel = can.Map.extend({
     define: {
       /**
@@ -29,17 +31,7 @@
 
           return filters.filter(function (options) {
             return options.filter;
-          }).reduce(function (filter, options) {
-            var operation = options.operation || 'AND';
-
-            if (filter.length) {
-              filter += ' ' + operation + ' ' + options.filter;
-            } else {
-              filter = options.filter;
-            }
-
-            return filter;
-          }, additionalFilter);
+          }).reduce(this._concatFilters, additionalFilter);
         }
       },
       modelName: {
@@ -51,7 +43,7 @@
       statusFilterVisible: {
         type: Boolean,
         get: function () {
-          return GGRC.Utils.State.hasFilter(this.attr('modelName'))
+          return GGRC.Utils.State.hasFilter(this.attr('modelName'));
         }
       }
 
@@ -103,14 +95,16 @@
      *
      */
     displayPrefs: {},
-    selectAttrList: {},
-    displayAttrList: {},
+    columns: {
+      selected: [],
+      available: []
+    },
     filters: [],
     loadItems: function () {
       var modelName = this.attr('modelName');
       var pageInfo = this.attr('pageInfo');
       var sortingInfo = this.attr('sortingInfo');
-      var parentInstance = this.attr('parentInstance');
+      var parent = this.attr('parentInstance');
       var filter = this.attr('currentFilter');
       var params;
       var page = {
@@ -124,11 +118,7 @@
       params = QueryAPI.buildParams(
         modelName,
         page,
-        {
-          type: parentInstance.type,
-          id: parentInstance.id,
-          operation: 'relevant'
-        }
+        TreeViewUtils.makeRelevantExpression(modelName, parent.type, parent.id)
       );
 
       pageInfo.attr('disabled', true);
@@ -143,110 +133,30 @@
             Math.ceil(total / this.attr('pageInfo.pageSize')));
           this.attr('pageInfo.disabled', false);
           this.attr('loading', false);
-
-        }.bind(this))
+        }.bind(this));
     },
     display: function () {
-      console.log('display for ' + this.attr('modelName'));
       return this.loadItems();
     },
-    initDisplayOptions: function () {
-      var i;
-      var savedAttrList;
-      var selectAttrList = [];
-      var displayAttrList = [];
-      var model = this.attr('model');
-      var modelName = model.model_singular;
-      var modelDefinition = model().class.root_object;
-      var mandatoryAttrNames;
-      var displayAttrNames;
-      var attr;
+    setColumnsConfiguration: function () {
+      var columns = TreeViewUtils.getColumnsForModel(
+        this.attr('model').model_singular,
+        this.attr('displayPrefs')
+      );
 
-      // get standard attrs for each model
-      can.each(model.tree_view_options.attr_list ||
-        can.Model.Cacheable.attr_list, function (item) {
-        if (!item.attr_sort_field) {
-          item.attr_sort_field = item.attr_name;
-        }
-        selectAttrList.push(item);
-      });
+      this.attr('columns.available', columns.available);
+      this.attr('columns.selected', columns.selected);
+      this.attr('columns.mandatory', columns.mandatory);
+    },
+    onUpdateColumns: function (event) {
+      var selectedColumns = event.columns;
+      var columns = TreeViewUtils.setColumnsForModel(
+        this.attr('model').model_singular,
+        selectedColumns,
+        this.attr('displayPrefs')
+      );
 
-      selectAttrList.sort(function (a, b) {
-        if (a.order && !b.order) {
-          return -1;
-        } else if (!a.order && b.order) {
-          return 1;
-        }
-        return a.order - b.order;
-      });
-      // Get mandatory_attr_names
-      mandatoryAttrNames = model.tree_view_options.mandatory_attr_names ?
-        model.tree_view_options.mandatory_attr_names :
-        can.Model.Cacheable.tree_view_options.mandatory_attr_names;
-
-      // get custom attrs
-      can.each(GGRC.custom_attr_defs, function (def, i) {
-        var obj;
-        if (def.definition_type === modelDefinition &&
-          def.attribute_type !== 'Rich Text') {
-          obj = {};
-          obj.attr_title = obj.attr_name = def.title;
-          obj.display_status = false;
-          obj.attr_type = 'custom';
-          obj.attr_sort_field = obj.attr_name;
-          selectAttrList.push(obj);
-        }
-      });
-
-
-      // Get the display attr_list from local storage
-      savedAttrList = this.displayPrefs.getTreeViewHeaders(modelName);
-
-      // this.loadTreeStates(modelName);
-
-      if (!savedAttrList.length) {
-        // Initialize the display status, Get display_attr_names for model
-        displayAttrNames = model.tree_view_options.display_attr_names ?
-          model.tree_view_options.display_attr_names :
-          can.Model.Cacheable.tree_view_options.display_attr_names;
-
-        if (GGRC.Utils.CurrentPage.isMyAssessments()) {
-          displayAttrNames.push('updated_at');
-        }
-
-        for (i = 0; i < selectAttrList.length; i++) {
-          attr = selectAttrList[i];
-
-          attr.display_status = displayAttrNames.indexOf(attr.attr_name) !== -1;
-          attr.mandatory = mandatoryAttrNames.indexOf(attr.attr_name) !== -1;
-        }
-      } else {
-        // Mandatory attr should be always displayed in tree view
-        can.each(mandatoryAttrNames, function (attrName) {
-          savedAttrList.push(attrName);
-        });
-
-        for (i = 0; i < selectAttrList.length; i++) {
-          attr = selectAttrList[i];
-          attr.display_status = savedAttrList.indexOf(attr.attr_name) !== -1;
-          attr.mandatory = mandatoryAttrNames.indexOf(attr.attr_name) !== -1;
-        }
-      }
-
-      // Create display list
-      can.each(selectAttrList, function (item) {
-        if (!item.mandatory && item.display_status) {
-          displayAttrList.push(item);
-        }
-      });
-
-      // console.log(selectAttrList);
-      // console.log(displayAttrList);
-
-      this.attr('selectAttrList', selectAttrList);
-      this.attr('displayAttrList', displayAttrList);
-      // this.setup_column_width();
-      // this.init_child_tree_display(model);
+      this.attr('columns.selected', columns.selected);
     },
     onSort: function (event) {
       var field = event.field;
@@ -267,6 +177,32 @@
     onFilter: function () {
       this.attr('pageInfo.current', 1);
       this.loadItems();
+    },
+    getDepthFilter: function () {
+      var filters = can.makeArray(this.attr('filters'));
+
+      return filters.filter(function (options) {
+        return options.filter && options.depth;
+      }).reduce(this._concatFilters, '');
+    },
+    /**
+     * Concatenation active filters.
+     *
+     * @param {String} filter - Parsed filter string
+     * @param {Object} options - Filter parameters
+     * @return {string} - Result of concatenation filters.
+     * @private
+     */
+    _concatFilters: function (filter, options) {
+      var operation = options.operation || 'AND';
+
+      if (filter.length) {
+        filter += ' ' + operation + ' ' + options.filter;
+      } else {
+        filter = options.filter;
+      }
+
+      return filter;
     }
   });
 
@@ -285,8 +221,8 @@
       CMS.Models.DisplayPrefs.getSingleton().then(function (displayPrefs) {
         viewModel.attr('displayPrefs', displayPrefs);
 
-        viewModel.initDisplayOptions();
-      }.bind(this));
+        viewModel.setColumnsConfiguration();
+      });
 
       viewModel.attr('pageLoader',
         new GGRC.ListLoaders.TreePageLoader(model, parentInstance));

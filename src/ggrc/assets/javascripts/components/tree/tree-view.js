@@ -14,7 +14,8 @@
     items: null,
     displayAttrs: [],
     loading: false,
-    limitDepthTree: 0
+    limitDepthTree: 0,
+    depthFilter: ''
   });
 
   GGRC.Components('treeView', {

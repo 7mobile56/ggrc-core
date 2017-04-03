@@ -160,7 +160,7 @@
      * @param {Object} relevant - Information about relevant object
      * @return {Array} Array of QueryAPIRequests
      */
-    function buildCountParams(types, relevant) {
+    function buildCountParams(types, relevant, filter) {
       var params;
 
       if (!types || !Array.isArray(types)) {
@@ -178,8 +178,9 @@
         param.type = 'count';
 
         if (relevant) {
-          param.filters = _makeRelevantFilter(relevant, objName);
+          param.filters = _makeFilter(objName, filter, relevant);
         }
+
         return param;
       });
 

@@ -50,7 +50,7 @@
           if (!isReady && newValue) {
             this.loadItems().then(function () {
               setValue(newValue);
-            })
+            });
           } else {
             setValue(newValue);
           }
@@ -59,6 +59,7 @@
     },
     dataIsReady: false,
     limitDepthTree: 0,
+    depthFilter: '',
     parentModel: null,
     parentId: null,
     directlyItems: [],
@@ -70,10 +71,11 @@
     loadItems: function () {
       var parentType = this.attr('parentModel');
       var parentId = this.attr('parentId');
+      var filter = this.getDepthFilter();
 
       this.attr('loading', true);
 
-      return TreeViewUtils.loadItemsForSubTier(parentType, parentId)
+      return TreeViewUtils.loadItemsForSubTier(parentType, parentId, filter)
         .then(function (result) {
           this.attr('loading', false);
           this.attr('directlyItems', result.directlyItems);

@@ -244,8 +244,9 @@
      *
      * @param type
      * @param id
+     * @param filter
      */
-    function loadItemsForSubTier(type, id) {
+    function loadItemsForSubTier(type, id, filter) {
       var allModels = getModelsForSubTier(type);
       var loadedModels = [];
       var relevant = {
@@ -255,7 +256,7 @@
       };
       var showMore = false;
 
-      return _buildSubTreeCountMap(allModels, relevant)
+      return _buildSubTreeCountMap(allModels, relevant, filter)
         .then(function (result) {
           var countMap = result.countsMap;
           var reqParams;
@@ -268,7 +269,8 @@
               model,
               {
                 current: 1,
-                pageSize: countMap[model]
+                pageSize: countMap[model],
+                filter: filter
               },
               relevant,
               SUB_TREE_FIELDS);
@@ -323,11 +325,12 @@
      *
      * @param models
      * @param relevant
+     * @param filter
      * @returns {*}
      * @private
      */
-    function _buildSubTreeCountMap (models, relevant) {
-      var countQuery = QueryAPI.buildCountParams(models, relevant);
+    function _buildSubTreeCountMap (models, relevant, filter) {
+      var countQuery = QueryAPI.buildCountParams(models, relevant, filter);
 
       return QueryAPI.makeRequest({data: countQuery}).then(function (response) {
         var countMap = {};
