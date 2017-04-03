@@ -115,17 +115,23 @@ CMS.Controllers.Filterable("CMS.Controllers.DashboardWidgets", {
           "DashboardWidget", "display", this.options.model.shortName)
        ;
 
-      if (this._display_deferred)
+      if (this._display_deferred) {
         return this._display_deferred;
+      }
 
-      this._display_deferred = this.prepare().then(function() {
-        if (that.content_controller && that.content_controller.display) {
-          return that.content_controller.display();
-        }
-        else {
-          return new $.Deferred().resolve();
-        }
-      }).done(tracker_stop);
+      if (that.content_controller) {
+        this._display_deferred = this.prepare().then(function() {
+          if (that.content_controller && that.content_controller.display) {
+            return that.content_controller.display();
+          }
+          else {
+            return new $.Deferred().resolve();
+          }
+        }).done(tracker_stop);
+      } else {
+        this._display_deferred =
+          this.element.find('tree-widget-container').viewModel().display();
+      }
 
       return this._display_deferred;
     },
@@ -150,6 +156,9 @@ CMS.Controllers.Filterable("CMS.Controllers.DashboardWidgets", {
 
   , display_path: function(path, refetch) {
       var that = this;
+      if (!that.content_controller) {
+        return this.display();
+      }
       return this.display().then(function() {
         if (that.content_controller && that.content_controller.display_path)
           return that.content_controller.display_path(path, refetch);

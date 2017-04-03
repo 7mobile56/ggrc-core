@@ -60,14 +60,23 @@
   {{/is_dashboard}}
 
   <section class="content">
-    {{{widget_initial_content}}}
 
-    {{#add_to_current_scope showSpinner=true}}
-      <spinner
-        size="large"
-        extra-css-class="initial-spinner"
-        toggle="showSpinner"
+    {{#if_equals widgetType 'treeview'}}
+      <tree-widget-container {model}="model"
+                             {parent-instance}="content_controller_options.parent_instance"
+                             {limit-depth-tree}="treeViewDepth"
+                             {options}="content_controller_options"
+      ></tree-widget-container>
+    {{else}}
+      {{{widget_initial_content}}}
+
+      {{#add_to_current_scope showSpinner=true}}
+        <spinner
+          size="large"
+          extra-css-class="initial-spinner"
+          toggle="showSpinner"
         ></spinner>
-    {{/add_to_current_scope}}
+      {{/add_to_current_scope}}
+    {{/if_equals}}
   </section>
 {{!/section}}
