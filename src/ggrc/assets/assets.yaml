@@ -151,9 +151,6 @@ dashboard-js-files:
   - components/collapsible-panel/collapsible-panel-header.js
   - components/collapsible-panel/collapsible-panel-body.js
   - components/read-more/read-more.js
-  - components/assessment/mapped-objects/mapped-controls.js
-  - components/assessment/mapped-objects/mapped-controls-popover.js
-  - components/assessment/mapped-objects/mapped-related-information.js
   - components/assessment/urls-list.js
   - components/assessment/attachments-list.js
   - components/assessment/custom-attributes.js
@@ -252,6 +249,10 @@ dashboard-js-files:
   - components/tree/tree-assignee-field.js
   - components/page-header/page-header.js
   - components/info-pane/info-pane-footer.js
+  - components/assessment/mapped-objects/mapped-controls.js
+  - components/assessment/mapped-objects/mapped-controls-popover.js
+  - components/assessment/mapped-objects/mapped-related-information.js
+  - components/assessment/mapped-objects/mapped-comments.js
   - components/assessment/info-pane/info-pane.js
   - components/auto-save-form/auto-save-form.js
   - components/auto-save-form/auto-save-form-field.js
@@ -291,6 +292,7 @@ dashboard-js-template-files:
   - components/assessment/mapped-objects/mapped-controls.mustache
   - components/assessment/mapped-objects/mapped-controls-popover.mustache
   - components/assessment/mapped-objects/mapped-related-information.mustache
+  - components/assessment/mapped-objects/mapped-comments.mustache
   - components/assessment/urls-list.mustache
   - components/assessment/attachments-list.mustache
   - components/assessment/custom-attributes.mustache
