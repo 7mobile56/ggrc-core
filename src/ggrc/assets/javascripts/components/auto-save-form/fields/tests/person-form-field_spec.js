@@ -19,15 +19,23 @@ describe('GGRC.Components.personFormField', function () {
     expect(viewModel.attr('_value')).toEqual('test');
   });
 
+  it('does not fire valueChanged event if value wasn\'t changed', function () {
+    viewModel.attr('value', {});
+    viewModel.attr('_value', {id: 1});
+    viewModel.dispatch.calls.reset();
+    viewModel.attr('_value', {id: 1});
+    expect(viewModel.dispatch).not.toHaveBeenCalled();
+  });
+
   it('fires valueChanged event on input value change', function () {
     viewModel.attr('value', '');
-    viewModel.attr('_value', 'newValue');
+    viewModel.attr('_value', {id: 1});
     expect(viewModel.dispatch).toHaveBeenCalledWith({
       type: 'valueChanged',
       fieldId: 'id',
       value: 'newValue'
     });
-    viewModel.attr('_value', 'newValue2');
+    viewModel.attr('_value', {id: 2});
     expect(viewModel.dispatch).toHaveBeenCalledWith({
       type: 'valueChanged',
       fieldId: 'id',

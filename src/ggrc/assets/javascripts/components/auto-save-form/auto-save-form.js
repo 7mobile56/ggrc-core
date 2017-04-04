@@ -23,14 +23,7 @@
       autoSaveAfterSave: false,
       autoSaveTimeoutHandler: null,
       fields: [],
-      define: {
-        instance: {
-          set: function (instance, setValue) {
-            setValue(instance);
-            this.prepareFormFields(instance);
-          }
-        }
-      },
+      saveCallback: null,
       fieldValueChanged: function (e) {
         this.fieldsToSave.attr(e.fieldId, e.value);
         this.attr('fieldsToSaveAvailable', true);
@@ -53,8 +46,7 @@
 
         this.attr('saving', true);
 
-        // todo: save
-        this.__backendSave(toSave)
+        this.saveCallback(toSave)
           .done(function () {
             if (self.attr('autoSaveAfterSave')) {
               self.attr('autoSaveAfterSave', false);
@@ -88,92 +80,19 @@
       saveDisabled: function () {
         return !this.attr('fieldsToSaveAvailable') || this.attr('saving');
       },
-      // todo
       viewDisabled: function () {
         return this.attr('fieldsToSaveAvailable') || this.attr('saving');
       },
       view: function () {
         this.attr('editMode', false);
 
-        this.prepareFormFields(this.attr('instance'));
+        this.dispatch('viewModeToggled');
       },
       edit: function () {
         this.attr('editMode', true);
-      },
-      prepareFormFields: function (instance) {
-        var self = this;
-        var fields =
-          instance.custom_attribute_values
-            .map(function (attr) {
-              var options = attr.def.multi_choice_options;
-              return {
-                type: attr.attributeType,
-                id: attr.def.id,
-                value: self.__getFieldValue(attr.attributeType, attr.attribute_value, attr.attribute_object),
-                title: attr.def.title,
-                placeholder: attr.def.placeholder,
-                options: options && _.isString(options) ? options.split(',') : [],
-                helptext: attr.def.helptext
-              };
-            });
-        this.attr('fields', fields);
-      },
-      __getFieldValue: function (type, value, valueObj) {
-        if (type === 'checkbox') {
-          return value === '1';
-        }
 
-        if (type === 'input') {
-          if (!value) {
-            return null;
-          }
-          return value.trim();
-        }
-
-        if (type === 'person') {
-          if (valueObj) {
-            return valueObj;
-          }
-          return null;
-        }
-
-        if (type === 'dropdown') {
-          if (_.isNull(value) || _.isUndefined(value)) {
-            return '';
-          }
-        }
-        return value;
-      },
-      __fromFieldValue: function (type, value) {
-        if (type === 'checkbox') {
-          return value ? 1 : 0;
-        }
-
-        if (type === 'person') {
-          if (value && value instanceof can.Map) {
-            value = value.serialize();
-            return 'Person:' + value.id;
-          }
-          return 'Person:None';
-        }
-        return value || null;
-      },
-      __backendSave: function (toSave) {
-        var self = this;
-        Object.keys(toSave).forEach(function (fieldId) {
-          var caValue =
-            can.makeArray(self.attr('instance').custom_attribute_values)
-              .find(function (item) {
-                return item.def.id === Number(fieldId);
-              });
-          caValue.attr('attribute_value',
-            self.__fromFieldValue(caValue.attr('attributeType'), toSave[fieldId])
-          );
-        });
-
-        return this.attr('instance').save();
+        this.dispatch('editModeToggled');
       }
-      // end: todo
     }
   });
 })(window.can, window.GGRC, window.jQuery);

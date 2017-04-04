@@ -36,7 +36,10 @@
                                                   <!--{(items)}="instance.custom_attribute_values"-->
                                                   <!--class="assessment-custom-attributes flex-box flex-box-multi">-->
                     <!--</assessment-custom-attributes>-->
-                    <auto-save-form {instance}="instance"></auto-save-form>
+                    <auto-save-form {fields}="formFields"
+                                    {save-callback}="@saveForm"
+                                    (view-mode-toggled)="prepareFormFields()"
+                    ></auto-save-form>
                     <assessment-controls-toolbar class="assessment-controls-toolbar"
                                                  {instance}="instance"></assessment-controls-toolbar>
                 </div>

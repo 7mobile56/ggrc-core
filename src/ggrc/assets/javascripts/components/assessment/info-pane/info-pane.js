@@ -83,6 +83,33 @@
       loadComments: function () {
         var query = this.getCommentsQuery();
         return this.requestQuery(query);
+      },
+      prepareFormFields: function () {
+        this.attr('formFields',
+          GGRC.Utils.CustomAttributes.convertValuesToFormFields(
+            this.attr('instance.custom_attribute_values')
+          )
+        );
+      },
+      saveForm: function (formFields) {
+        var caValues = can.makeArray(
+          this.attr('instance.custom_attribute_values')
+        );
+        Object.keys(formFields).forEach(function (fieldId) {
+          var caValue =
+            caValues
+              .find(function (item) {
+                return item.def.id === Number(fieldId);
+              });
+          caValue.attr('attribute_value',
+            GGRC.Utils.CustomAttributes.convertToCaValue(
+              caValue.attr('attributeType'),
+              formFields[fieldId]
+            )
+          );
+        });
+
+        return this.attr('instance').save();
       }
     },
     init: function () {
@@ -90,6 +117,7 @@
         .replace(this.viewModel.loadSnapshots());
       this.viewModel.attr('comments')
         .replace(this.viewModel.loadComments());
+      this.viewModel.prepareFormFields();
     },
     events: {
       '{viewModel.instance} related_destinations': function () {

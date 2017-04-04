@@ -40,56 +40,21 @@
         return type;
       },
       getValue: function () {
-        var type = this.attr('type');
-        var value = this.attr('value');
-        var valueObj = this.attr('valueObj');
-
-        if (type === 'checkbox') {
-          return value === '1';
-        }
-
-        if (type === 'input') {
-          if (!value) {
-            return null;
-          }
-          return value.trim();
-        }
-
-        if (type === 'person') {
-          if (valueObj) {
-            return valueObj;
-          }
-          return null;
-        }
-
-        if (type === 'dropdown') {
-          if (_.isNull(value) || _.isUndefined(value)) {
-            return '';
-          }
-        }
-        return value;
+        return GGRC.Utils.CustomAttributes.convertFromCaValue(
+          this.attr('type'),
+          this.attr('value'),
+          this.attr('valueObj')
+        );
       },
       setValue: function (value) {
-        var type = this.attr('type');
-        value = this.formatValueByType(value, type);
-        this.attr('value', value);
-      },
-      formatValueByType: function (value, type) {
-        if (type === 'checkbox') {
-          return value ? 1 : 0;
-        }
-
-        if (type === 'person') {
-          if (value && value instanceof can.Map) {
-            value = value.serialize();
-            return 'Person:' + value.id;
-          }
-          return 'Person:None';
-        }
-        return value || null;
+        this.attr('value',
+          GGRC.Utils.CustomAttributes.convertToCaValue(
+            value,
+            this.attr('type')
+          )
+        );
       }
     },
-
     events: {
       init: function () {
         this.scope.initInput();

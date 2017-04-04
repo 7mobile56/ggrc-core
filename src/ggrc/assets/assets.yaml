@@ -44,6 +44,7 @@ dashboard-js-files:
   - apps/base_widgets.js
   - application.js
   - plugins/ggrc_utils.js
+  - plugins/utils/ca-utils.js
   - plugins/utils/query-api-utils.js
   - plugins/utils/current-page-utils.js
   - plugins/utils/state-utils.js

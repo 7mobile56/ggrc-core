@@ -16,7 +16,9 @@
         _value: {
           set: function (newValue, setValue, onError, oldValue) {
             setValue(newValue);
-            if (oldValue === undefined) {
+            if (oldValue === undefined ||
+                (oldValue && newValue &&
+                oldValue.id === newValue.id)) {
               return;
             }
             this.valueChanged(newValue);
