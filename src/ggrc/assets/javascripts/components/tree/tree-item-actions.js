@@ -41,11 +41,15 @@
         node.select(true);
       }
     },
+    $el: null,
     openObject: function (scope, el, ev) {
       ev.stopPropagation();
     },
     expand: function () {
       this.dispatch('expand');
+    },
+    subTreeTypes: function () {
+      can.trigger(this.attr('$el'), 'childTreeTypes');
     },
     instance: null,
     childOptions: null,
@@ -64,6 +68,7 @@
         var parents = this.element.parents('sub-tree-wrapper').length;
         var canExpand = parents < this.viewModel.attr('deepLimit');
         this.viewModel.attr('canExpand', canExpand);
+        this.viewModel.attr('$el', this.element);
       }
     }
   });

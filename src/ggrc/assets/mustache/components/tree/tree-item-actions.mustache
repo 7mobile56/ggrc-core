@@ -3,7 +3,6 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-
   <a href="javascript://">
     <i class="fa fa-cog"></i>
     <i class="fa fa-caret-down"></i>
@@ -66,6 +65,12 @@
 
     {{#unless instance.snapshot}}
       {{#if canExpand}}
+        <!--<li>-->
+          <!--<a href="javascript://" ($click)="subTreeTypes()">-->
+            <!--<i class="fa fa-filter"></i>-->
+            <!--Filter sub tree-->
+          <!--</a>-->
+        <!--</li>-->
       <li>
         <a href="javascript://" ($click)="expand">
           <i class="fa fa-{{expandIcon}}"></i>

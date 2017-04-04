@@ -102,6 +102,7 @@
      * Legacy options which were built for a previous implementation of TreeView based on CMS.Controllers.TreeView
      */
     options: null,
+    $el: null,
     loading: false,
     /**
      *
@@ -197,6 +198,19 @@
         return options.filter && options.depth;
       }).reduce(this._concatFilters, '');
     },
+    initCount: function () {
+      var $el = this.attr('$el');
+      var counts = TreeViewUtils.getCounts();
+      var countsName = this.attr('model').shortName;
+
+      if ($el) {
+        can.trigger($el, 'updateCount', [counts.attr(countsName)]);
+      }
+
+      counts.on(countsName, function (ev, newVal, oldVal) {
+        can.trigger($el, 'updateCount', [newVal]);
+      });
+    },
     /**
      * Concatenation active filters.
      *
@@ -245,6 +259,13 @@
       },
       '{viewModel.pageInfo} pageSize': function () {
         this.viewModel.loadItems();
+      },
+      ' childTreeTypes': function () {
+      },
+      inserted: function () {
+        this.viewModel.attr('$el', this.element);
+
+        this.viewModel.initCount();
       }
     }
   });
