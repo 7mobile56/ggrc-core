@@ -14,11 +14,9 @@
         rel="tooltip"
         data-placement="left"
         data-toggle="unified-mapper"
-        data-join-mapping="{{mapping}}"
         data-join-option-type="{{model.shortName}}"
         data-join-object-id="{{parent_instance.id}}"
         data-join-object-type="{{parent_instance.class.shortName}}"
-        data-exclude-option-types="{{exclude_option_types}}"
         data-original-title="Map {{firstnonempty title_singular model.title_singular 'Object'}} to this {{firstnonempty parent_instance.class.title_singular 'Object'}}">
         Map
       </a>
@@ -48,10 +46,8 @@
     rel="tooltip"
     data-placement="left"
     data-toggle="unified-mapper"
-    data-join-mapping="{{mapping}}"
     data-join-object-id="{{instance.id}}"
     data-join-object-type="{{parent_instance.class.shortName}}"
-    data-exclude-option-types="{{exclude_option_types}}"
     data-original-title="Map {{firstnonempty title_singular model.title_singular 'Object'}} to this {{firstnonempty parent_instance.class.title_singular 'Object'}}"
     data-object-params='{ "section": { "id": {{parent_instance.id}}, "title": "{{json_escape parent_instance.title}}", "description": "{{json_escape parent_instance.description}}" } }'
 >
@@ -64,10 +60,8 @@
     rel="tooltip"
     data-placement="left"
     data-toggle="unified-mapper"
-    data-join-mapping="{{mapping}}"
     data-join-object-id="{{instance.id}}"
     data-join-object-type="{{parent_instance.class.shortName}}"
-    data-exclude-option-types="{{exclude_option_types}}"
     data-original-title="Map {{firstnonempty title_singular model.title_singular 'Object'}} to this {{firstnonempty parent_instance.class.title_singular 'Object'}}"
 >
     Map

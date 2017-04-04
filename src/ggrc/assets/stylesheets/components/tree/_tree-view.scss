@@ -35,8 +35,26 @@ tree-widget-container {
     }
   }
 
+  .tree-action {
+    .map-button {
+      line-height: 22px;
+      background: $blue;
+      color: $white;
+      padding: 0 16px;
+      border: 1px solid transparent;
+    }
+  }
+
   tree-pagination {
     margin-left: auto;
+  }
+
+  tree-status-filter {
+    min-width: 350px;
+  }
+
+  tree-filter-input {
+    max-width: 700px;
   }
 
   .tree-footer {
@@ -50,8 +68,9 @@ tree-view {
   flex-direction: column;
   font-size: 13px !important;
   margin-bottom: 40px;
-  margin-top: 90px;
+  margin-top: 110px;
   position: relative;
+  color: rgba(0, 0, 0, .7);
 
   .tree-spinner {
     display: none;
@@ -62,7 +81,8 @@ tree-view {
   }
 
   .item-active {
-    background-color: $headerBgnd;
+    background-color: $light-grey-background;
+    color: rgba(0, 0, 0, 1);
   }
 
   tree-item:first-child {
@@ -92,6 +112,11 @@ tree-item {
     line-height: 28px;
     border-bottom: 1px solid $items-separator-color;
     align-items: center;
+
+    &:hover {
+      background-color: $light-grey-background;
+      color: rgba(0, 0, 0, 1);
+    }
 
     .title-area {
       overflow: hidden;
@@ -177,6 +202,7 @@ tree-filter-input {
 tree-header {
   .tree-header {
     align-items: center;
+    padding-right: 72px !important;
 
     .tree-header-selector {
       margin-left: 0 !important;

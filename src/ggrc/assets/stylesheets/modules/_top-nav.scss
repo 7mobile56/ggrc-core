@@ -90,6 +90,7 @@ ul.internav {
       order: 15 !important;
       display: flex;
       align-items: center;
+      cursor: pointer;
       &.visible {
         border-left: 1px dotted;
         border-right: 1px dotted;

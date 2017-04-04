@@ -30,7 +30,6 @@
         rel="tooltip"
         data-placement="left"
         data-toggle="unified-mapper"
-        data-join-mapping="{{mapping}}"
         data-join-option-type="{{model.shortName}}"
         data-join-object-id="{{parent_instance.id}}"
         data-join-object-type="{{parent_instance.class.shortName}}"
@@ -40,6 +39,6 @@
       </a>
     {{/if}}
     {{/is_allowed_to_map}}
-    {{/if}}
+    {{/if_instance_of}}
 {{/if_instance_of}}
 {{/if}}

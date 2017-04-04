@@ -54,24 +54,4 @@
           </div>
         {{/selectableColumns}}
     </div>
-
-  <div class="tree-action">
-    {{#if add_item_view}}
-    {{!{renderLive add_item_view}}
-    {{/if}}
-    <div class="details-wrap">
-      <a class="btn btn-draft dropdown-toggle" href="#" data-toggle="dropdown">
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-        <span class="bubble"></span>
-      </a>
-      <ul class="dropdown-menu tree-action-list-items" role="menu">
-        {{^if_instance_of instance 'Audit'}}
-          {{> '/static/mustache/import_export/import_export_buttons.mustache'}}
-          <assessment-generator-button audit="parent_instance"></assessment-generator-button>
-        {{/if_instance_of}}
-        {{> '/static/mustache/base_objects/sub_tree_type_selector.mustache'}}
-      </ul>
-    </div>
-  </div>
 </header>

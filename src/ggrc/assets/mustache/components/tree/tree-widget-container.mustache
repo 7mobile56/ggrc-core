@@ -6,14 +6,12 @@
 <div class="flex-box flex-col {{cssClasses}}">
   <div class="flex-box flex-col header tree-header-content">
     <div class="flex-box tree-filter">
-      <tree-filter-input class="flex-size-4"
+      <tree-filter-input class="flex-size-1"
                          {(filters)}="filters"
                          (filter)="onFilter"
       ></tree-filter-input>
       {{#if statusFilterVisible}}
-        <tree-status-filter class="flex-size-2"
-                            {model-name}="modelName"
-                            {depth}="true"
+        <tree-status-filter {model-name}="modelName"
                             {(filters)}="filters"
                             (filter)="onFilter"
         >
@@ -24,7 +22,27 @@
           </multiselect-dropdown>
         </tree-status-filter>
       {{/if}}
-      <tree-pagination  class="flex-size-2" {(paging)}="pageInfo"></tree-pagination>
+      <tree-pagination {(paging)}="pageInfo"></tree-pagination>
+    </div>
+
+    <div class="tree-action" style="display: flex; justify-content: flex-end;">
+      {{#if addItem}}
+        {{{renderLive addItem}}}
+      {{/if}}
+      <div class="details-wrap">
+        <a class="btn btn-draft dropdown-toggle" href="#" data-toggle="dropdown">
+          <span class="bubble"></span>
+          <span class="bubble"></span>
+          <span class="bubble"></span>
+        </a>
+        <ul class="dropdown-menu tree-action-list-items" role="menu">
+          {{^if_instance_of instance 'Audit'}}
+            {{> '/static/mustache/import_export/import_export_buttons.mustache'}}
+            <assessment-generator-button audit="parent_instance"></assessment-generator-button>
+          {{/if_instance_of}}
+          {{!> '/static/mustache/base_objects/sub_tree_type_selector.mustache'}}
+        </ul>
+      </div>
     </div>
 
     <tree-header {selected-columns}="columns.selected"

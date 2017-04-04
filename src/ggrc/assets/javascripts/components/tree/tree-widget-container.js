@@ -57,9 +57,54 @@
 
           return classes.join(' ');
         }
-      }
+      },
+      parent_instance: {
+        type: '*',
+        get: function () {
+          return this.attr('options').parent_instance;
+        }
+      },
+      allow_mapping: {
+        type: Boolean,
+        get: function () {
+          var allowMapping = true;
+          var options = this.attr('options');
 
+          if ('allow_mapping' in options) {
+            allowMapping = options.allow_mapping;
+          }
+
+          return allowMapping;
+        }
+      },
+      allow_creating: {
+        type: Boolean,
+        get: function () {
+          var allowCreating = true;
+          var options = this.attr('options');
+
+          if ('allow_creating' in options) {
+            allowCreating = options.allow_creating;
+          }
+
+          return allowCreating;
+        }
+      },
+      addItem: {
+        type: String,
+        get: function () {
+          return this.attr('options').add_item_view ||
+            this.attr('model').tree_view_options.add_item_view;
+        }
+      }
     },
+    /**
+     *
+     */
+    allow_mapping_or_creating: null,
+    /**
+     *
+     */
     pageLoader: null,
     /**
      * Information about current page of tree
@@ -93,10 +138,6 @@
     /**
      *
      */
-    parentInstance: null,
-    /**
-     *
-     */
     limitDepthTree: 0,
     /**
      * Legacy options which were built for a previous implementation of TreeView based on CMS.Controllers.TreeView
@@ -113,11 +154,12 @@
       available: []
     },
     filters: [],
+    loaded: null,
     loadItems: function () {
       var modelName = this.attr('modelName');
       var pageInfo = this.attr('pageInfo');
       var sortingInfo = this.attr('sortingInfo');
-      var parent = this.attr('parentInstance');
+      var parent = this.attr('parent_instance');
       var filter = this.attr('currentFilter');
       var params;
       var page = {
@@ -137,7 +179,7 @@
       pageInfo.attr('disabled', true);
       this.attr('loading', true);
 
-      this.attr('pageLoader').load({data: params})
+      return this.attr('pageLoader').load({data: params})
         .then(function (data) {
           var total = data.total;
           this.attr('showedItems', data.values);
@@ -149,7 +191,11 @@
         }.bind(this));
     },
     display: function () {
-      return this.loadItems();
+      if (!this.attr('loaded')) {
+        this.attr('loaded', this.loadItems());
+      }
+
+      return this.attr('loaded');
     },
     setColumnsConfiguration: function () {
       var columns = TreeViewUtils.getColumnsForModel(
@@ -242,10 +288,29 @@
     init: function () {
       var viewModel = this.viewModel;
       var model = viewModel.attr('model');
-      var parentInstance = viewModel.attr('parentInstance');
+      var options = viewModel.attr('options');
+      var parentInstance = viewModel.attr('parent_instance');
+      var allowMapping = viewModel.attr('allow_mapping');
+      var allowCreating = viewModel.attr('allow_creating');
+
+      function setAllowMapping() {
+        var isAccepted = parentInstance.attr('status') === 'Accepted';
+        var admin = Permission.is_allowed('__GGRC_ADMIN__');
+
+        viewModel.attr('allow_mapping_or_creating',
+          (admin || !isAccepted) && (allowMapping || allowCreating));
+      }
 
       CMS.Models.DisplayPrefs.getSingleton().then(function (displayPrefs) {
         viewModel.attr('displayPrefs', displayPrefs);
+
+        if (parentInstance && 'status' in parentInstance) {
+          setAllowMapping();
+          parentInstance.bind('change', setAllowMapping);
+        } else {
+          viewModel.attr('allow_mapping_or_creating',
+            allowMapping || allowCreating);
+        }
 
         viewModel.setColumnsConfiguration();
       });
