@@ -3,7 +3,7 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="flex-box flex-col">
+<div class="flex-box flex-col {{cssClasses}}">
   <div class="flex-box flex-col header tree-header-content">
     <div class="flex-box tree-filter">
       <tree-filter-input class="flex-size-4"
@@ -37,8 +37,7 @@
     ></tree-header>
   </div>
 
-  <tree-view style="margin-top: 90px"
-             {items}="showedItems"
+  <tree-view {items}="showedItems"
              {limit-depth-tree}="limitDepthTree"
              {selected-columns}="columns.selected"
              {mandatory}="columns.mandatory"

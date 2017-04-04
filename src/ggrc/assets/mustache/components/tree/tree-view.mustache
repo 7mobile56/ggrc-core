@@ -3,17 +3,15 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
+{{#items}}
+  <tree-item {instance}="."
+             {limit-depth-tree}="limitDepthTree"
+             {get-depth-filter}="@getDepthFilter"
+             {selected-columns}="selectedColumns"
+             {mandatory}="mandatory"
+  ></tree-item>
+{{/items}}
 
-{{#if loading}}
-  <spinner toggle="loading"></spinner>
-{{else}}
-  {{#items}}
-    <tree-item {instance}="."
-               {limit-depth-tree}="limitDepthTree"
-               {get-depth-filter}="@getDepthFilter"
-               {selected-columns}="selectedColumns"
-               {mandatory}="mandatory"
-    ></tree-item>
-  {{/items}}
-{{/if}}
-
+<div class="tree-spinner">
+  <spinner toggle="loading" size="large"></spinner>
+</div>

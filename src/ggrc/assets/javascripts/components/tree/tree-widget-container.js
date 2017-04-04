@@ -45,6 +45,18 @@
         get: function () {
           return GGRC.Utils.State.hasFilter(this.attr('modelName'));
         }
+      },
+      cssClasses: {
+        type: String,
+        get: function () {
+          var classes = [];
+
+          if (this.attr('loading')) {
+            classes.push('loading');
+          }
+
+          return classes.join(' ');
+        }
       }
 
     },
