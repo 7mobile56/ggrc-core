@@ -24,6 +24,10 @@
             classes.push('snapshot');
           }
 
+          if (this.attr('extraCss')) {
+            classes = classes.concat(this.attr('extraCss').split(' '));
+          }
+
           return classes.join(' ');
         }
       },
@@ -41,8 +45,13 @@
 
       this.attr('expanded', !isExpanded);
     },
+    select: function ($element) {
+      var instance = this.attr('instance');
+      can.trigger($element, 'selectTreeItem', [$element, instance]);
+    },
     limitDepthTree: 0,
-    instance: null
+    instance: null,
+    extraCss: '@'
   });
 
   GGRC.Components('subTreeItem', {

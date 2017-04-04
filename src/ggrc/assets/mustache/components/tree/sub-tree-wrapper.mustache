@@ -8,7 +8,7 @@
 {{else}}
   {{#if isOpen}}
     {{#directlyItems}}
-      <sub-tree-item class="directly-related"
+      <sub-tree-item extra-css="directly-related"
                      {instance}="."
                      {limit-depth-tree}="limitDepthTree"
       ></sub-tree-item>
@@ -34,7 +34,7 @@
 
     {{#if notDirectlyExpanded}}
     {{#notDirectlyItems}}
-      <sub-tree-item class="not-directly-related"
+      <sub-tree-item extra-css="not-directly-related"
                      {instance}="."
                      {limit-depth-tree}="limitDepthTree"
       ></sub-tree-item>

@@ -262,6 +262,10 @@
       },
       ' childTreeTypes': function () {
       },
+      ' selectTreeItem': function (el, ev, selectedItem, instance) {
+        el.find('.item-active').removeClass('item-active');
+        selectedItem.addClass('item-active');
+      },
       inserted: function () {
         this.viewModel.attr('$el', this.element);
 

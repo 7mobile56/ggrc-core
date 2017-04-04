@@ -61,6 +61,10 @@ tree-view {
     }
   }
 
+  .item-active {
+    background-color: $headerBgnd;
+  }
+
   tree-item:first-child {
     .open-item {
       margin-top: 0;

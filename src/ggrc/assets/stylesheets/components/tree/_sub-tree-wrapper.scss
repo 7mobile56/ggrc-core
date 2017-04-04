@@ -23,22 +23,6 @@ sub-tree-item {
   display: flex;
   flex-direction: column;
 
-  &.not-directly-related {
-    .title {
-      color: $gray;
-    }
-  }
-  &.directly-related {
-    .title {
-      color: $darkText;
-    }
-    .not-directly-related {
-      .title {
-        color: $gray;
-      }
-    }
-  }
-
   .title {
     width: 30%;
     overflow: hidden;
@@ -48,6 +32,8 @@ sub-tree-item {
 
   >.sub-item-content {
     &:hover {
+      background-color: $light-grey-background;
+
       tree-item-extra-info {
         i {
           visibility: visible;
@@ -56,6 +42,30 @@ sub-tree-item {
 
       tree-item-actions {
         visibility: visible;
+      }
+    }
+
+    &.not-directly-related {
+      .title {
+        color: rgba(153, 153, 153, .7);
+      }
+
+      &:hover {
+        .title {
+          color: rgba(153, 153, 153, 1);
+        }
+      }
+    }
+    &.directly-related {
+      .title {
+        color: rgba(0, 0, 0, .7);
+      }
+
+
+      &:hover {
+        .title {
+          color: rgba(0, 0, 0, 1);
+        }
       }
     }
   }

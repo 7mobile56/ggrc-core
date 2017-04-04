@@ -75,6 +75,10 @@
       var isExpanded = this.attr('expanded');
 
       this.attr('expanded', !isExpanded);
+    },
+    select: function ($element) {
+      var instance = this.attr('instance');
+      can.trigger($element, 'selectTreeItem', [$element, instance]);
     }
   });
 

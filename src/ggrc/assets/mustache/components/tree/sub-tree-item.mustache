@@ -3,9 +3,10 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="sub-item-content {{cssClasses}}">
+<div class="sub-item-content {{cssClasses}}" ($click)="select($element)">
   <tree-item-actions {instance}="instance"
                      (expand)="onExpand()"
+                     {expanded}="expanded"
                      {deep-limit}="limitDepthTree"
   ></tree-item-actions>
   <span class="title">

@@ -4,7 +4,7 @@
 }}
 
 <div class="tree-item-wrapper {{extraClasses}}">
-<div class="flex-box tree-item-content">
+<div class="flex-box tree-item-content" ($click)="select($element)">
   <tree-item-actions {instance}="instance"
                      (expand)="onExpand()"
                      {expanded}="expanded"
