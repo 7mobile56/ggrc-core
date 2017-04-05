@@ -9,7 +9,6 @@ dashboard-js-template-files:
   - dashboard/lhn_risk_assessments.mustache
   - dashboard/lhn_search_result_risk_assessments.mustache
   - dashboard/lhn_search_actions_risk_assessments.mustache
-  - risk_assessments/tree.mustache
   - risk_assessments/tree-item-attr.mustache
   - risk_assessments/tree_add_item.mustache
   - risk_assessments/info.mustache

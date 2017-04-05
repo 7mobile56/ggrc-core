@@ -390,7 +390,6 @@ dashboard-js-template-files:
   - controls/list_popover.mustache
   - controls/modal_content.mustache
   - controls/object_list.mustache
-  - controls/tree.mustache
   - controls/tree-item-attr.mustache
   - assessments/modal_content.mustache
   - assessments/tree_add_item.mustache
@@ -476,7 +475,6 @@ dashboard-js-template-files:
   - dashboard/object_widget.mustache
   - dashboard/recently_viewed_list.mustache
   - directives/autocomplete_result.mustache
-  - directives/tree.mustache
   - directives/tree-item-attr.mustache
   - events/object_list.mustache
   - facilities/modal_content.mustache
@@ -501,7 +499,6 @@ dashboard-js-template-files:
   - objectives/info.mustache
   - objectives/list_popover.mustache
   - objectives/modal_content.mustache
-  - objectives/tree.mustache
   - objectives/tree-item-attr.mustache
   - org_groups/modal_content.mustache
   - vendors/modal_content.mustache
@@ -533,13 +530,11 @@ dashboard-js-template-files:
   - programs/extended_info.mustache
   - programs/info.mustache
   - programs/modal_content.mustache
-  - programs/tree.mustache
   - programs/tree-item-attr.mustache
   - projects/modal_content.mustache
   - regulations/modal_content.mustache
   - roles/object_list.mustache
   - sections/modal_content.mustache
-  - sections/tree.mustache
   - sections/tree-item-attr.mustache
   - sections/dropdown_menu.mustache
   - selectors/active_column.mustache
@@ -552,7 +547,6 @@ dashboard-js-template-files:
   - base_objects/tree_footer.mustache
   - base_objects/tree_add_item.mustache
   - audits/modal_content.mustache
-  - audits/tree.mustache
   - audits/tree-item-attr.mustache
   - audits/info.mustache
   - audits/summary.mustache

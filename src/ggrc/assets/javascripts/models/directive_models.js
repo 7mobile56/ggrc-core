@@ -17,9 +17,7 @@ can.Model.Cacheable("CMS.Models.Directive", {
     'ownable', 'contactable', 'unique_title', 'timeboxed', 'ca_update'
   ]
   , tree_view_options : {
-      list_view : GGRC.mustache_path + "/directives/tree.mustache",
     attr_view: GGRC.mustache_path + '/directives/tree-item-attr.mustache'
-    , footer_view : GGRC.mustache_path + "/base_objects/tree_footer.mustache"
     , attr_list : can.Model.Cacheable.attr_list.concat([
       {attr_title: 'URL', attr_name: 'url'},
       {attr_title: 'Reference URL', attr_name: 'reference_url'},

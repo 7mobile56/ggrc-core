@@ -277,21 +277,13 @@
       extraContentControllerOptions = apply_mixins({
         objectives: {
           Objective: {
-            mapping: 'objectives',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: path + '/objectives/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/snapshots/tree_add_item.mustache'
           }
         },
         controls: {
           Control: {
-            mapping: 'controls',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: path + '/controls/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/snapshots/tree_add_item.mustache'
           }
         },
@@ -406,38 +398,22 @@
         },
         governance_objects: {
           Regulation: {
-            mapping: 'regulations',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
             fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/snapshots/tree_add_item.mustache'
           },
           Contract: {
-            mapping: 'contracts',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
             fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache'
           },
           Policy: {
-            mapping: 'policies',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
             fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/snapshots/tree_add_item.mustache'
           },
           Standard: {
-            mapping: 'standards',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
             fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/snapshots/tree_add_item.mustache'
           },
           Control: {
@@ -467,13 +443,8 @@
             'business_objects', 'issues'
           ],
           Audit: {
-            mapping: 'audits',
             allow_mapping: true,
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: path + '/audits/tree.mustache',
-            header_view: path + '/base_objects/tree_header.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/audits/tree_add_item.mustache'
           },
           Person: {
@@ -492,12 +463,9 @@
         Audit: {
           _mixins: ['issues', 'governance_objects', 'business_objects'],
           Program: {
-            mapping: '_program',
             parent_instance: GGRC.page_instance(),
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
             model: CMS.Models.Program,
-            show_view: path + '/programs/tree.mustache',
             allow_mapping: false,
             allow_creating: false
           },
@@ -626,12 +594,9 @@
         Assessment: {
           _mixins: ['governance_objects', 'business_objects', 'issues'],
           Audit: {
-            mapping: 'related_audits',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
             allow_creating: false,
             allow_mapping: true,
-            show_view: path + '/audits/tree.mustache',
             add_item_view: path + '/audits/tree_add_item.mustache'
           },
           Section: {
@@ -664,11 +629,7 @@
         Issue: {
           _mixins: ['governance_objects', 'business_objects'],
           Control: {
-            mapping: 'related_controls',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: path + '/controls/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/base_objects/tree_add_item.mustache'
           },
           Issue: {
@@ -677,12 +638,7 @@
             add_item_view: path + '/issues/tree_add_item.mustache'
           },
           Audit: {
-            mapping: 'related_audits',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: GGRC.mustache_path + '/audits/tree.mustache',
-            footer_view:
-              GGRC.mustache_path + '/base_objects/tree_footer.mustache',
             add_item_view:
               GGRC.mustache_path + '/base_objects/tree_add_item.mustache'
           }
@@ -729,76 +685,42 @@
             fetch_post_process: sort_sections
           },
           Regulation: {
-            mapping: 'extended_related_regulations_via_search',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache'
+            fetch_post_process: sort_sections
           },
           Contract: {
-            mapping: 'extended_related_contracts_via_search',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache'
+            fetch_post_process: sort_sections
           },
           Standard: {
-            mapping: 'extended_related_standards_via_search',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache'
+            fetch_post_process: sort_sections
           },
           Policy: {
-            mapping: 'extended_related_policies_via_search',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            fetch_post_process: sort_sections,
-            show_view: path + '/directives/tree.mustache'
+            fetch_post_process: sort_sections
           },
           Audit: {
-            mapping: 'extended_related_audits_via_search',
-            child_options: relatedObjectsChildOptions,
-            draw_children: true,
-            show_view: path + '/audits/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache'
+            draw_children: true
           },
           Section: {
             model: CMS.Models.Section,
-            mapping: 'extended_related_sections_via_search',
-            show_view: GGRC.mustache_path + '/sections/tree.mustache',
-            footer_view:
-              GGRC.mustache_path + '/base_objects/tree_footer.mustache',
             add_item_view:
               GGRC.mustache_path + '/base_objects/tree_add_item.mustache',
-            child_options: relatedObjectsChildOptions,
             draw_children: true
           },
           Clause: {
             model: CMS.Models.Clause,
-            mapping: 'extended_related_clauses_via_search',
-            show_view: GGRC.mustache_path + '/sections/tree.mustache',
-            footer_view:
-              GGRC.mustache_path + '/base_objects/tree_footer.mustache',
             add_item_view:
               GGRC.mustache_path + '/base_objects/tree_add_item.mustache',
-            child_options: relatedObjectsChildOptions,
             draw_children: true
           },
           Objective: {
-            mapping: 'extended_related_objectives_via_search',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: path + '/objectives/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/base_objects/tree_add_item.mustache'
           },
           Control: {
-            mapping: 'extended_related_controls_via_search',
-            child_options: relatedObjectsChildOptions,
             draw_children: true,
-            show_view: path + '/controls/tree.mustache',
-            footer_view: path + '/base_objects/tree_footer.mustache',
             add_item_view: path + '/base_objects/tree_add_item.mustache'
           },
           Issue: {

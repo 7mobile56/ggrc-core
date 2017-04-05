@@ -47,9 +47,7 @@
       status: 'Draft'
     },
     tree_view_options: {
-      show_view: GGRC.mustache_path + '/controls/tree.mustache',
       attr_view: GGRC.mustache_path + '/controls/tree-item-attr.mustache',
-      footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
       attr_list: can.Model.Cacheable.attr_list.concat([
         {
           attr_title: 'Last Assessment Date',

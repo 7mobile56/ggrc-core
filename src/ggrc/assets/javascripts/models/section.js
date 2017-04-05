@@ -37,33 +37,12 @@ can.Model.Cacheable('CMS.Models.Section', {
     custom_attribute_values: 'CMS.Models.CustomAttributeValue.stubs'
   },
   tree_view_options: {
-    show_view: '/static/mustache/sections/tree.mustache',
     attr_view: '/static/mustache/sections/tree-item-attr.mustache',
-    footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
     attr_list: can.Model.Cacheable.attr_list.concat([
       {attr_title: 'URL', attr_name: 'url'},
       {attr_title: 'Reference URL', attr_name: 'reference_url'}
     ]),
-    add_item_view: GGRC.mustache_path + '/snapshots/tree_add_item.mustache',
-    child_options: [{
-      model: can.Model.Cacheable,
-      mapping: 'related_objects',
-      title_plural: 'Business Objects',
-      draw_children: function () {
-        return this.instance.type === 'Objective';
-      },
-      footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
-      add_item_view: GGRC.mustache_path +
-      '/base_objects/tree_add_item.mustache',
-      child_options: [{
-        model: CMS.Models.Control,
-        title_plural: 'Controls',
-        mapping: 'controls',
-        draw_children: false,
-        footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
-        add_item_view: GGRC.mustache_path + '/snapshots/tree_add_item.mustache'
-      }]
-    }]
+    add_item_view: GGRC.mustache_path + '/snapshots/tree_add_item.mustache'
   },
   defaults: {
     status: 'Draft'
@@ -108,33 +87,12 @@ can.Model.Cacheable('CMS.Models.Clause', {
     custom_attribute_values: 'CMS.Models.CustomAttributeValue.stubs'
   },
   tree_view_options: {
-    show_view: '/static/mustache/sections/tree.mustache',
     attr_view: '/static/mustache/sections/tree-item-attr.mustache',
-    footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
     attr_list: can.Model.Cacheable.attr_list.concat([
       {attr_title: 'Clause URL', attr_name: 'url'},
       {attr_title: 'Reference URL', attr_name: 'reference_url'}
     ]),
-    add_item_view: GGRC.mustache_path + '/snapshots/tree_add_item.mustache',
-    child_options: [{
-      model: can.Model.Cacheable,
-      mapping: 'related_objects', // 'related_and_able_objects'
-      title_plural: 'Business Objects',
-      draw_children: function () {
-        return this.instance.type === 'Objective';
-      },
-      footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
-      add_item_view: GGRC.mustache_path +
-      '/base_objects/tree_add_item.mustache',
-      child_options: [{
-        model: CMS.Models.Control,
-        title_plural: 'Controls',
-        mapping: 'controls',
-        draw_children: false,
-        footer_view: GGRC.mustache_path + '/base_objects/tree_footer.mustache',
-        add_item_view: GGRC.mustache_path + '/snapshots/tree_add_item.mustache'
-      }]
-    }]
+    add_item_view: GGRC.mustache_path + '/snapshots/tree_add_item.mustache'
   },
   defaults: {
     status: 'Draft'
