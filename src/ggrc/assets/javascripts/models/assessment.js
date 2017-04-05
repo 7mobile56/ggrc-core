@@ -20,8 +20,6 @@
     ],
     is_custom_attributable: true,
     attributes: {
-      related_sources: 'CMS.Models.Relationship.stubs',
-      related_destinations: 'CMS.Models.Relationship.stubs',
       context: 'CMS.Models.Context.stub',
       modified_by: 'CMS.Models.Person.stub',
       finished_date: 'date',
@@ -438,6 +436,50 @@
           }
         });
       }
+    },
+    refresh: function (params) {
+      var dfd;
+      var href = this.selfLink || this.href;
+      var that = this;
+
+      if (!href) {
+        return can.Deferred().reject();
+      }
+      if (!this._pending_refresh) {
+        this._pending_refresh = {
+          dfd: can.Deferred(),
+          fn: _.throttle(function () {
+            var dfd = that._pending_refresh.dfd;
+            can.ajax({
+              url: href,
+              params: params,
+              type: 'get',
+              dataType: 'json'
+            })
+          .then(function (resources) {
+            delete that._pending_refresh;
+            return resources;
+          })
+          .then(function (model) {
+            if (model) {
+              return CMS.Models.Assessment.model(model, that);
+            }
+          })
+          .done(function (response) {
+            if (response) {
+              response.backup();
+            }
+            dfd.resolve.apply(dfd, arguments);
+          })
+          .fail(function () {
+            dfd.reject.apply(dfd, arguments);
+          });
+          }, 1000, {trailing: false})
+        };
+      }
+      dfd = this._pending_refresh.dfd;
+      this._pending_refresh.fn();
+      return dfd;
     },
     refreshInstance: function () {
       return this.refresh().then(function () {
