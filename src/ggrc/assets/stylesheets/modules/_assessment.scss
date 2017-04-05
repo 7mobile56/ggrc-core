@@ -62,7 +62,11 @@
     margin-bottom: 16px;
 
     .assessment-note {
-      text-align: right;
+      margin-bottom: 5px;
+      min-height: 18px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
 
       .fa {
         color: $icon-color-dark;
@@ -185,6 +189,10 @@
           > * {
             text-align: center;
             margin: 0 0 0 12px;
+          }
+
+          .btn-primary {
+            border: 1px solid #0055cc;
           }
         }
       }

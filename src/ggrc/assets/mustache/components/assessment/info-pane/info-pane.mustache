@@ -22,6 +22,10 @@
                 </assessment-mapped-controls>
                 <div class="assessment-controls">
                     <div class="assessment-note">
+                        <auto-save-form-status
+                          {form-saving}="formState.saving"
+                          {form-all-saved}="formState.allSaved"
+                        ></auto-save-form-status>
                         <i class="fa fa-question-circle" rel="tooltip"
                            data-original-title="Respond to assessment here. Use comments on the right for free text responses."></i>
                     </div>
@@ -37,11 +41,18 @@
                                                   <!--class="assessment-custom-attributes flex-box flex-box-multi">-->
                     <!--</assessment-custom-attributes>-->
                     <auto-save-form {fields}="formFields"
-                                    {save-callback}="@saveForm"
-                                    (view-mode-toggled)="prepareFormFields()"
+                                    {edit-mode}="formState.editMode"
+                                    {save-callback}="@saveFormFields"
+                                    {trigger-save-cbs}="triggerFormSaveCbs"
+                                    {^fields-to-save-available}="formState.fieldsToSaveAvailable"
+                                    {^saving}="formState.saving"
+                                    {^all-saved}="formState.allSaved"
                     ></auto-save-form>
                     <assessment-controls-toolbar class="assessment-controls-toolbar"
-                                                 {instance}="instance"></assessment-controls-toolbar>
+                                                 {instance}="instance"
+                                                 {form-state}="formState"
+                                                 (on-form-save)="onFormSave()"
+                    ></assessment-controls-toolbar>
                 </div>
                 <assessment-mapped-related-information
                         {instance}="instance"

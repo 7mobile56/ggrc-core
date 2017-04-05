@@ -3,14 +3,6 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 
-<div class="auto-save-form-status">
-  {{#saving}}
-    Saving...
-  {{/saving}}
-  {{#if allSaved}}
-    All changes saved
-  {{/if}}
-</div>
 <div class="fields-wrapper flex-box flex-row">
   {{#each fields}}
     <div class="field-wrapper flex-size-1">
@@ -39,23 +31,3 @@
     </div>
   {{/each}}
 </div>
-<br>
-{{#if editMode}}
-  <button ($click)="view()"
-          {{#viewDisabled}}disabled{{/viewDisabled}}>
-    View
-  </button>
-  <button ($click)="save()"
-          class="save-button"
-          {{#saveDisabled}}disabled{{/saveDisabled}}>
-    {{#if saving}}
-      Saving...
-    {{else}}
-      Save
-    {{/if}}
-  </button>
-{{else}}
-  <button ($click)="edit()">
-    Edit
-  </button>
-{{/if}}

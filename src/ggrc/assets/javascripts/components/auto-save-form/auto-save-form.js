@@ -14,7 +14,7 @@
       '/components/auto-save-form/auto-save-form.mustache'
     ),
     viewModel: {
-      editMode: true,
+      editMode: false,
       saving: false,
       allSaved: false,
       fieldsToSave: new can.Map(),
@@ -24,6 +24,14 @@
       autoSaveTimeoutHandler: null,
       fields: [],
       saveCallback: null,
+      triggerSaveCbs: null,
+      init: function () {
+        this._save = this.save.bind(this);
+        this.attr('triggerSaveCbs').add(this._save);
+      },
+      destroy: function () {
+        this.attr('triggerSaveCbs').remove(this._save);
+      },
       fieldValueChanged: function (e) {
         this.fieldsToSave.attr(e.fieldId, e.value);
         this.attr('fieldsToSaveAvailable', true);
@@ -76,22 +84,6 @@
           setTimeout(this.save.bind(this), AUTO_SAVE_DELAY)
         );
         this.attr('autoSaveScheduled', true);
-      },
-      saveDisabled: function () {
-        return !this.attr('fieldsToSaveAvailable') || this.attr('saving');
-      },
-      viewDisabled: function () {
-        return this.attr('fieldsToSaveAvailable') || this.attr('saving');
-      },
-      view: function () {
-        this.attr('editMode', false);
-
-        this.dispatch('viewModeToggled');
-      },
-      edit: function () {
-        this.attr('editMode', true);
-
-        this.dispatch('editModeToggled');
       }
     }
   });

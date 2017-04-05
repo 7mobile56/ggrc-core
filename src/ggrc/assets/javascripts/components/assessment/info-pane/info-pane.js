@@ -51,6 +51,8 @@
         },
         instance: {}
       },
+      formState: {},
+      triggerFormSaveCbs: $.Callbacks(),
       getQuery: function (type) {
         var relevantFilters = [{
           type: this.attr('instance.type'),
@@ -107,14 +109,24 @@
         this.attr('documents')
           .replace(this.loadDocuments());
       },
-      prepareFormFields: function () {
+      initializeFormFields: function () {
         this.attr('formFields',
           GGRC.Utils.CustomAttributes.convertValuesToFormFields(
             this.attr('instance.custom_attribute_values')
           )
         );
       },
-      saveForm: function (formFields) {
+      triggerFormEditMode: function () {
+        if (this.attr('instance.status') === 'In Progress') {
+          this.attr('formState.editMode', true);
+        } else {
+          this.attr('formState.editMode', false);
+        }
+      },
+      onFormSave: function () {
+        this.attr('triggerFormSaveCbs').fire();
+      },
+      saveFormFields: function (formFields) {
         var caValues = can.makeArray(
           this.attr('instance.custom_attribute_values')
         );
@@ -137,11 +149,15 @@
     },
     init: function () {
       this.viewModel.updateRelatedItems();
-      this.viewModel.prepareFormFields();
+      this.viewModel.initializeFormFields();
+      this.viewModel.triggerFormEditMode();
     },
     events: {
       '{viewModel.instance} related_destinations': function () {
         this.viewModel.updateRelatedItems();
+      },
+      '{viewModel.instance} status': function () {
+        this.viewModel.triggerFormEditMode();
       }
     }
   });

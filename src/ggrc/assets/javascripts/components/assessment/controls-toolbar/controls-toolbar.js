@@ -13,12 +13,16 @@
     template: tpl,
     viewModel: {
       instance: null,
+      formState: null,
       state: {
         open: false
       },
       modalTitle: 'Related Assessments',
       showRelatedResponses: function () {
         this.attr('state.open', true);
+      },
+      onFormSave: function () {
+        this.dispatch('onFormSave');
       }
     }
   });

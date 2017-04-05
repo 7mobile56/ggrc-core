@@ -3,6 +3,12 @@
     Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
 }}
 <button class="btn btn-small btn-draft btn-extra-gray" can-click="showRelatedResponses" title="Show Related Assessments">Related Assessments</button>
+<auto-save-form-actions
+  {(form-edit-mode)}="formState.editMode"
+  {form-saving}="formState.saving"
+  {form-fields-to-save-available}="formState.fieldsToSaveAvailable"
+  (on-save)="onFormSave()"
+></auto-save-form-actions>
 {{#is_allowed 'update' instance context='for'}}
     <object-state-toolbar instance="instance"></object-state-toolbar>
 {{/is_allowed}}
