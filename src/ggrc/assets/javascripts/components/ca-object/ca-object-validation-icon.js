@@ -14,9 +14,9 @@
    */
   var icons = {
     noValidation: 'fa-check-circle',
-    empty: 'fa-times-circle validation-icon-empty',
-    valid: 'fa-check-circle validation-icon-valid',
-    invalid: 'fa-times-circle validation-icon-invalid'
+    empty: 'fa-asterisk validation-icon-empty',
+    valid: 'fa-check validation-icon-valid',
+    invalid: 'fa-times validation-icon-invalid'
   };
 
   /**

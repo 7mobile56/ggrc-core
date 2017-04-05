@@ -137,6 +137,7 @@
     },
     init: function () {
       this.viewModel.updateRelatedItems();
+      this.viewModel.prepareFormFields();
     },
     events: {
       '{viewModel.instance} related_destinations': function () {

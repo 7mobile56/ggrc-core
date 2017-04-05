@@ -27,13 +27,22 @@ auto-save-form {
       flex: 1 1 50%;
       margin-bottom: 16px;
       max-width: 50%;
+      padding: 0 16px 0 28px;
+      position: relative;
+
+      .validation-icon {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
 
       .field-title {
-        padding-right: 20px;
-        line-height: 22px;
+        display: flex;
+        align-items: center;
+        min-height: 24px;
 
-        label {
-          display: inline;
+        .field-title__text {
+          display: inline-flex;
           margin: 0;
           font-weight: 500;
           font-size: 11px;
@@ -41,25 +50,28 @@ auto-save-form {
           white-space: normal;
           word-wrap: break-word;
           text-transform: uppercase;
-          line-height: 22px;
+          line-height: 16px;
+          padding: 3px 0;
         }
 
-        i {
-          vertical-align: middle;
+        .helper-text {
+          margin: 0 2px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
           color: $icon-color-dark;
           width: 24px;
           text-align: center;
-          line-height: 22px;
+          line-height: 24px;
         }
       }
 
       .input-wrapper {
-        padding-right: 20px;
         max-width: 360px;
       }
 
       .view-wrapper {
-        padding-right: 20px;
+        //padding-right: 20px;
       }
     }
   }

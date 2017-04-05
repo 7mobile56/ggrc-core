@@ -3,22 +3,6 @@
  * Licensed under http://www.apache.org/licenses/LICENSE-2.0 <see LICENSE file>
  */
 
-.assessment-custom-attributes {
-  ca-object {
-    max-width: 50%;
-    width: 50%;
-    box-sizing: border-box;
-    margin: 0 0 8px 0;
-  }
-
-  .validation-title-empty {
-    color: $icon-color-empty;
-  }
-
-  .validation-title-invalid {
-    color: $icon-color-invalid;
-  }
-
   .validation-icon {
     text-align: center;
     color: transparent;
@@ -37,6 +21,14 @@
     &.validation-icon-valid {
       color: $icon-color-valid;
     }
+  }
+
+.assessment-custom-attributes {
+  ca-object {
+    max-width: 50%;
+    width: 50%;
+    box-sizing: border-box;
+    margin: 0 0 8px 0;
   }
 
   .limit-button-container {

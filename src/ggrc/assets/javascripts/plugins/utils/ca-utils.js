@@ -87,7 +87,8 @@
             options: options &&
             typeof options === 'string' ?
               options.split(',') : [],
-            helptext: attr.def.helptext
+            helptext: attr.def.helptext,
+            validation: attr.validation
           };
         });
     }

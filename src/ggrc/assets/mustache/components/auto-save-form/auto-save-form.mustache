@@ -7,17 +7,18 @@
   {{#saving}}
     Saving...
   {{/saving}}
-  {{#allSaved}}
+  {{#if allSaved}}
     All changes saved
-  {{/allsaved}}
+  {{/if}}
 </div>
-<div class="fields-wrapper">
-  {{#fields}}
-    <div class="field-wrapper">
+<div class="fields-wrapper flex-box flex-row">
+  {{#each fields}}
+    <div class="field-wrapper flex-size-1">
+        <ca-object-validation-icon {validation}="validation"></ca-object-validation-icon>
       <div class="field-title">
-        <label for="form-field-{{id}}">{{title}}</label>
+        <label class="field-title__text" for="form-field-{{id}}">{{title}}</label>
         {{#if helptext}}
-          <i class="fa fa-question-circle" rel="tooltip" title="{{helptext}}"></i>
+          <i class="fa fa-question-circle helper-text" rel="tooltip" title="{{helptext}}"></i>
         {{/if}}
       </div>
       {{#if editMode}}
@@ -36,7 +37,7 @@
         ></auto-save-form-field-view>
       {{/if}}
     </div>
-  {{/fields}}
+  {{/each}}
 </div>
 <br>
 {{#if editMode}}
