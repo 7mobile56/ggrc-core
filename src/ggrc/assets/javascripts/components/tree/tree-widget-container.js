@@ -193,12 +193,20 @@
       return this.attr('pageLoader').load({data: params})
         .then(function (data) {
           var total = data.total;
+          var modelName = this.attr('modelName');
+
           this.attr('showedItems', data.values);
           this.attr('pageInfo.total', total);
           this.attr('pageInfo.count',
             Math.ceil(total / this.attr('pageInfo.pageSize')));
           this.attr('pageInfo.disabled', false);
           this.attr('loading', false);
+
+          if (!this.attr('currentFilter') &&
+            total !== TreeViewUtils.getCounts().attr(modelName)) {
+            TreeViewUtils.getCounts().attr(modelName, total);
+          }
+
         }.bind(this));
     },
     display: function () {
@@ -286,7 +294,114 @@
       }
 
       return filter;
-    }
+    },
+    _widgetHidden: function () {
+      this._triggerListeners(true);
+    },
+    _widgetShown: function () {
+      this._triggerListeners();
+    },
+    _triggerListeners: (function () {
+      var activeTabModel;
+      var self;
+
+      function onCreated(ev, instance) {
+        var parentInstance = self.attr('parent_instance');
+
+        function callback() {
+          parentInstance.unbind('change', callback);
+          _refresh(true);
+        }
+
+        if (_verifyRelationship(instance, activeTabModel)) {
+          parentInstance.on('change', callback);
+        } else if (activeTabModel === instance.type) {
+          _refresh(true);
+        } else if (activeTabModel === 'Person' &&
+          _.includes(['ObjectPerson', 'WorkflowPerson', 'UserRole'],
+            instance.type)) {
+          _refresh();
+        }
+      }
+
+      function onDestroyed(ev, instance) {
+        var current;
+        var destType;
+        var srcType;
+
+        if (_verifyRelationship(instance, activeTabModel) ||
+          instance instanceof CMS.Models[activeTabModel]) {
+          if (self.attr('showedItems').length === 1) {
+            current = self.attr('pageInfo.current');
+            self.attr('pageInfo.current',
+              current > 1 ? current - 1 : 1);
+          }
+
+          // if unmapping e.g. an URL (a "Document") or an assignee from
+          // the info pin, refreshing the latter is not needed
+          if (instance instanceof CMS.Models.Relationship) {
+            srcType = instance.source ?
+              instance.source.type : null;
+            destType = instance.destination ?
+              instance.destination.type : null;
+            if (srcType === 'Person' || destType === 'Person' ||
+              srcType === 'Document' || destType === 'Document') {
+              return;
+            }
+          }
+
+          _refresh();
+
+          // TODO: This is a workaround.We need to update communication between
+          //       info-pin and tree views through Observer
+          if (!self.attr('$el').closest('.cms_controllers_info_pin').length) {
+            $('.cms_controllers_info_pin').control().unsetInstance();
+          }
+          //self.show_info_pin();
+        }
+      }
+
+      function _refresh(sortByUpdatedAt) {
+        if (sortByUpdatedAt) {
+          self.attr('sortingInfo.sortDirection', 'desc');
+          self.attr('sortingInfo.sortBy', 'updated_at');
+          self.attr('pageInfo.current', 1);
+        }
+        self.loadItems();
+      }
+
+      function _verifyRelationship(instance, shortName) {
+        if (!(instance instanceof CMS.Models.Relationship)) {
+          return false;
+        }
+        if (instance.destination &&
+          (instance.destination.type === shortName ||
+          instance.destination.type === 'Snapshot')) {
+          return true;
+        }
+        if (instance.source &&
+          (instance.source.type === shortName ||
+          instance.source.type === 'Snapshot')) {
+          return true;
+        }
+        return false;
+      }
+
+      return function (needDestroy) {
+        activeTabModel = this.options.model.shortName;
+        self = this;
+        if (needDestroy) {
+          // Remove listeners for inactive tabs
+          can.Model.Cacheable.unbind('created', onCreated);
+          can.Model.Cacheable.unbind('destroyed', onDestroyed);
+        } else {
+          // Add listeners on creations instance or mappings objects for current tab
+          // and refresh page after that.
+          can.Model.Cacheable.bind('created', onCreated);
+          can.Model.Cacheable.bind('destroyed', onDestroyed);
+        }
+      };
+    })()
   });
 
   /**
@@ -343,9 +458,15 @@
         selectedItem.addClass('item-active');
       },
       inserted: function () {
-        this.viewModel.attr('$el', this.element);
+        var viewModel = this.viewModel;
+        viewModel.attr('$el', this.element);
 
-        this.viewModel.initCount();
+        viewModel.initCount();
+
+        this.element.closest('.widget')
+          .on('widget_hidden', viewModel._widgetHidden.bind(viewModel));
+        this.element.closest('.widget')
+          .on('widget_shown', viewModel._widgetShown.bind(viewModel));
       }
     }
   });
