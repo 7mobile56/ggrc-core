@@ -45,6 +45,19 @@ tree-widget-container {
     }
   }
 
+  .details-wrap {
+    .dropdown-menu.tree-action-list-items {
+      i {
+        opacity: .7;
+      }
+
+      a {
+        font-size: 13px;
+        color: $black;
+      }
+    }
+  }
+
   tree-pagination {
     margin-left: auto;
   }

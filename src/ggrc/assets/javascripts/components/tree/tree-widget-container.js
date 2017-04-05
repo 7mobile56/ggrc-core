@@ -96,6 +96,17 @@
           return this.attr('options').add_item_view ||
             this.attr('model').tree_view_options.add_item_view;
         }
+      },
+      hideImportExport: {
+        type: Boolean,
+        get: function () {
+          var Snapshots = GGRC.Utils.Snapshots;
+          var parentInstance = this.attr('parent_instance');
+          var model = this.attr('model');
+
+          return Snapshots.isSnapshotScope(parentInstance) &&
+            Snapshots.isSnapshotModel(model.model_singular);
+        }
       }
     },
     /**

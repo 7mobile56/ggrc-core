@@ -37,10 +37,32 @@
         </a>
         <ul class="dropdown-menu tree-action-list-items" role="menu">
           {{^if_instance_of instance 'Audit'}}
-            {{> '/static/mustache/import_export/import_export_buttons.mustache'}}
+            {{^if hideImportExport}}
+              {{^if_instance_of parent_instance 'Assessment'}}
+                {{#is_allowed 'update' model.shortName context=parent_instance.context}}
+                  <li>
+                    <a href="/import"
+                       target="_blank"
+                       class="section-import">
+                      <i class="fa fa-fw fa-cloud-upload"></i>
+                      Import {{model.model_plural}}
+                    </a>
+                  </li>
+                {{/is_allowed}}
+                {{#if showedItems.length}}
+                  <li>
+                    <a href="/export?model_type={{model.model_singular}}&relevant_type={{parent_instance.type}}&relevant_id={{parent_instance.id}}"
+                       target="_blank"
+                       class="section-import">
+                      <i class="fa fa-fw fa-download"></i>
+                      Export {{model.model_plural}}
+                    </a>
+                  </li>
+                {{/if}}
+              {{/if_instance_of}}
+            {{/if}}
             <assessment-generator-button audit="parent_instance"></assessment-generator-button>
           {{/if_instance_of}}
-          {{!> '/static/mustache/base_objects/sub_tree_type_selector.mustache'}}
         </ul>
       </div>
     </div>
