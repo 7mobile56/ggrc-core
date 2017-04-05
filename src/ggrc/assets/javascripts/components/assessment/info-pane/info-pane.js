@@ -16,6 +16,14 @@
     template: tpl,
     viewModel: {
       define: {
+        isSaving: {
+          type: 'boolean',
+          value: false
+        },
+        isLoading: {
+          type: 'boolean',
+          value: false
+        },
         mappedSnapshots: {
           Value: can.List
         },
@@ -38,25 +46,28 @@
         comments: {
           Value: can.List
         },
+        documents: {
+          Value: can.List
+        },
         instance: {}
       },
-      getSnapshotQuery: function () {
+      getQuery: function (type) {
         var relevantFilters = [{
           type: this.attr('instance.type'),
           id: this.attr('instance.id'),
           operation: 'relevant'
         }];
         return GGRC.Utils.QueryAPI
-          .buildParam('Snapshot', {}, relevantFilters, [], []);
+          .buildParam(type, {}, relevantFilters, [], []);
       },
-      getCommentsQuery: function () {
-        var relevantFilters = [{
-          type: this.attr('instance.type'),
-          id: this.attr('instance.id'),
-          operation: 'relevant'
-        }];
-        return GGRC.Utils.QueryAPI
-          .buildParam('Comment', {}, relevantFilters, [], []);
+      getCommentQuery: function () {
+        return this.getQuery('Comment');
+      },
+      getSnapshotQuery: function () {
+        return this.getQuery('Snapshot');
+      },
+      getDocumentQuery: function () {
+        return this.getQuery('Document');
       },
       requestQuery: function (query) {
         var dfd = can.Deferred();
@@ -81,8 +92,20 @@
         return this.requestQuery(query);
       },
       loadComments: function () {
-        var query = this.getCommentsQuery();
+        var query = this.getCommentQuery();
         return this.requestQuery(query);
+      },
+      loadDocuments: function () {
+        var query = this.getDocumentQuery();
+        return this.requestQuery(query);
+      },
+      updateRelatedItems: function () {
+        this.attr('mappedSnapshots')
+          .replace(this.loadSnapshots());
+        this.attr('comments')
+          .replace(this.loadComments());
+        this.attr('documents')
+          .replace(this.loadDocuments());
       },
       prepareFormFields: function () {
         this.attr('formFields',
@@ -113,15 +136,11 @@
       }
     },
     init: function () {
-      this.viewModel.attr('mappedSnapshots')
-        .replace(this.viewModel.loadSnapshots());
-      this.viewModel.attr('comments')
-        .replace(this.viewModel.loadComments());
-      this.viewModel.prepareFormFields();
+      this.viewModel.updateRelatedItems();
     },
     events: {
       '{viewModel.instance} related_destinations': function () {
-        console.info('Was related_destinations called!!!!', arguments);
+        this.viewModel.updateRelatedItems();
       }
     }
   });
