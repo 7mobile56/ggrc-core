@@ -25,8 +25,15 @@ can.Control('CMS.Controllers.InfoPin', {
     return view;
   },
   findOptions: function (el) {
-    var treeNode = el.closest('.cms_controllers_tree_view_node').control();
-    return treeNode.options;
+    var options;
+    var treeNode = el.closest('.cms_controllers_tree_view_node');
+
+    if (treeNode.length) {
+      options = treeNode.control().options;
+    } else {
+      options = el.closest('.tree-item-element').viewModel();
+    }
+    return options;
   },
   loadChildTrees: function () {
     var childTreeDfds = [];
@@ -208,10 +215,15 @@ can.Control('CMS.Controllers.InfoPin', {
     }
   },
   close: function () {
-    $('.widget-area .widget:visible')
-      .find('.cms_controllers_tree_view')
-      .control()
-      .deselect();
+    var visibleWidget = $('.widget-area .widget:visible');
+    var element = visibleWidget.find('.cms_controllers_tree_view');
+
+    if (element.length) {
+      element.control().deselect();
+    } else {
+      visibleWidget.find('.item-active')
+        .removeClass('item-active');
+    }
 
     this.unsetInstance();
   },

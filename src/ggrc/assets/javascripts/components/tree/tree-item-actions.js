@@ -45,8 +45,9 @@
     openObject: function (scope, el, ev) {
       ev.stopPropagation();
     },
-    expand: function () {
+    expand: function (scope, el, ev) {
       this.dispatch('expand');
+      ev.stopPropagation();
     },
     subTreeTypes: function () {
       can.trigger(this.attr('$el'), 'childTreeTypes');

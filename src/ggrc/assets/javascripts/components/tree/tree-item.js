@@ -50,12 +50,6 @@
           return result;
         }
       },
-      model: {
-        type: '*',
-        get: function () {
-          return this.attr('instance.instance.class.tree_view_options');
-        }
-      },
       selectableColumns: {
         type: '*',
         get: function () {
@@ -77,7 +71,7 @@
       this.attr('expanded', !isExpanded);
     },
     select: function ($element) {
-      var instance = this.attr('instance');
+      var instance = this.attr('instance').instance;
       can.trigger($element, 'selectTreeItem', [$element, instance]);
     }
   });

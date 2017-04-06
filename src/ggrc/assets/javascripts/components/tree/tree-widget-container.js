@@ -203,8 +203,8 @@
           this.attr('loading', false);
 
           if (!this.attr('currentFilter') &&
-            total !== TreeViewUtils.getCounts().attr(modelName)) {
-            TreeViewUtils.getCounts().attr(modelName, total);
+            total !== GGRC.Utils.CurrentPage.getCounts().attr(modelName)) {
+            GGRC.Utils.CurrentPage.getCounts().attr(modelName, total);
           }
 
         }.bind(this));
@@ -265,7 +265,7 @@
     },
     initCount: function () {
       var $el = this.attr('$el');
-      var counts = TreeViewUtils.getCounts();
+      var counts = GGRC.Utils.CurrentPage.getCounts();
       var countsName = this.attr('model').shortName;
 
       if ($el) {
@@ -453,9 +453,17 @@
       },
       ' childTreeTypes': function () {
       },
-      ' selectTreeItem': function (el, ev, selectedItem, instance) {
+      ' selectTreeItem': function (el, ev, selectedEl, instance) {
+        var parent = this.viewModel.attr('parent_instance');
+        var infoPaneOptions = new can.Map({
+          instance: instance,
+          parent_instance: parent
+        });
         el.find('.item-active').removeClass('item-active');
-        selectedItem.addClass('item-active');
+        selectedEl.addClass('item-active');
+
+        $('.pin-content').control()
+          .setInstance(infoPaneOptions, selectedEl);
       },
       inserted: function () {
         var viewModel = this.viewModel;

@@ -31,7 +31,7 @@
               Edit Authorizations
             </a>
           </li>
-        {{/options.mapped_and_or_authorized_people}}
+        {{/if_equals}}
         {{/is_info_pin}}
         {{/is_allowed}}
         <li class="border-bottom">
@@ -50,8 +50,8 @@
                 </li>
               {{/is_allowed_all}}
             {{/if}}
-          {{/if_instance_of}}
-        {{/with_program_roles_as}}
+          {{/with_program_roles_as}}
+        {{/if_instance_of}}
         <li>
           <a href="/people/{{instance.id}}" target="_blank">
             <i class="fa fa-long-arrow-right"></i>
@@ -85,7 +85,7 @@
               </p>
             </div>
           {{/instance.email}}
-        {{/if}}
+        {{/if_match}}
       </div>
     </div>
 
