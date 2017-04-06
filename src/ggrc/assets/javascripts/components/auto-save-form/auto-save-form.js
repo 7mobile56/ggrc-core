@@ -29,7 +29,7 @@
         this._save = this.save.bind(this);
         this.attr('triggerSaveCbs').add(this._save);
       },
-      destroy: function () {
+      unsubscribe: function () {
         this.attr('triggerSaveCbs').remove(this._save);
       },
       fieldValueChanged: function (e) {
@@ -84,6 +84,11 @@
           setTimeout(this.save.bind(this), AUTO_SAVE_DELAY)
         );
         this.attr('autoSaveScheduled', true);
+      }
+    },
+    events: {
+      removed: function () {
+        this.viewModel.unsubscribe();
       }
     }
   });
