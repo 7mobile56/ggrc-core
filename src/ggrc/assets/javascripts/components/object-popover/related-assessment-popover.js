@@ -31,6 +31,15 @@
           get: function () {
             return this.attr('selectedAssessment.data.viewLink');
           }
+        },
+        selectedAssessmentFields: {
+          get: function () {
+            var caValues =
+              this.attr('selectedAssessment.data.custom_attribute_values');
+            return caValues ?
+              GGRC.Utils.CustomAttributes.convertValuesToFormFields(caValues) :
+              [];
+          }
         }
       }
     }

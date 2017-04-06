@@ -7,12 +7,29 @@
                 {popover-link}="selectedAssessmentLink" {popover-title-info}="popoverTitleInfo">
     <tab-container class="related-assessments__tab-container">
         <tab-panel {(panels)}="panels" title-text="Attributes">
-            <assessment-custom-attributes {instance}="item.data"
-                                          {items}="item.data.custom_attribute_values"
-                                          class="assessment-custom-attributes flex-box flex-box-multi"
-                                          is-locked="true"
-                                          has-limit="true">
-            </assessment-custom-attributes>
+            <!--<assessment-custom-attributes {instance}="item.data"-->
+                                          <!--{items}="item.data.custom_attribute_values"-->
+                                          <!--class="assessment-custom-attributes flex-box flex-box-multi"-->
+                                          <!--is-locked="true"-->
+                                          <!--has-limit="true">-->
+            <!--</assessment-custom-attributes>-->
+            <div class="fields-wrapper flex-box flex-row">
+              {{#each selectedAssessmentFields}}
+                <div class="field-wrapper flex-size-1">
+                  <ca-object-validation-icon {validation}="validation"></ca-object-validation-icon>
+                  <div class="field-title">
+                    <label class="field-title__text" for="form-field-{{id}}">{{title}}</label>
+                    {{#if helptext}}
+                      <i class="fa fa-question-circle helper-text" rel="tooltip" title="{{helptext}}"></i>
+                    {{/if}}
+                  </div>
+                    <auto-save-form-field-view
+                      {type}="type"
+                      {value}="value"
+                    ></auto-save-form-field-view>
+                </div>
+              {{/each}}
+            </div>
         </tab-panel>
         <tab-panel {(panels)}="panels" title-text="Comments">
           <related-comments {parent-instance}="item.data">
