@@ -62,10 +62,6 @@ tree-widget-container {
     margin-left: auto;
   }
 
-  tree-status-filter {
-    min-width: 350px;
-  }
-
   tree-filter-input {
     max-width: 700px;
   }
@@ -135,6 +131,9 @@ tree-item {
       overflow: hidden;
       text-overflow: ellipsis;
       height: 60px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
 
     .selectable-attrs {
@@ -215,13 +214,14 @@ tree-filter-input {
 tree-header {
   .tree-header {
     align-items: center;
-    padding-right: 72px !important;
+    padding-right: 28px !important;
+    padding-left: 0 !important;
 
     .tree-header-selector {
       margin-left: 0 !important;
       float: none !important;
       position: inherit !important;
-      width: 60px;
+      width: 56px;
 
       .visible-columns-icon {
         position: inherit !important;

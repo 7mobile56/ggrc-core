@@ -4,6 +4,9 @@
  */
 
 .multiselect-dropdown {
+  max-width: 350px;
+  min-width: 150px;
+
   .dropdown-focus {
     outline-color: rgb(59, 153, 252);
     outline-offset: -2px;

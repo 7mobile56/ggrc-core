@@ -26,6 +26,12 @@
             }).join(', ');
           }
         },
+        _inputSize: {
+          type: Number,
+          get: function () {
+            return this.attr('_displayValue').length;
+          }
+        },
         _selectedAll: {
           type: 'boolean',
           value: false,

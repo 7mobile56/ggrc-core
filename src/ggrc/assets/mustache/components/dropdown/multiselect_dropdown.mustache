@@ -6,12 +6,13 @@
 <div class="multiselect-dropdown flex-box flex-col">
   <!-- HACK: using of tabindex can set styles on focus -->
   <div tabindex="-1" class="multiselect-dropdown__input-container" ($click)="openDropdown($element, %event)">
-    <input 
+    <input
       type="text"
-      readonly="readonly" 
-      class="multiselect-dropdown__input {{#if isOpen}}dropdown-focus{{/if}}" 
-      placeholder="{{placeholder}}" 
-      value="{{_displayValue}}"/>
+      readonly="readonly"
+      class="multiselect-dropdown__input {{#if isOpen}}dropdown-focus{{/if}}"
+      placeholder="{{placeholder}}"
+      value="{{_displayValue}}"
+      size="{{_inputSize}}"/>
     <span class="multiselect-dropdown__icon">
       <i class="fa fa-caret-down"></i>
     </span>
