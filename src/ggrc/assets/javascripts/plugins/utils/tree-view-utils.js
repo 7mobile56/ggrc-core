@@ -269,6 +269,46 @@
 
     /**
      *
+     * @param {String} modelName - Name of requested objects.
+     * @param {Object} parent - Information about parent object.
+     * @param {String} parent.type - Type of parent object.
+     * @param {Number} parent.id - ID of parent object.
+     * @param {Object} filterInfo - Information about pagination, sorting and filtering
+     * @param {Number} filterInfo.current -
+     * @param {Number} filterInfo.pageSize -
+     * @param {Number} filterInfo.sortBy -
+     * @param {Number} filterInfo.sortDirection -
+     * @param {Number} filterInfo.filter -
+     * @return {Promise}
+     */
+    function loadFirstTierItems(modelName, parent, filterInfo) {
+      var params = QueryAPI.buildParam(
+        modelName,
+        filterInfo,
+        makeRelevantExpression(modelName, parent.type, parent.id)
+      );
+      var requestedType;
+
+      if (SnapshotUtils.isSnapshotScope(parent) &&
+        SnapshotUtils.isSnapshotModel(modelName)) {
+        params = SnapshotUtils.transformQuery(params);
+      }
+
+      requestedType = params.object_name;
+      return QueryAPI.makeRequest({data: [params]})
+        .then(function (response) {
+          response = response[0][requestedType];
+
+          response.values = response.values.map(function (source) {
+            return _createInstance(source, modelName);
+          });
+
+          return response;
+        });
+    }
+
+    /**
+     *
      * @param type - Type of parent object.
      * @param id - ID of parent object.
      * @param {String} filter - Filter.
@@ -470,6 +510,7 @@
       setColumnsForModel: setColumnsForModel,
       displayTreeSubpath: displayTreeSubpath,
       getModelsForSubTier: getModelsForSubTier,
+      loadFirstTierItems: loadFirstTierItems,
       loadItemsForSubTier: loadItemsForSubTier,
       makeRelevantExpression: makeRelevantExpression,
       createSelectedColumnsMap: createSelectedColumnsMap

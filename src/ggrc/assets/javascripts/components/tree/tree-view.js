@@ -12,11 +12,17 @@
     define: {
     },
     items: null,
+    parentInstance: null,
+    model: null,
     selectedColumns: [],
     mandatory: [],
     loading: false,
     limitDepthTree: 0,
-    depthFilter: ''
+    depthFilter: '',
+    _loader: null,
+    makeResult: function (instance) {
+      return this.attr('_loader').getResultFromMapping(instance);
+    }
   });
 
   GGRC.Components('treeView', {
@@ -24,6 +30,13 @@
     template: template,
     viewModel: viewModel,
     events: {
+      inserted: function () {
+        var model = this.viewModel.attr('model');
+        var parentInstance = this.viewModel.attr('parentInstance');
+
+        this.viewModel.attr('_loader',
+          new GGRC.ListLoaders.TreeBaseLoader(model, parentInstance));
+      }
     }
   });
 })(window.can, window.GGRC);

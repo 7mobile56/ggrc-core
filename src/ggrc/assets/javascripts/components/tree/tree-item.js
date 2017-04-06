@@ -64,6 +64,11 @@
     selectedColumns: [],
     mandatory: [],
     instance: null,
+    /**
+     * Result from mapping
+     */
+    result: null,
+    resultDfd: null,
     limitDepthTree: 0,
     onExpand: function () {
       var isExpanded = this.attr('expanded');
@@ -71,8 +76,15 @@
       this.attr('expanded', !isExpanded);
     },
     select: function ($element) {
-      var instance = this.attr('instance').instance;
-      can.trigger($element, 'selectTreeItem', [$element, instance]);
+      var instance = this.attr('instance');
+
+      if (instance instanceof CMS.Models.Person && !this.attr('result')) {
+        this.attr('resultDfd').then(function () {
+          can.trigger($element, 'selectTreeItem', [$element, instance]);
+        });
+      } else {
+        can.trigger($element, 'selectTreeItem', [$element, instance]);
+      }
     }
   });
 
@@ -81,6 +93,19 @@
     template: template,
     viewModel: viewModel,
     events: {
+      inserted: function () {
+        var viewModel = this.viewModel;
+        var instance = viewModel.attr('instance');
+        var resultDfd;
+
+        if (instance instanceof CMS.Models.Person) {
+          resultDfd = viewModel.makeResult(instance).then(function (result) {
+            viewModel.attr('result', result);
+          });
+
+          viewModel.attr('resultDfd', resultDfd);
+        }
+      }
     }
   });
 })(window.can, window.GGRC);

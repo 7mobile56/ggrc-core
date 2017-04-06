@@ -172,7 +172,6 @@
       var sortingInfo = this.attr('sortingInfo');
       var parent = this.attr('parent_instance');
       var filter = this.attr('currentFilter');
-      var params;
       var page = {
         current: pageInfo.current,
         pageSize: pageInfo.pageSize,
@@ -181,16 +180,10 @@
         filter: filter
       };
 
-      params = QueryAPI.buildParams(
-        modelName,
-        page,
-        TreeViewUtils.makeRelevantExpression(modelName, parent.type, parent.id)
-      );
-
       pageInfo.attr('disabled', true);
       this.attr('loading', true);
 
-      return this.attr('pageLoader').load({data: params})
+      return TreeViewUtils.loadFirstTierItems(modelName, parent, page)
         .then(function (data) {
           var total = data.total;
           var modelName = this.attr('modelName');

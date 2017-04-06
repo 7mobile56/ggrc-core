@@ -13,6 +13,18 @@
 
   var viewModel = can.Map.extend({
     define: {
+      parentModel: {
+        type: String,
+        get: function () {
+          return this.attr('parent').type
+        }
+      },
+      parentId: {
+        type: Number,
+        get: function () {
+          return this.attr('parent').id;
+        }
+      },
       loading: {
         type: Boolean,
         value: false
@@ -60,10 +72,10 @@
     dataIsReady: false,
     limitDepthTree: 0,
     depthFilter: '',
-    parentModel: null,
-    parentId: null,
+    parent: null,
     directlyItems: [],
     notDirectlyItems: [],
+    _loader: null,
     expandNotDirectlyRelated: function () {
       var isExpanded = this.attr('notDirectlyExpanded');
       this.attr('notDirectlyExpanded', !isExpanded);
@@ -87,6 +99,9 @@
             this.attr('notResult', true);
           }
         }.bind(this));
+    },
+    makeResult: function (instance) {
+      return this.attr('_loader').getResultFromMapping(instance);
     }
   });
 
@@ -95,6 +110,12 @@
     template: template,
     viewModel: viewModel,
     events: {
+      inserted: function () {
+        var parent = this.viewModel.attr('parent');
+
+        this.viewModel.attr('_loader',
+          new GGRC.ListLoaders.TreeBaseLoader(null, parent));
+      }
     }
   });
 })(window.can, window.GGRC);

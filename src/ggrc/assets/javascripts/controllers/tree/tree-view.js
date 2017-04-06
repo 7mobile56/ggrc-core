@@ -1461,7 +1461,7 @@
         .then(function (data) {
           var total = data.total;
           var countsName = this.options.counts_name || modelName;
-          var currentPageUtils = GGRC.Utils.TreeView;
+          var currentPageUtils = GGRC.Utils.CurrentPage;
 
           this.options.attr('paging.total', total);
           this.options.attr('paging.count',
@@ -1472,8 +1472,7 @@
             currentPageUtils.getCounts().attr(countsName, total);
           }
           if (isStateQuery) {
-            GGRC.Utils.CurrentPage
-              .initCounts([modelName],
+            currentPageUtils.initCounts([modelName],
                 options.parent_instance.type, options.parent_instance.id);
           }
 
