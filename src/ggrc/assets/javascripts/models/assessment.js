@@ -19,12 +19,6 @@
       'inScopeObjects'
     ],
     is_custom_attributable: true,
-    attributes: {
-      context: 'CMS.Models.Context.stub',
-      modified_by: 'CMS.Models.Person.stub',
-      finished_date: 'date',
-      verified_date: 'date'
-    },
     defaults: {
       status: 'Not Started',
       send_by_default: true,  // notifications when a comment is added
@@ -100,22 +94,10 @@
       }]
     },
     info_pane_options: {
-      mapped_objects: {
-        model: can.Model.Cacheable,
-        mapping: 'info_related_objects',
-        show_view: GGRC.mustache_path + '/base_templates/subtree.mustache'
-      },
       evidence: {
         model: CMS.Models.Document,
         mapping: 'all_documents',
         show_view: GGRC.mustache_path + '/base_templates/attachment.mustache',
-        sort_function: GGRC.Utils.sortingHelpers.commentSort
-      },
-      comments: {
-        model: can.Model.Cacheable,
-        mapping: 'comments',
-        show_view: GGRC.mustache_path +
-        '/base_templates/comment_subtree.mustache',
         sort_function: GGRC.Utils.sortingHelpers.commentSort
       },
       urls: {
@@ -302,7 +284,7 @@
         this._super.apply(this, arguments);
       }
     },
-    before_create: function (dfd) {
+    before_create: function () {
       if (!this.audit) {
         throw new Error('Cannot save assessment, audit not set.');
       } else if (!this.audit.context) {
@@ -456,25 +438,21 @@
               type: 'get',
               dataType: 'json'
             })
-          .then(function (resources) {
-            delete that._pending_refresh;
-            return resources;
-          })
           .then(function (model) {
+            delete that._pending_refresh;
             if (model) {
-              return CMS.Models.Assessment.model(model, that);
+              model = CMS.Models.Assessment.model(model, that);
+              model.backup();
+              return model;
             }
           })
-          .done(function (response) {
-            if (response) {
-              response.backup();
-            }
+          .done(function () {
             dfd.resolve.apply(dfd, arguments);
           })
           .fail(function () {
             dfd.reject.apply(dfd, arguments);
           });
-          }, 1000, {trailing: false})
+          }, 300, {trailing: false})
         };
       }
       dfd = this._pending_refresh.dfd;
@@ -482,16 +460,14 @@
       return dfd;
     },
     refreshInstance: function () {
-      return this.refresh().then(function () {
-        this.updateValidation();
-      }.bind(this));
+      return this.refresh()
+        .then(function () {
+          this.updateValidation();
+        }.bind(this));
     },
     info_pane_preload: function () {
       if (!this._pane_preloaded) {
-        this.get_mapping('comments').bind('length',
-          this.refreshInstance.bind(this));
-        this.get_mapping('all_documents').bind('length',
-          this.refreshInstance.bind(this));
+        this.bind('refreshInstance', this.refreshInstance.bind(this));
         this.refreshInstance();
         this._pane_preloaded = true;
       }

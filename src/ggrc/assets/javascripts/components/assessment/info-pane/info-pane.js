@@ -153,7 +153,7 @@
       this.viewModel.triggerFormEditMode();
     },
     events: {
-      '{viewModel.instance} related_destinations': function () {
+      '{viewModel.instance} refreshInstance': function () {
         this.viewModel.updateRelatedItems();
       },
       '{viewModel.instance} status': function () {

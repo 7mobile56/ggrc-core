@@ -396,6 +396,7 @@
               this.closeModal();
             }.bind(this))
             .done(function () {
+              instance.dispatch('refreshInstance');
               // This Method should be modified to event
               GGRC.Utils.QueryAPI.refreshCounts();
             });

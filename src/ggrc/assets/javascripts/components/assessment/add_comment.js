@@ -96,7 +96,7 @@
         return comment;
       },
       saveComment: function () {
-        var comment = null;
+        var comment;
 
         this.attr('isSaving', true);
         this.attr('clean', false);
@@ -105,9 +105,9 @@
 
         comment.attr(this.getCommentData()).save()
           .then(function () {
-            return comment.constructor
-              .resolve_deferred_bindings(comment);
-          }).always(function () {
+            this.attr('instance').dispatch('refreshInstance');
+          }.bind(this))
+          .always(function () {
             this.attr('clean', true);
             this.attr('isSaving', false);
             this.attr('state.open', false);
