@@ -6,6 +6,7 @@
 <div class="sub-item-content {{cssClasses}}" ($click)="select($element)">
   <tree-item-actions {instance}="instance"
                      (expand)="onExpand()"
+                     (preview)="onPreview(%event)"
                      {expanded}="expanded"
                      {deep-limit}="limitDepthTree"
   ></tree-item-actions>

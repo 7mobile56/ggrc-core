@@ -45,6 +45,11 @@
 
       this.attr('expanded', !isExpanded);
     },
+    onPreview: function (event) {
+      var selected = event.element.closest('.sub-item-content');
+
+      this.select(selected);
+    },
     select: function ($element) {
       var instance = this.attr('instance');
 

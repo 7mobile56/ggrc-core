@@ -25,6 +25,12 @@
           return this.attr('parent').id;
         }
       },
+      showAllRelatedLink: {
+        type: String,
+        get: function () {
+          return this.attr('parent') ? this.attr('parent').viewLink : '';
+        }
+      },
       loading: {
         type: Boolean,
         value: false

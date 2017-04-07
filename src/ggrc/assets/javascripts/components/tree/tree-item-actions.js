@@ -33,13 +33,13 @@
       }
     },
     maximizeObject: function (scope, el, ev) {
-      var tree = el.closest('.cms_controllers_tree_view_node');
-      var node = tree.control();
       ev.preventDefault();
       ev.stopPropagation();
-      if (node) {
-        node.select(true);
-      }
+
+      this.dispatch({
+        type: 'preview',
+        element: el
+      });
     },
     $el: null,
     openObject: function (scope, el, ev) {
